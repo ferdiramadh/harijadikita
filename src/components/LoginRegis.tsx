@@ -15,6 +15,7 @@ type VerificationProp = {
 }
 
 const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: LoginRegisProps) => {
+    const masuk = isLogin ? "Daftar" : "Masuk"
     const noAccount = isLogin ? "Tidak" : "Sudah"
     return (
         <section className='login'>
@@ -37,7 +38,7 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
             }
 
             {!isEmailVerification && isLogin && <a href=".">Lupa Password?</a>}
-            {!isEmailVerification && <p>{noAccount} punya akun?  <a href=".">Daftar</a></p>}
+            {!isEmailVerification && <p>{noAccount} punya akun?  <a href=".">{masuk}</a></p>}
         </section>
     )
 }
