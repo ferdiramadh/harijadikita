@@ -9,7 +9,7 @@
 }
 
 @mixin font-inter {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter';
 }
 
 @mixin font-quicksand {
@@ -18,6 +18,24 @@
 
 @mixin font-quicksand-bold {
   font-family: 'Quicksand-Bold';
+}
+
+@mixin flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-col-just-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@mixin flex-row-just-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin breakpoint($point) {
