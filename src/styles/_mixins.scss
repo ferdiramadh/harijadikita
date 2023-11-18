@@ -12,6 +12,13 @@
   font-family: 'Inter', sans-serif;
 }
 
+@mixin font-quicksand {
+  font-family: 'Quicksand';
+}
+
+@mixin font-quicksand-bold {
+  font-family: 'Quicksand-Bold';
+}
 
 @mixin breakpoint($point) {
   @if $point == md {
