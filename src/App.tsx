@@ -1,12 +1,14 @@
 import React from 'react';
+import LoginPage from './pages/LoginPage';
+import RegisPage from './pages/RegisPage';
 
 function App() {
   return (
     <React.Fragment>
       <main>
-        <h1 className='test'>Tests</h1>
+        <LoginPage />
+        <RegisPage />
       </main>
-
     </React.Fragment>
   );
 }
