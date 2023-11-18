@@ -1,0 +1,22 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.logo_wrapper {
+    display:  flex;
+    background-color: $bg;
+    width: 220px;
+    justify-content: space-between;
+    padding: 10px;
+
+}
+
+.logo_image {
+    width: 42px;
+    height: 38px;
+}
+
+.logo_text {
+    font-family: 'Borel';
+    font-size: $font-size-24;
+    color: $primary;
+}
