@@ -6,9 +6,15 @@ type LoginRegisProps = {
     title: string
     tagLine: string
     isLogin: boolean
+    isEmailVerification: boolean
 }
 
-const LoginRegis = ({ title, tagLine, isLogin }: LoginRegisProps) => {
+type VerificationProp = {
+    title: string
+    isEmailVerification?: boolean
+}
+
+const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: LoginRegisProps) => {
     const noAccount = isLogin ? "Tidak" : "Sudah"
     return (
         <section className='login'>
@@ -18,33 +24,41 @@ const LoginRegis = ({ title, tagLine, isLogin }: LoginRegisProps) => {
                 <div className='tagline'>
                     <p>{tagLine}</p>
                 </div>
-                <InputEmailPassSection title={title} />
+                <InputEmailPassSection title={title} isEmailVerification={isEmailVerification} />
             </div>
-            <hr />
-            <GoogleFbSection title={title} />
-            {isLogin && <a href=".">Lupa Password?</a>}
-            <p>{noAccount} punya akun?  <a href=".">Daftar</a></p>
+            {
+                !isEmailVerification && <hr />
+
+            }
+
+            {
+                !isEmailVerification && <GoogleFbSection title={title} />
+
+            }
+
+            {!isEmailVerification && isLogin && <a href=".">Lupa Password?</a>}
+            {!isEmailVerification && <p>{noAccount} punya akun?  <a href=".">Daftar</a></p>}
         </section>
     )
 }
 
-const InputEmailPassSection = (prop: any) => {
-    const title = prop.title
+const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp) => {
+
     return (
         <>
             <form action="" className='btn_form_container'>
-                <input placeholder="Email" type="text" />
-                <input placeholder="Password" type='password' />
+                {!isEmailVerification && <input placeholder="Email" type="text" />}
+                {!isEmailVerification && <input placeholder="Password" type='password' />}
                 <button type="submit" id="submitBtn" className="submitBtn">
-                    {title}
+                    {isEmailVerification? `Kirim ulang link verifikasi` : title}
                 </button>
             </form>
         </>
     )
 }
 
-const GoogleFbSection = (prop: any) => {
-    const title = prop.title
+const GoogleFbSection = ({ title }: VerificationProp) => {
+
     return (
         <div className='btn_form_container'>
             <button type="submit" id="submitBtn" className="soc_med_btn" onClick={() => console.log('test')}>

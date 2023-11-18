@@ -7,6 +7,7 @@ const RegisPage = () => {
                 title='Daftar'
                 isLogin={false}
                 tagLine='Buat undangan nikah digital sendiri hanya 5 menit.'
+                isEmailVerification={false}
             />
         </>
     )
