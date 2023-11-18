@@ -18,10 +18,10 @@ const LoginRegis = ({ title, tagLine, isLogin }: LoginRegisProps) => {
                 <div className='tagline'>
                     <p>{tagLine}</p>
                 </div>
-                <InputEmailPassSection title={title}/>
+                <InputEmailPassSection title={title} />
             </div>
             <hr />
-            <GoogleFbSection />
+            <GoogleFbSection title={title} />
             {isLogin && <a href=".">Lupa Password?</a>}
             <p>{noAccount} punya akun?  <a href=".">Daftar</a></p>
         </section>
@@ -43,16 +43,17 @@ const InputEmailPassSection = (prop: any) => {
     )
 }
 
-const GoogleFbSection = () => {
+const GoogleFbSection = (prop: any) => {
+    const title = prop.title
     return (
         <div className='btn_form_container'>
             <button type="submit" id="submitBtn" className="soc_med_btn" onClick={() => console.log('test')}>
                 <img src={SvgGoogle} alt='google' />
-                Masuk dengan Google
+                {title} dengan Google
             </button>
             <button type="submit" id="submitBtn" className="soc_med_btn">
                 <img src={SvgFb} alt='google' />
-                Masuk dengan Facebook
+                {title} dengan Facebook
             </button>
         </div>
     )
