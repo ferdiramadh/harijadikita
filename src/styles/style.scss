@@ -2,6 +2,7 @@
 @use 'mixins';
 @use 'pages';
 @use 'components';
+@use 'fonts';
 
 html, body {
   height: 100%;
@@ -9,7 +10,7 @@ html, body {
 }
 
 main {
-  max-width: 768px;
+  max-width: 480px;
   width: 100%;
   position: relative;
   height: 100%;
