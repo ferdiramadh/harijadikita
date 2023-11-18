@@ -14,7 +14,7 @@
 }
 body{
   @include breakpoint(md) {
-    background-color: $dark;
+    background-color: $light;
   }
   
 }
