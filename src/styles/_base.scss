@@ -1,22 +1,11 @@
 @use './variables' as *;
 @use './mixins' as *;
 
-// Alex Brush font
-@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap');
-
-//Poppins font
-@import url('https://fonts.googleapis.com/css?family=Poppins');
-
-// Lato Font
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
-
-// Yeseva One FOnt
-@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Kreon:wght@300&display=swap');
-
 // Borel
 @import url('https://fonts.googleapis.com/css?family=Borel');
+
+// Inter
+@import url('https://fonts.googleapis.com/css?family=Inter');
 
 * {
   padding: 0;

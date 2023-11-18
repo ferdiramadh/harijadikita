@@ -4,21 +4,14 @@
   align-items: center;
 }
 
-@mixin font-alex-brush {
-  font-family: 'Alex Brush', cursive;
+@mixin font-borel{
+  font-family: 'Borel', cursive;
 }
 
-@mixin font-lato {
-  font-family: 'Lato', sans-serif;
+@mixin font-inter {
+  font-family: 'Inter', sans-serif;
 }
 
-@mixin font-yeseva-one {
-  font-family: 'Yeseva One', cursive;;
-}
-
-@mixin font-poppins {
-  font-family: 'Poppins', sans-serif;
-}
 
 @mixin breakpoint($point) {
   @if $point == md {
