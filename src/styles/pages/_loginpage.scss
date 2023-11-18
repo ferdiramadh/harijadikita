@@ -1,0 +1,16 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.login {
+  background-color: $dark;
+}
+
+.upperSection {
+  background-color: white;
+  display: flex;
+}
+
+h1{
+  font-size: $font-size-32;
+  @include font-quicksand-bold;
+}
