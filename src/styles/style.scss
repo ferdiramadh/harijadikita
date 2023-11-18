@@ -1,0 +1,15 @@
+@use 'base';
+@use 'mixins';
+@use 'pages';
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  max-width: 768px;
+  width: 100%;
+  position: relative;
+  height: 100%;
+}

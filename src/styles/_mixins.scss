@@ -1,0 +1,48 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin font-alex-brush {
+  font-family: 'Alex Brush', cursive;
+}
+
+@mixin font-lato {
+  font-family: 'Lato', sans-serif;
+}
+
+@mixin font-yeseva-one {
+  font-family: 'Yeseva One', cursive;;
+}
+
+@mixin font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+@mixin breakpoint($point) {
+  @if $point == md {
+
+ 
+      //760px
+      @media (min-width: 48em){
+          @content;
+      }
+  
+  }
+  @if $point == med {
+
+ 
+    //760px
+    @media (min-width: 590px){
+        @content;
+    }
+
+}
+
+  @if $point == sm {
+    @media (min-height: 600px) {
+      @content;
+    }
+  }
+}
