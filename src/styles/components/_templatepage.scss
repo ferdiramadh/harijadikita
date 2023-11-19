@@ -1,7 +1,7 @@
 @use '../variables.scss' as *;
 @use '../mixins' as *;
 
-.login {
+.template {
   background-color: $light;
   @include flex-col;
   padding: 0 50px 0 50px;

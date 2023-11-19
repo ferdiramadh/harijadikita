@@ -18,7 +18,7 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
     const masuk = isLogin ? "Daftar" : "Masuk"
     const noAccount = isLogin ? "Tidak" : "Sudah"
     return (
-        <section className='login'>
+        <section className='template'>
             <TopSection title={title} tagline={tagLine} />
             <InputEmailPassSection title={title} isEmailVerification={isEmailVerification} />
             {
