@@ -1,10 +1,12 @@
+@use './variables.scss' as *;
+
 @mixin flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-@mixin font-borel{
+@mixin font-borel {
   font-family: 'Borel', cursive;
 }
 
@@ -38,27 +40,42 @@
   align-items: center;
 }
 
-@mixin breakpoint($point) {
-  @if $point == md {
-
- 
-      //760px
-      @media (min-width: 48em){
-          @content;
-      }
-  
-  }
-  @if $point == med {
-
- 
-    //760px
-    @media (min-width: 590px){
-        @content;
-    }
-
+@mixin input-template {
+  @include font-inter;
+  display: block;
+  width: 300px;
+  height: 48px;
+  padding: 12px;
+  margin-top: 20px;
+  border: solid 1px;
+  border-color: #C4C4C4;
+  border-radius: 5px;
+  font-size: clamp($font-size-14, 1.5vw, $font-size-18);
+  align-self: center;
 }
 
-  @if $point == sm {
+@mixin breakpoint($point) {
+  @if $point ==md {
+
+
+    //760px
+    @media (min-width: 48em) {
+      @content;
+    }
+
+  }
+
+  @if $point ==med {
+
+
+    //760px
+    @media (min-width: 590px) {
+      @content;
+    }
+
+  }
+
+  @if $point ==sm {
     @media (min-height: 600px) {
       @content;
     }
