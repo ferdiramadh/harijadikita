@@ -1,5 +1,6 @@
 import TopSection from "../components/TopSection"
 import RinPerButtonSection from "../components/RinPerButtonSection"
+import RinPerProgress from "../components/RinPerProgress"
 
 const RinPer1NamaUndanganPage = () => {
     return (
@@ -10,6 +11,7 @@ const RinPer1NamaUndanganPage = () => {
                 <p className="example_text">contoh: Herlambang dan Nia wedding</p>
             </div>
             <RinPerButtonSection />
+            <RinPerProgress />
         </section>
     )
 }

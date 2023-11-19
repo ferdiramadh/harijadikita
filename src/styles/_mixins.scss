@@ -70,20 +70,25 @@
   @include btn;
   background-color: $primary;
   color: $light;
- 
+
 }
 
 @mixin btn-secondary {
   @include btn;
   background-color: $light;
   color: #474747;
- 
+
 }
 
 @mixin btn-save-draft {
   @include btn;
   background-color: #C4C4C4;
   color: #474747;
+}
+
+@mixin progress-bar {
+  height: 10px;
+  border-radius: 10px;
 }
 
 @mixin breakpoint($point) {
