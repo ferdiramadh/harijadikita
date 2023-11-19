@@ -38,11 +38,15 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
 }
 
 const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp) => {
-
+    const isRegis = () => {
+        if(title === "Daftar") return true
+        return false
+    }
     return (
         <>
             <form action="" className='btn_form_container'>
                 {!isEmailVerification && <input placeholder="Email" type="text" />}
+                {!isEmailVerification && isRegis() && <input placeholder="Nama" type="text" />}
                 {!isEmailVerification && <input placeholder="Password" type='password' />}
                 <button type="submit" id="submitBtn" className="submitBtn">
                     {isEmailVerification? `Kirim ulang link verifikasi` : title}
