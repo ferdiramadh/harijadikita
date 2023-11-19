@@ -1,4 +1,5 @@
 import TopSection from "../components/TopSection"
+import RinPerButtonSection from "../components/RinPerButtonSection"
 
 const RinPer1NamaUndanganPage = () => {
     return (
@@ -8,7 +9,7 @@ const RinPer1NamaUndanganPage = () => {
                 <input placeholder="Nama undangan" type="text" />
                 <p className="example_text">contoh: Herlambang dan Nia wedding</p>
             </div>
-            
+            <RinPerButtonSection />
         </section>
     )
 }
