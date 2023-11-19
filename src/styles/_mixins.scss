@@ -54,6 +54,31 @@
   align-self: center;
 }
 
+@mixin btn {
+  width: 300px;
+  height: 48px;
+  align-self: center;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px;
+  @include font-inter;
+  font-size: $font-size-16;
+}
+
+@mixin btn-primary {
+  @include btn;
+  background-color: $primary;
+  color: $light;
+ 
+}
+
+@mixin btn-secondary {
+  @include btn;
+  background-color: $light;
+  color: #474747;
+ 
+}
+
 @mixin breakpoint($point) {
   @if $point ==md {
 

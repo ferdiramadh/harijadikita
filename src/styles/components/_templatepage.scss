@@ -46,28 +46,11 @@
   }
 
   .submitBtn {
-    width: 300px;
-    height: 48px;
-    background-color: $primary;
-    align-self: center;
-    margin-top: 10px;
-    @include font-inter;
-    font-size: $font-size-16;
-    color: $bg;
-    border-radius: 5px;
-    border: 1px;
+    @include btn-primary;
   }
 
   .soc_med_btn {
-    width: 300px;
-    height: 48px;
-    background-color: $light;
-    align-self: center;
-    margin-top: 10px;
-    @include font-inter;
-    font-size: $font-size-16;
-    color: #474747;
-    border-radius: 5px;
+    @include btn-secondary;
     border: solid 1px;
     border-color: #C4C4C4;
     cursor: pointer;
