@@ -1,6 +1,6 @@
-import Logo from './Logo'
 import SvgGoogle from '../assets/Icon/Google.svg'
 import SvgFb from '../assets/Icon/Facebook.svg'
+import TopSection from './TopSection'
 
 type LoginRegisProps = {
     title: string
@@ -19,14 +19,8 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
     const noAccount = isLogin ? "Tidak" : "Sudah"
     return (
         <section className='login'>
-            <Logo />
-            <div className='upperSection'>
-                <h1>{title}</h1>
-                <div className='tagline'>
-                    <p>{tagLine}</p>
-                </div>
-                <InputEmailPassSection title={title} isEmailVerification={isEmailVerification} />
-            </div>
+            <TopSection title={title} tagline={tagLine} />
+            <InputEmailPassSection title={title} isEmailVerification={isEmailVerification} />
             {
                 !isEmailVerification && <hr />
 
