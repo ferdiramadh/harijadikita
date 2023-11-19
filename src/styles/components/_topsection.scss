@@ -1,0 +1,29 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.top-sec-wrapper {
+    background-color: white;
+    @include flex-col-just-center;
+
+    .top-title {
+        font-size: $font-size-32;
+        @include font-quicksand-bold;
+        text-align: center;
+    }
+
+    .tagline {
+        width: 300px;
+        align-self: center;
+        margin: 20px 0 20px 0;
+
+        p {
+            font-size: $font-size-18;
+            text-align: center;
+            line-height: 27px;
+            @include font-inter;
+            font-weight: 400;
+            color: #474747;
+        }
+    }
+
+}
