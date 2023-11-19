@@ -6,33 +6,6 @@
   @include flex-col;
   padding: 0 50px 0 50px;
 
-  .upperSection {
-    background-color: white;
-    @include flex-col-just-center;
-
-    h1 {
-      font-size: $font-size-32;
-      @include font-quicksand-bold;
-      text-align: center;
-    }
-
-    .tagline {
-      width: 300px;
-      align-self: center;
-      margin: 20px 0 20px 0;
-
-      p {
-        font-size: $font-size-18;
-        text-align: center;
-        line-height: 27px;
-        @include font-inter;
-        font-weight: 400;
-        color: #474747;
-      }
-    }
-
-  }
-
   hr {
     margin: 30px 0 10px 0;
   }
