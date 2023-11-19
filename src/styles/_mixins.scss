@@ -63,6 +63,7 @@
   border: 1px;
   @include font-inter;
   font-size: $font-size-16;
+  font-weight: 400;
 }
 
 @mixin btn-primary {
@@ -77,6 +78,12 @@
   background-color: $light;
   color: #474747;
  
+}
+
+@mixin btn-save-draft {
+  @include btn;
+  background-color: #C4C4C4;
+  color: #474747;
 }
 
 @mixin breakpoint($point) {
