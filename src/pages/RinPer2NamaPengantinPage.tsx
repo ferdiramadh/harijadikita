@@ -2,7 +2,7 @@ import TopSection from "../components/TopSection"
 import RinPerButtonSection from "../components/RinPerButtonSection"
 import RinPerProgress from "../components/RinPerProgress"
 
-const RinPer2NamaPengantin = () => {
+const RinPer2NamaPengantinPage = () => {
     return (
         <section className='template'>
             <TopSection title="Nama Pengantin" tagline="Masukkan nama kamu dan pasangan." />
@@ -16,4 +16,4 @@ const RinPer2NamaPengantin = () => {
     )
 }
 
-export default RinPer2NamaPengantin
+export default RinPer2NamaPengantinPage
