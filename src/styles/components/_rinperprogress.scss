@@ -29,7 +29,6 @@
 
             .progress_percentage {
                 @include progress-bar;
-                width: calc(1/11 * 100%);
                 background-color: $primary;
             }
         }

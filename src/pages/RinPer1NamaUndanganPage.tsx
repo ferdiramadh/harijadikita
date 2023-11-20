@@ -11,7 +11,7 @@ const RinPer1NamaUndanganPage = () => {
                 <p className="example_text">contoh: Herlambang dan Nia wedding</p>
             </div>
             <RinPerButtonSection />
-            <RinPerProgress />
+            <RinPerProgress count={1}/>
         </section>
     )
 }
