@@ -1,10 +1,12 @@
+@use './variables.scss' as *;
+
 @mixin flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-@mixin font-borel{
+@mixin font-borel {
   font-family: 'Borel', cursive;
 }
 
@@ -38,27 +40,92 @@
   align-items: center;
 }
 
-@mixin breakpoint($point) {
-  @if $point == md {
+@mixin input-template {
+  @include font-inter;
+  display: block;
+  width: 300px;
+  height: 48px;
+  padding: 12px;
+  margin-top: 20px;
+  border: solid 1px;
+  border-color: #C4C4C4;
+  border-radius: 5px;
+  font-size: clamp($font-size-14, 1.5vw, $font-size-16);
+  align-self: center;
+}
 
- 
-      //760px
-      @media (min-width: 48em){
-          @content;
-      }
-  
-  }
-  @if $point == med {
+@mixin custom-dropdown {
+  @include font-inter;
+  display: block;
+  width: 300px;
+  height: 48px;
+  margin-top: 20px;
+  border: solid 1px;
+  border-color: #C4C4C4;
+  border-radius: 5px;
+  font-size: clamp($font-size-14, 1.5vw, $font-size-16);
+  align-self: center;
+}
 
- 
-    //760px
-    @media (min-width: 590px){
-        @content;
-    }
+@mixin btn {
+  width: 300px;
+  height: 48px;
+  align-self: center;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px;
+  @include font-inter;
+  font-size: $font-size-16;
+  font-weight: 400;
+}
+
+@mixin btn-primary {
+  @include btn;
+  background-color: $primary;
+  color: $light;
 
 }
 
-  @if $point == sm {
+@mixin btn-secondary {
+  @include btn;
+  background-color: $light;
+  color: #474747;
+
+}
+
+@mixin btn-save-draft {
+  @include btn;
+  background-color: #C4C4C4;
+  color: #474747;
+}
+
+@mixin progress-bar {
+  height: 10px;
+  border-radius: 10px;
+}
+
+@mixin breakpoint($point) {
+  @if $point ==md {
+
+
+    //760px
+    @media (min-width: 48em) {
+      @content;
+    }
+
+  }
+
+  @if $point ==med {
+
+
+    //760px
+    @media (min-width: 590px) {
+      @content;
+    }
+
+  }
+
+  @if $point ==sm {
     @media (min-height: 600px) {
       @content;
     }

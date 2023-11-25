@@ -1,0 +1,45 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.rinperprogress {
+    @include breakpoint(sm) {
+        padding: 0 20px 0 20px;
+    }
+
+    @include breakpoint(med) {
+        padding: 0 50px 0 50px;
+    }
+
+    @include flex-center;
+    align-items: flex-end;
+    height: 100%;
+    margin-top: 10px;
+
+    .progress_wrapper {
+        @include flex-col;
+        margin-bottom: 20vh;
+        width: 100%;
+        align-items: center;
+
+        .progress_bar {
+            @include progress-bar;
+            width: 100%;
+            background-color: #C4C4C4;
+            margin: 10px 0 10px 0;
+
+            .progress_percentage {
+                @include progress-bar;
+                background-color: $primary;
+            }
+        }
+
+        .progress_text {
+            @include font-inter;
+            font-size: $font-size-18;
+            font-weight: 400;
+            color: #474747;
+
+        }
+    }
+
+}

@@ -15,7 +15,14 @@
         width: 300px;
         align-self: center;
         margin: 20px 0 20px 0;
-
+        .loc-ad{
+            font-size: $font-size-14;
+            text-align: center;
+            line-height: 27px;
+            @include font-inter;
+            font-weight: 400;
+            color: #474747;
+        }
         p {
             font-size: $font-size-18;
             text-align: center;
@@ -23,6 +30,9 @@
             @include font-inter;
             font-weight: 400;
             color: #474747;
+        }
+        span {
+            color: $primary;
         }
     }
 

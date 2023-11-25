@@ -1,0 +1,19 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.rinperbutton_container {
+    @include flex-col-just-center;
+    padding: 0 20px 0 20px;
+    margin-top: 10px;
+
+    .next_btn {
+        @include btn-primary;
+        cursor: pointer;
+    }
+
+    .draft_btn {
+        @include btn-save-draft;
+        cursor: pointer;
+    }
+
+}
