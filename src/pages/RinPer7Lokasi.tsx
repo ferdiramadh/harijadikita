@@ -2,7 +2,6 @@ import TopSection from "../components/TopSection"
 import RinPerButtonSection from "../components/RinPerButtonSection"
 import RinPerProgress from "../components/RinPerProgress"
 import { useState } from "react"
-import { IoIosCloseCircle } from "react-icons/io"
 
 type AddReceptionProp = {
     onClick: (e: any) => void
