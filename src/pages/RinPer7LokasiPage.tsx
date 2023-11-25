@@ -7,7 +7,7 @@ type AddReceptionProp = {
     onClick: (e: any) => void
 }
 
-const RinPer7Lokasi = () => {
+const RinPer7LokasiPage = () => {
     const [addReception, setAddReception] = useState<boolean>(false)
     const test = (e: any) => {
         e.preventDefault()
@@ -51,4 +51,4 @@ const AddReception = ({ onClick }: AddReceptionProp) => {
     )
 }
 
-export default RinPer7Lokasi
+export default RinPer7LokasiPage
