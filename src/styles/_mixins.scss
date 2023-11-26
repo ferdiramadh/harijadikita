@@ -18,6 +18,10 @@
   font-family: 'Quicksand';
 }
 
+@mixin font-quicksand-semibold {
+  font-family: 'Quicksand-SemiBold';
+}
+
 @mixin font-quicksand-bold {
   font-family: 'Quicksand-Bold';
 }
