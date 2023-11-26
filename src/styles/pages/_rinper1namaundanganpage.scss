@@ -6,6 +6,17 @@
     align-self: center;
     margin-top: 10px;
 
+    ::placeholder {
+        color: #A8A8A8;
+        opacity: 1;
+        /* Firefox */
+    }
+
+    ::-ms-input-placeholder {
+        /* Edge 12-18 */
+        color: #A8A8A8;
+    }
+
     input {
         @include input-template;
     }
