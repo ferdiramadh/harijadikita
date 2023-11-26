@@ -1,0 +1,102 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.account_page {
+    @include breakpoint(sm) {
+        height: 110vh;
+    }
+
+    nav {
+        padding: 1rem 3rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        img {
+            margin-top: 15px;
+        }
+
+        .btn_wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 70px;
+        }
+    }
+
+    .acc_title_sec {
+        padding: 1.5rem 3rem;
+        border-bottom: solid 1px #EFEFEF;
+        h1 {
+            color: '#09090A';
+            font-size: $font-size-48;
+            @include font-quicksand-semibold;
+
+        }
+    }
+
+    .acc_photo {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem 0 1rem 0;
+
+        .photo_circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 75px;
+            background-color: #C4C4C4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            color: '#474747';
+            font-size: $font-size-20;
+            @include font-inter;
+            font-weight: '500';
+            line-height: 2;
+        }
+    }
+
+    .acc_main {
+        @include flex-col-just-center;
+
+        .display_container {
+            width: 70%;
+            @include flex-col-just-center;
+            align-self: center;
+            margin-top: 10px;
+
+            .acc_text_display {
+                color: #A8A8A8;
+                @include font-inter;
+                font-size: $font-size-16;
+                align-self: baseline;
+                margin: 20px 0;
+            }
+        }
+
+        .save_btn {
+            @include btn-primary;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        hr {
+            width: 70%;
+            align-self: center;
+            margin-top: 10px;
+        }
+
+    }
+    .keluar_btn{
+        @include btn-save-draft;
+        cursor: pointer;
+        align-self: center;
+        margin-bottom: 30px;
+    }
+}
