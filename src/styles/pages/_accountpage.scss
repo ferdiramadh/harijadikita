@@ -5,6 +5,7 @@
     @include breakpoint(sm) {
         height: 110vh;
     }
+    position: relative;
 
     nav {
         padding: 1rem 3rem;
@@ -27,6 +28,7 @@
     .acc_title_sec {
         padding: 1.5rem 3rem;
         border-bottom: solid 1px #EFEFEF;
+
         h1 {
             color: '#09090A';
             font-size: $font-size-48;
@@ -93,10 +95,84 @@
         }
 
     }
-    .keluar_btn{
+
+    .keluar_btn {
         @include btn-save-draft;
         cursor: pointer;
         align-self: center;
         margin-bottom: 30px;
     }
+
+    .darkBG {
+        background-color: rgba(0, 0, 0, 0.2);
+        width: 100vw;
+        height: 150vh;
+        z-index: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        margin-top: 80px;
+    }
+
+    .centered {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .modal {
+        @include flex-col-just-center;
+        width: 200px;
+        height: 152px;
+        background: white;
+        z-index: 10;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+        padding: 20px 0;
+        border: 1px #C4C4C4 solid;
+    }
+
+    .modalContent {
+        @include font-inter;
+        font-size: 12px;
+        color: #474747;
+        text-align: center;
+    }
+
+    .closeBtn {
+        cursor: pointer;
+        font-weight: 500;
+        padding: 2px 4px;
+        border-radius: 14px;
+        border: none;
+        font-size: 18px;
+        color: #FFF;
+        background: $primary;
+        box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.06);
+        position: absolute;
+        right: 5px;
+        top: -25px;
+        align-self: flex-end;
+        margin-top: -7px;
+        margin-right: -7px;
+    }
+
+
+    .deleteBtn {
+        margin-top: 10px;
+        cursor: pointer;
+        font-weight: 400;
+        @include font-inter;
+        padding: 11px 28px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        border: none;
+        color: #fff;
+        background: $primary;
+        transition: all 0.25s ease;
+    }
+
+
 }

@@ -6,10 +6,16 @@ import sampleFoto from '../assets//foto_sample/Ellipse.png'
 import { useState } from 'react';
 import SvgGoogle from '../assets/Icon/Google.svg'
 import SvgFb from '../assets/Icon/Facebook.svg'
+import { RiCloseLine } from "react-icons/ri";
 
 type EditProp = {
     isEdit: boolean
     onClick?: () => void
+}
+
+type ShowModalProp = {
+    showModal: boolean
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const AccountPage = () => {
@@ -17,6 +23,7 @@ const AccountPage = () => {
     const onClick = () => {
         setIsEdit(!isEdit)
     }
+    const [showModal, setShowModal] = useState(false)
     return (
         <section className='account_page'>
             <nav>
@@ -37,12 +44,13 @@ const AccountPage = () => {
                 <h1>Upload foto</h1>
             </div>
             <AccountMain isEdit={isEdit} onClick={onClick} />
-            <SocmedButton isEdit={isEdit} />
+            <SocmedButton isEdit={isEdit} showModal={showModal} setShowModal={setShowModal} />
             <div className='rinperbutton_container'>
                 <button type="submit" className="keluar_btn">
                     Keluar
                 </button>
             </div>
+            {showModal && <ModalPutusTautan showModal={showModal} setShowModal={setShowModal} />}
         </section>
     )
 }
@@ -80,14 +88,14 @@ const EditAccountDetail = () => {
     )
 }
 
-const SocmedButton = ({ isEdit }: EditProp) => {
+const SocmedButton = ({ isEdit, showModal, setShowModal }: EditProp & ShowModalProp) => {
     const tautText = 'Tautkan akun'
     const acc = 'herlambangdes@gmail.com'
     const displayTxt = isEdit ? tautText : acc
 
     return (
         <div className='btn_form_container'>
-            <button type="submit" id="submitBtn" className="soc_med_btn" onClick={() => console.log('test')}>
+            <button type="submit" id="submitBtn" className="soc_med_btn" onClick={() => setShowModal(!showModal)}>
                 <img src={SvgGoogle} alt='google' />
                 {displayTxt}
             </button>
@@ -95,7 +103,30 @@ const SocmedButton = ({ isEdit }: EditProp) => {
                 <img src={SvgFb} alt='google' />
                 {displayTxt}
             </button>
+
         </div>
+    )
+}
+
+const ModalPutusTautan = ({ showModal, setShowModal }: ShowModalProp) => {
+
+    return (
+        <>
+            <div className="darkBG" onClick={() => setShowModal(!showModal)} />
+            <div className="centered">
+                <div className="modal">
+                    <button className="closeBtn" onClick={() => setShowModal(!showModal)}>
+                        <RiCloseLine style={{ marginBottom: "-3px" }} />
+                    </button>
+                    <div className="modalContent">
+                        <h1>Putuskan tautan?</h1>
+                        <button className="deleteBtn" onClick={() => setShowModal(!showModal)}>
+                            Ya, putuskan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </>
     )
 }
 export default AccountPage
