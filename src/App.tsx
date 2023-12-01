@@ -13,6 +13,7 @@ import RinPer8TambahRekPage from './pages/RinPer8TambahRekPage';
 import RinPer9JumlahTamuPage from './pages/RinPer9JumlahTamuPage';
 import RinPer10TahuDariManaPage from './pages/RinPer10TahuDariManaPage';
 import AccountPage from './pages/AccountPage';
+import NotificationPage from './pages/NotificationPage';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <RinPer9JumlahTamuPage />
         <RinPer10TahuDariManaPage />
         <AccountPage />
+        <NotificationPage />
       </main>
     </React.Fragment>
   );
