@@ -1,0 +1,64 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.notif_page {
+    @include breakpoint(sm) {
+        height: 100vh;
+        margin-top: .5vh;
+    }
+
+    @include breakpoint(md) {
+        height: 100vh;
+        margin-top: 15vh;
+    }
+
+    height: 100vh;
+
+    nav {
+        padding: 1rem 3rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        img {
+            margin-top: 15px;
+        }
+
+        .btn_wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 70px;
+        }
+    }
+
+    .acc_title_sec {
+        padding: 1.5rem 20px;
+        border-bottom: solid 1px #EFEFEF;
+
+        h1 {
+            color: '#09090A';
+            font-size: $font-size-48;
+            @include font-quicksand-semibold;
+
+        }
+
+    }
+
+    .notif_item_wrapper {
+        margin-top: 50px;
+
+        .noti_item {
+            display: flex;
+            padding: 10px 20px;
+            border-bottom: solid 1px #EFEFEF;
+
+            h1 {
+                @include font-inter;
+                color: #2C2C2C;
+                font-size: clamp($font-size-14, $font-size-18, $font-size-20);
+                font-weight: 400;
+            }
+        }
+    }
+}
