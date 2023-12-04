@@ -31,6 +31,11 @@
   flex-direction: column;
 }
 
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
 @mixin flex-col-just-center {
   display: flex;
   flex-direction: column;
