@@ -1,6 +1,8 @@
 import SvgGoogle from '../assets/Icon/Google.svg'
 import SvgFb from '../assets/Icon/Facebook.svg'
 import TopSection from './TopSection'
+import { Link, NavLink } from 'react-router-dom'
+import { UserAuth } from '../context/AuthContext'
 
 type LoginRegisProps = {
     title: string
@@ -17,6 +19,7 @@ type VerificationProp = {
 const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: LoginRegisProps) => {
     const masuk = isLogin ? "Daftar" : "Masuk"
     const noAccount = isLogin ? "Tidak" : "Sudah"
+    console.log(masuk)
     return (
         <section className='template'>
             <TopSection title={title} tagline={tagLine} />
@@ -32,7 +35,7 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
             }
 
             {!isEmailVerification && isLogin && <a href=".">Lupa Password?</a>}
-            {!isEmailVerification && <p>{noAccount} punya akun?  <a href=".">{masuk}</a></p>}
+            {!isEmailVerification && <p>{noAccount} punya akun?  <NavLink to={isLogin? '/regis' : '/signin'}>{masuk}</NavLink></p>}
         </section>
     )
 }
@@ -57,10 +60,26 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
 }
 
 const GoogleFbSection = ({ title }: VerificationProp) => {
-
+    const { googleSignIn, user, logOut } = UserAuth()
+    const handleGoogleSignIn = async () => {
+        try{
+            googleSignIn()
+        }
+        catch (error){
+            console.log(error)
+        }
+    }
+    const handleLogout = async() => {
+        try {
+            await logOut()
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div className='btn_form_container'>
-            <button type="submit" id="submitBtn" className="soc_med_btn" onClick={() => console.log('test')}>
+            { user?.displayName ? <button onClick={handleLogout}>Logout</button> : null}
+            <button type="submit" id="submitBtn" className="soc_med_btn" onClick={handleGoogleSignIn}>
                 <img src={SvgGoogle} alt='google' />
                 {title} dengan Google
             </button>
