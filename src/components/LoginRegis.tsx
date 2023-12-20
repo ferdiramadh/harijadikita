@@ -35,7 +35,7 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
             }
 
             {!isEmailVerification && isLogin && <a href=".">Lupa Password?</a>}
-            {/* {!isEmailVerification && <p>{noAccount} punya akun?  <NavLink to={isLogin? '/regis' : '/signin'}>{masuk}</NavLink></p>} */}
+            {!isEmailVerification && <p>{noAccount} punya akun?  <NavLink to={isLogin? '/regis' : '/signin'}>{masuk}</NavLink></p>}
         </section>
     )
 }
