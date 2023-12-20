@@ -18,45 +18,40 @@ import MenuPage from './pages/MenuPage'
 import { createBrowserRouter, createRoutesFromElements, Route, Routes, RouterProvider } from 'react-router-dom'
 import LandingPage from './pages/LandingPage'
 import { AuthContextProvider } from './context/AuthContext'
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route>
-      <Route index element={<LandingPage />} />
-      <Route path='/signin' element={<LoginPage />} />
-      <Route path='/regis' element={<RegisPage />} />
-    </Route>
-  )
-)
+// const router = createBrowserRouter(
+//   createRoutesFromElements(
+//     <Route>
+//       <Route index element={<LandingPage />} />
+//       <Route path='/signin' element={<LoginPage />} />
+//       <Route path='/regis' element={<RegisPage />} />
+//     </Route>
+//   )
+// )
 function App() {
   return (
-    <AuthContextProvider>
-      <RouterProvider router={router} />
-    </AuthContextProvider>
-    // <React.Fragment>
-    //   <main>
-    //     <LoginPage />
-    //     <Routes>
-    //       <Route index element={<HomePage />} />
-    //       <Route path='/signin' element={<LoginPage />} />
-    //       <Route path='/regis' element={<RegisPage />} />
-    //     </Routes>
-    //     <RegisPage />
-    //     <VerificationPage />
-    //     <RinPer1NamaUndanganPage />
-    //     <RinPer2NamaPengantinPage />
-    //     <RinPer3UsernameInstagramPage />
-    //     <RinPer4KeluargaPengantinPriaPage />
-    //     <RinPer5KeluargaPengantinWanitaPage />
-    //     <RinPer6TanggalWaktuPage />
-    //     <RinPer7LokasiPage />
-    //     <RinPer8TambahRekPage />
-    //     <RinPer9JumlahTamuPage />
-    //     <RinPer10TahuDariManaPage />
-    //     <AccountPage />
-    //     <NotificationPage />
-    //     <MenuPage />
-    //   </main>
-    // </React.Fragment>
+    // <AuthContextProvider>
+    //   <RouterProvider router={router} />
+    // </AuthContextProvider>
+    <React.Fragment>
+      <main>
+        <LoginPage />
+        <RegisPage />
+        <VerificationPage />
+        <RinPer1NamaUndanganPage />
+        <RinPer2NamaPengantinPage />
+        <RinPer3UsernameInstagramPage />
+        <RinPer4KeluargaPengantinPriaPage />
+        <RinPer5KeluargaPengantinWanitaPage />
+        <RinPer6TanggalWaktuPage />
+        <RinPer7LokasiPage />
+        <RinPer8TambahRekPage />
+        <RinPer9JumlahTamuPage />
+        <RinPer10TahuDariManaPage />
+        <AccountPage />
+        <NotificationPage />
+        <MenuPage />
+      </main>
+    </React.Fragment>
   )
 }
 
