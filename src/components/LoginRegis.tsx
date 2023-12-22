@@ -1,8 +1,9 @@
 import SvgGoogle from '../assets/Icon/Google.svg'
 import SvgFb from '../assets/Icon/Facebook.svg'
 import TopSection from './TopSection'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { UserAuth } from '../context/AuthContext'
+import { useEffect } from 'react'
 
 type LoginRegisProps = {
     title: string
@@ -19,7 +20,7 @@ type VerificationProp = {
 const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: LoginRegisProps) => {
     const masuk = isLogin ? "Daftar" : "Masuk"
     const noAccount = isLogin ? "Tidak" : "Sudah"
-    console.log(masuk)
+
     return (
         <section className='template'>
             <TopSection title={title} tagline={tagLine} />
@@ -35,14 +36,14 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
             }
 
             {!isEmailVerification && isLogin && <a href=".">Lupa Password?</a>}
-            {!isEmailVerification && <p>{noAccount} punya akun?  <NavLink to={isLogin? '/regis' : '/signin'}>{masuk}</NavLink></p>}
+            {!isEmailVerification && <p>{noAccount} punya akun?  <NavLink to={isLogin ? '/regis' : '/signin'}>{masuk}</NavLink></p>}
         </section>
     )
 }
 
 const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp) => {
     const isRegis = () => {
-        if(title === "Daftar") return true
+        if (title === "Daftar") return true
         return false
     }
     return (
@@ -52,7 +53,7 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
                 {!isEmailVerification && isRegis() && <input placeholder="Nama" type="text" />}
                 {!isEmailVerification && <input placeholder="Password" type='password' />}
                 <button type="submit" id="submitBtn" className="submitBtn">
-                    {isEmailVerification? `Kirim ulang link verifikasi` : title}
+                    {isEmailVerification ? `Kirim ulang link verifikasi` : title}
                 </button>
             </form>
         </>
@@ -60,25 +61,27 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
 }
 
 const GoogleFbSection = ({ title }: VerificationProp) => {
+
+    const navigate = useNavigate()
     const { googleSignIn, user, logOut } = UserAuth()
     const handleGoogleSignIn = async () => {
-        try{
+        try {
             googleSignIn()
         }
-        catch (error){
+        catch (error) {
             console.log(error)
         }
     }
-    const handleLogout = async() => {
-        try {
-            await logOut()
-        } catch (error) {
-            console.log(error)
+
+
+    useEffect(() => {
+        if (user != null) {
+            navigate('/home')
         }
-    }
+    }, [user])
+
     return (
         <div className='btn_form_container'>
-            { user?.displayName ? <button onClick={handleLogout}>Logout</button> : null}
             <button type="submit" id="submitBtn" className="soc_med_btn" onClick={handleGoogleSignIn}>
                 <img src={SvgGoogle} alt='google' />
                 {title} dengan Google
