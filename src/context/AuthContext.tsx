@@ -17,12 +17,15 @@ type UserContextType = {
     googleSignIn: () => void
     logOut: () => void
     user: any
+    userName: string
+    setUserName: React.Dispatch<React.SetStateAction<string>>
 }
 
 const AuthContext = createContext<UserContextType>({} as UserContextType)
 
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const [user, setUser] = useState<any>({})
+    const [userName, setUserName] = useState('')
     const googleSignIn = () => {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
@@ -39,9 +42,9 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         return () => {
             unsubscribe()
         }
-    },[])
+    }, [])
     return (
-        <AuthContext.Provider value={{ googleSignIn, logOut, user }}>
+        <AuthContext.Provider value={{ googleSignIn, logOut, user, userName, setUserName }}>
             {children}
         </AuthContext.Provider>
     )
