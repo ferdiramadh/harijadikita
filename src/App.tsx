@@ -18,19 +18,27 @@ import MenuPage from './pages/MenuPage'
 import { createBrowserRouter, createRoutesFromElements, Route, Routes, RouterProvider } from 'react-router-dom'
 import LandingPage from './pages/LandingPage'
 import { AuthContextProvider } from './context/AuthContext'
+import TemporerHomePage from './pages/TemporerHomePage'
+import PrivateRoutes from './utils/PrivateRoutes'
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route index element={<LandingPage />} />
       <Route path='/signin' element={<LoginPage />} />
       <Route path='/regis' element={<RegisPage />} />
+      <Route element={<PrivateRoutes />}>
+        <Route path='/home' element={<TemporerHomePage />} />
+      </Route>
     </Route>
   )
 )
 function App() {
   return (
     <AuthContextProvider>
-      <RouterProvider router={router} />
+      <main>
+        <RouterProvider router={router} />
+      </main>
     </AuthContextProvider>
     // <React.Fragment>
     //   <main>
