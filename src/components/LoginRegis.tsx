@@ -84,7 +84,7 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
 const GoogleFbSection = ({ title }: VerificationProp) => {
 
     const navigate = useNavigate()
-    const { googleSignIn, user } = UserAuth()
+    const { googleSignIn, user, facebookSignIn } = UserAuth()
     const handleGoogleSignIn = async () => {
         try {
             googleSignIn()
@@ -94,7 +94,14 @@ const GoogleFbSection = ({ title }: VerificationProp) => {
         }
     }
 
-
+    const handleFacebookSignIn = async () => {
+        try {
+            facebookSignIn()
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
     useEffect(() => {
         if (user != null) {
             navigate('/home')
@@ -107,7 +114,7 @@ const GoogleFbSection = ({ title }: VerificationProp) => {
                 <img src={SvgGoogle} alt='google' />
                 {title} dengan Google
             </button>
-            <button type="submit" id="submitBtn" className="soc_med_btn">
+            <button type="submit" id="submitBtn" className="soc_med_btn" onClick={handleFacebookSignIn}>
                 <img src={SvgFb} alt='google' />
                 {title} dengan Facebook
             </button>

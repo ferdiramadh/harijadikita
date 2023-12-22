@@ -6,7 +6,8 @@ import {
     signInWithRedirect,
     signOut,
     onAuthStateChanged,
-    signInWithCredential
+    signInWithCredential,
+    FacebookAuthProvider
 } from 'firebase/auth'
 import { auth } from "../firebase"
 
@@ -19,6 +20,7 @@ type UserContextType = {
     user: any
     userName: string
     setUserName: React.Dispatch<React.SetStateAction<string>>
+    facebookSignIn: () => void
 }
 
 const AuthContext = createContext<UserContextType>({} as UserContextType)
@@ -28,6 +30,10 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const [userName, setUserName] = useState('')
     const googleSignIn = () => {
         const provider = new GoogleAuthProvider()
+        signInWithPopup(auth, provider)
+    }
+    const facebookSignIn = () => {
+        const provider = new FacebookAuthProvider()
         signInWithPopup(auth, provider)
     }
     const logOut = () => {
@@ -44,7 +50,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         }
     }, [])
     return (
-        <AuthContext.Provider value={{ googleSignIn, logOut, user, userName, setUserName }}>
+        <AuthContext.Provider value={{ googleSignIn, logOut, user, userName, setUserName, facebookSignIn }}>
             {children}
         </AuthContext.Provider>
     )
