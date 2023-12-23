@@ -38,7 +38,11 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
 
             }
 
-            {!isEmailVerification && isLogin && <a href=".">Lupa Password?</a>}
+            {!isEmailVerification && isLogin && <p><NavLink to='/resetpassword' style={({ isActive, isPending, isTransitioning }) => {
+                return {
+                    color: isPending ? "red" : "#474747",
+                };
+            }}>Lupa Password?</NavLink></p>}
             {!isEmailVerification && <p>{noAccount} punya akun?  <NavLink to={isLogin ? '/regis' : '/signin'}>{masuk}</NavLink></p>}
         </section>
     )
@@ -56,10 +60,10 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
-        const name = isRegis()? e.target.nama.value : ''
+        const name = isRegis() ? e.target.nama.value : ''
         try {
             setUserName(name)
-            const result = isRegis()? await createUserWithEmailAndPassword(auth, email, password) : await signInWithEmailAndPassword(auth, email, password)
+            const result = isRegis() ? await createUserWithEmailAndPassword(auth, email, password) : await signInWithEmailAndPassword(auth, email, password)
         } catch (error: unknown) {
             if (error instanceof FirebaseError) {
                 setError(error.code)
