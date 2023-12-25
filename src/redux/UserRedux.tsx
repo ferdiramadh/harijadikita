@@ -21,7 +21,7 @@ type Action = {
 }
 export const action = {
     registeringMember: (auth: Auth, email: string, name: string, password: string) => async (dispatch: Dispatch<any>) => {
-        await dispatch({ type: types.REGISTER, payload: { email, password } })
+        dispatch({ type: types.REGISTER, payload: { email, password } })
         const result = await createUserWithEmailAndPassword(auth, email, password)
         dispatch({
             type: types.SET_USER,
