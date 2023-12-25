@@ -20,6 +20,9 @@ import LandingPage from './pages/LandingPage'
 import { AuthContextProvider } from './context/AuthContext'
 import TemporerHomePage from './pages/TemporerHomePage'
 import PrivateRoutes from './utils/PrivateRoutes'
+import ForgetPasswordPage from './pages/ForgetPasswordPage'
+import { Provider } from 'react-redux'
+import { store } from './redux'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,19 +30,24 @@ const router = createBrowserRouter(
       <Route index element={<LandingPage />} />
       <Route path='/signin' element={<LoginPage />} />
       <Route path='/regis' element={<RegisPage />} />
+      <Route path='/resetpassword' element={<ForgetPasswordPage />} />
       <Route element={<PrivateRoutes />}>
         <Route path='/home' element={<TemporerHomePage />} />
+        {/* <Route path='/verification' element={<VerificationPage />} /> */}
       </Route>
     </Route>
   )
 )
 function App() {
   return (
-    <AuthContextProvider>
-      <main>
-        <RouterProvider router={router} />
-      </main>
-    </AuthContextProvider>
+    <Provider store={store}>
+      <AuthContextProvider>
+        <main>
+          <RouterProvider router={router} />
+        </main>
+      </AuthContextProvider>
+    </Provider>
+
     // <React.Fragment>
     //   <main>
     //     <LoginPage />
