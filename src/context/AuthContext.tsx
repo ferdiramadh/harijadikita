@@ -20,8 +20,6 @@ type UserContextType = {
     googleSignIn: () => void
     logOut: () => void
     user: any
-    userName: string
-    setUserName: React.Dispatch<React.SetStateAction<string>>
     facebookSignIn: () => void
     userAcc: DocumentData | UserCollectionProps | undefined
     setUserAcc: React.Dispatch<React.SetStateAction<DocumentData | UserCollectionProps | undefined>>
@@ -36,7 +34,6 @@ const AuthContext = createContext<UserContextType>({} as UserContextType)
 
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const [user, setUser] = useState<any>({})
-    const [userName, setUserName] = useState('')
     const [userAcc, setUserAcc] = useState<UserCollectionProps | DocumentData>()
     const googleSignIn = () => {
         const provider = new GoogleAuthProvider()
@@ -67,9 +64,9 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
                 console.log('nambah nih')
                 addUser(user.email, user.displayName, user.uid, user.emailVerified)
                 setUserAcc({
-                    displayName: user.displayName,
+                    displayName: userAcc?.displayName ? userAcc?.displayName : user.displayName,
                     email: user.email,
-                    email_verified: user.emailVerified,
+                    email_verified: userAcc?.email_verified ? userAcc?.email_verified : user.emailVerified,
                     uid: user.uid
                 })
             }
@@ -82,9 +79,9 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         try {
             const docRef = await addDoc(collection(db, "users"), {
                 email: email,
-                displayName: userName ? userName : name,
+                displayName: userAcc?.displayName ? userAcc?.displayName : name,
                 uid: uid,
-                email_verified: email_ver
+                email_verified: userAcc?.email_verified ? userAcc?.email_verified : email_ver
             })
             console.log(docRef)
         } catch (err) {
@@ -108,7 +105,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         }
     }, [user])
     return (
-        <AuthContext.Provider value={{ googleSignIn, logOut, user, userName, setUserName, facebookSignIn, userAcc, setUserAcc }}>
+        <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc }}>
             {children}
         </AuthContext.Provider>
     )
