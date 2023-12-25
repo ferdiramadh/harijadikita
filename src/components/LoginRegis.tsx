@@ -4,7 +4,7 @@ import TopSection from './TopSection'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { UserAuth } from '../context/AuthContext'
 import { useEffect, useState } from 'react'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { auth } from '../firebase'
 import { FirebaseError } from '@firebase/util'
 
@@ -55,15 +55,28 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
         if (title === "Daftar") return true
         return false
     }
-    const { setUserName } = UserAuth()
+    const { setUserAcc, user } = UserAuth()
+    const handleVerification = async (e: any) => {
+        e.preventDefault()
+        console.log('email ver')
+        // const resultEmailVer = await sendEmailVerification(user)
+        // if(resultEmailVer == null) {
+        //     setUserAcc(prev => ({...prev, email_verified: true}))
+        // }
+    }
     const handleOnSubmit = async (e: any) => {
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
         const name = isRegis() ? e.target.nama.value : ''
         try {
-            setUserName(name)
+            setUserAcc(prev => ({ ...prev, displayName: name }))
             const result = isRegis() ? await createUserWithEmailAndPassword(auth, email, password) : await signInWithEmailAndPassword(auth, email, password)
+            const { user } = result
+            // if (user) {
+            //     const test = await sendEmailVerification(user)
+            //     console.log({ test })
+            // }
         } catch (error: unknown) {
             if (error instanceof FirebaseError) {
                 setError(error.code)
@@ -72,7 +85,7 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
     }
     return (
         <>
-            <form action="" className='btn_form_container' onSubmit={(e) => handleOnSubmit(e)}>
+            <form action="" className='btn_form_container' onSubmit={isEmailVerification ? (e) => handleVerification(e) : (e) => handleOnSubmit(e)}>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 {!isEmailVerification && <input placeholder="Email" type="text" name='email' />}
                 {!isEmailVerification && isRegis() && <input placeholder="Nama" type="text" name="nama" />}
@@ -88,10 +101,12 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
 const GoogleFbSection = ({ title }: VerificationProp) => {
 
     const navigate = useNavigate()
-    const { googleSignIn, user, facebookSignIn } = UserAuth()
+    const { googleSignIn, userAcc, facebookSignIn, setUserAcc, user } = UserAuth()
     const handleGoogleSignIn = async () => {
         try {
             googleSignIn()
+            // navigate('/home')
+            // setUserAcc(prev => ({ ...prev, email_verified: true }))
         }
         catch (error) {
             console.log(error)
@@ -106,6 +121,14 @@ const GoogleFbSection = ({ title }: VerificationProp) => {
             console.log(error)
         }
     }
+    // useEffect(() => {
+    //     const email_verified  = userAcc?.email_verified
+    //     if (email_verified == true) {
+    //         navigate('/home')
+    //     } else if (email_verified == false) {
+    //         navigate('/verification')
+    //     }
+    // }, [userAcc])
     useEffect(() => {
         if (user != null) {
             navigate('/home')
