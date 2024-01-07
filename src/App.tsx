@@ -21,8 +21,25 @@ import { AuthContextProvider } from './context/AuthContext'
 import TemporerHomePage from './pages/TemporerHomePage'
 import PrivateRoutes from './utils/PrivateRoutes'
 import ForgetPasswordPage from './pages/ForgetPasswordPage'
-import { Provider } from 'react-redux'
+import { Provider, useDispatch, useSelector } from 'react-redux'
 import { store } from './redux'
+import { AppDispatch, RootState } from './redux/store'
+import { decrement, increment } from './redux/state/counter/counterSlice'
+
+const Counter = () => {
+  const count = useSelector((state: RootState) => state.counter.value)
+  const dispatch = useDispatch<AppDispatch>()
+
+  return(
+    <div>
+      <h2>{count}</h2>
+      <div>
+        <button onClick={() => dispatch(increment())}>Increment</button>
+        <button onClick={() => dispatch(decrement())}>Decrement</button>
+      </div>
+    </div>
+  )
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -44,6 +61,7 @@ function App() {
       <AuthContextProvider>
         <main>
           <RouterProvider router={router} />
+          <Counter />
         </main>
       </AuthContextProvider>
     </Provider>
