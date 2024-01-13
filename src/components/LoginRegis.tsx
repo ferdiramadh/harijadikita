@@ -26,7 +26,7 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
 
     return (
         <section className='template'>
-            <TopSection title={title} tagline={tagLine} />
+            <TopSection title={title} tagline={tagLine} isLoginPage={true}/>
             <InputEmailPassSection title={title} isEmailVerification={isEmailVerification} />
             {
                 !isEmailVerification && <hr />

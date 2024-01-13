@@ -1,15 +1,19 @@
 import Logo from "./Logo"
+import LogoJoinSkip from "./LogoJoinSkip"
 
 type TopSectionProps = {
     title: string
     tagline?: string
     locAd?: string
+    isLoginPage?: boolean
 }
 
-const TopSection = ({ title, tagline, locAd }: TopSectionProps) => {
+const TopSection = ({ title, tagline, locAd, isLoginPage }: TopSectionProps) => {
     return (
         <div className="top-sec-wrapper">
-            <Logo />
+            {
+                isLoginPage ? <Logo /> : <LogoJoinSkip />
+            }
             <h1 className="top-title">{title}</h1>
             <div className='tagline'>
                 {tagline && <p>{tagline}</p>}
