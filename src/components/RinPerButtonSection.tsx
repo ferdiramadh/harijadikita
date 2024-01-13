@@ -1,10 +1,13 @@
-import React from 'react'
+type ButtonType = {
+  next(): void
+  back(): void
+}
 
-const RinPerButtonSection = () => {
+const RinPerButtonSection = ({ next, back }: ButtonType) => {
   return (
     <div className='rinperbutton_container'>
-        <button className='next_btn'>Berikutnya</button>
-        <button className='draft_btn'>Simpan sebagai draft</button>
+        <button type='button' className='next_btn' onClick={next}>Berikutnya</button>
+        <button type='button' className='draft_btn' onClick={back}>Sebelumnya</button>
     </div>
   )
 }
