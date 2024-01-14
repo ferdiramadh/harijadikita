@@ -9,7 +9,7 @@ type AddReceptionProp = {
 const RinPer6TanggalWaktuPage = () => {
 
     const [addReception, setAddReception] = useState<boolean>(false)
-    const test = (e: any) => {
+    const addingReception = (e: any) => {
         e.preventDefault()
         setAddReception(!addReception)
     }
@@ -17,7 +17,7 @@ const RinPer6TanggalWaktuPage = () => {
         <>
             <TopSection title="Tanggal dan Waktu Pernikahan" tagline="Kamu bisa tambah lebih dari satu tanggal resepsi. Jika tidak ada resepsi, tidak perlu klik tombol ‘Tambah resepsi’" />
             {
-                addReception && <AddReception onClick={test} />
+                addReception && <AddReception onClick={addingReception} />
             }
             {
                 !addReception &&
@@ -25,7 +25,7 @@ const RinPer6TanggalWaktuPage = () => {
                 <div className='form_container'>
                     <input placeholder="Pilih tanggal akad" type="text" />
                     <input placeholder="Pilih waktu akad" type="text" />
-                    <a href="/" onClick={test}>Tambah resepsi</a>
+                    <a href="/" onClick={addingReception}>Tambah resepsi</a>
                 </div>
             }
         </>

@@ -1,14 +1,10 @@
 import TopSection from "../components/TopSection"
 import { useState } from "react"
 
-type AddReceptionProp = {
-    onClick: (e: any) => void
-}
-
 const RinPer7LokasiPage = () => {
 
     const [addReception, setAddReception] = useState<boolean>(false)
-    const test = (e: any) => {
+    const addingReception = (e: any) => {
         e.preventDefault()
         setAddReception(!addReception)
     }
@@ -17,7 +13,7 @@ const RinPer7LokasiPage = () => {
         <>
             <TopSection title="Lokasi Pernikahan" tagline="Masukkan lokasi akad dan resepsi pernikahan kamu." locAd={locAd} />
             {
-                !addReception && <AddReception onClick={test} />
+                !addReception && <AddReception />
             }
             {
                 addReception &&
@@ -31,7 +27,7 @@ const RinPer7LokasiPage = () => {
     )
 }
 
-const AddReception = ({ onClick }: AddReceptionProp) => {
+const AddReception = () => {
 
     return (
         <div className='form_container'>
