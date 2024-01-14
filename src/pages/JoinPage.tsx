@@ -21,30 +21,32 @@ export type ButtonType = {
 export type JoinPageType = ButtonType & {
   currentStepIndex: number
   steps: ReactElement[]
+  isLastStep: boolean
+  isFirstStep: boolean
 }
 
 const JoinPage = () => {
-  
+
   const PageList = [
-  <RinPer1NamaUndanganPage />,
-  <RinPer2NamaPengantinPage />,
-  <RinPer3UsernameInstagramPage />,
-  <RinPer4KeluargaPengantinPriaPage />,
-  <RinPer5KeluargaPengantinWanitaPage />,
-  <RinPer6TanggalWaktuPage />,
-  <RinPer7LokasiPage />,
-  <RinPer8TambahRekPage />,
-  <RinPer9JumlahTamuPage />,
-  <RinPer10TahuDariManaPage />,
-]
-  const { step, steps, currentStepIndex, next, back, isFirstStep } = UseMultiStepForm(PageList)
+    <RinPer1NamaUndanganPage />,
+    <RinPer2NamaPengantinPage />,
+    <RinPer3UsernameInstagramPage />,
+    <RinPer4KeluargaPengantinPriaPage />,
+    <RinPer5KeluargaPengantinWanitaPage />,
+    <RinPer6TanggalWaktuPage />,
+    <RinPer7LokasiPage />,
+    <RinPer8TambahRekPage />,
+    <RinPer9JumlahTamuPage />,
+    <RinPer10TahuDariManaPage />,
+  ]
+  const { step, steps, currentStepIndex, next, back, isFirstStep, isLastStep } = UseMultiStepForm(PageList)
   return (
     <section className='template'>
       <form>
         {step}
         <div className='form_container'>
-          <RinPerButtonSection next={next} back={back} />
-          <RinPerProgress count={currentStepIndex + 1} steps={steps}/>
+          <RinPerButtonSection next={next} back={back} isFirstStep={isFirstStep} isLastStep={isLastStep} />
+          <RinPerProgress count={currentStepIndex + 1} steps={steps} />
         </div>
       </form>
     </section>
