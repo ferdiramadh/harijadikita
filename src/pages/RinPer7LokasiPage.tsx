@@ -1,6 +1,4 @@
 import TopSection from "../components/TopSection"
-import RinPerButtonSection from "../components/RinPerButtonSection"
-import RinPerProgress from "../components/RinPerProgress"
 import { useState } from "react"
 
 type AddReceptionProp = {
@@ -8,6 +6,7 @@ type AddReceptionProp = {
 }
 
 const RinPer7LokasiPage = () => {
+
     const [addReception, setAddReception] = useState<boolean>(false)
     const test = (e: any) => {
         e.preventDefault()
@@ -15,8 +14,8 @@ const RinPer7LokasiPage = () => {
     }
     const locAd = `*Lokasi terhubung dengan Google Maps, jika lokasi tidak ditemukan, kamu bisa masukkan lintang dan bujur:`
     return (
-        <section className='template'>
-            <TopSection title="Lokasi Pernikahan" tagline="Masukkan lokasi akad dan resepsi pernikahan kamu." locAd={locAd}/>
+        <>
+            <TopSection title="Lokasi Pernikahan" tagline="Masukkan lokasi akad dan resepsi pernikahan kamu." locAd={locAd} />
             {
                 !addReception && <AddReception onClick={test} />
             }
@@ -28,9 +27,7 @@ const RinPer7LokasiPage = () => {
                     <input placeholder="Cari lokasi resepsi" type="text" />
                 </div>
             }
-            <RinPerButtonSection />
-            <RinPerProgress count={7} />
-        </section>
+        </>
     )
 }
 

@@ -1,10 +1,8 @@
 import TopSection from "../components/TopSection"
-import RinPerButtonSection from "../components/RinPerButtonSection"
-import RinPerProgress from "../components/RinPerProgress"
 
 const RinPer10TahuDariManaPage = () => {
     return (
-        <section className='template'>
+        <>
             <TopSection title="Tahu harijadikita dari mana?" />
             <div className='form_container'>
                 <div className="custom-select selected">
@@ -19,9 +17,7 @@ const RinPer10TahuDariManaPage = () => {
                     </select>
                 </div>
             </div>
-            <RinPerButtonSection />
-            <RinPerProgress count={10} />
-        </section>
+        </>
     )
 }
 

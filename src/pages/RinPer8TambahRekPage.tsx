@@ -1,6 +1,4 @@
 import TopSection from "../components/TopSection"
-import RinPerButtonSection from "../components/RinPerButtonSection"
-import RinPerProgress from "../components/RinPerProgress"
 import { useState } from "react"
 import { IoIosCloseCircle } from "react-icons/io"
 
@@ -9,13 +7,14 @@ type AddReceptionProp = {
 }
 
 const RinPer8TambahRekPage = () => {
+
     const [addReception, setAddReception] = useState<boolean>(false)
     const test = (e: any) => {
         e.preventDefault()
         setAddReception(!addReception)
     }
     return (
-        <section className='template'>
+        <>
             <TopSection title="Tambah Rekening" tagline="Masukkan rekening kamu untuk menerima hadiah uang cashless dari tamu yang kamu undang." />
             {
                 addReception && <AddReception onClick={test} />
@@ -30,9 +29,7 @@ const RinPer8TambahRekPage = () => {
                     <a href="/" onClick={test}>Tambah rekening</a>
                 </div>
             }
-            <RinPerButtonSection />
-            <RinPerProgress count={8} />
-        </section>
+        </>
     )
 }
 

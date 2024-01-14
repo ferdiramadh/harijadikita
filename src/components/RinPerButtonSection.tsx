@@ -1,9 +1,8 @@
-type ButtonType = {
-  next(): void
-  back(): void
-}
+import { JoinPageType } from "../pages/JoinPage"
 
-const RinPerButtonSection = ({ next, back }: ButtonType) => {
+
+const RinPerButtonSection = ({ next, back }: Partial<JoinPageType>) => {
+
   return (
     <div className='rinperbutton_container'>
         <button type='button' className='next_btn' onClick={next}>Berikutnya</button>

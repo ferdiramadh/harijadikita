@@ -12,6 +12,7 @@ import RinPer8TambahRekPage from './RinPer8TambahRekPage'
 import RinPer9JumlahTamuPage from './RinPer9JumlahTamuPage'
 import RinPer10TahuDariManaPage from './RinPer10TahuDariManaPage'
 import RinPerProgress from '../components/RinPerProgress'
+
 export type ButtonType = {
   next(): void
   back(): void
@@ -21,30 +22,30 @@ export type JoinPageType = ButtonType & {
   currentStepIndex: number
   steps: ReactElement[]
 }
+
 const JoinPage = () => {
-  const { step, steps, currentStepIndex, next, back, isFirstStep } = UseMultiStepForm([
-
-    <RinPer1NamaUndanganPage next={() => next()} back={() => back()} />,
-    <RinPer2NamaPengantinPage next={() => next()} back={() => back()} />,
-    // <RinPer3UsernameInstagramPage next={() => next()} back={() => back()} />,
-    // <RinPer4KeluargaPengantinPriaPage next={() => next()} back={() => back()} />,
-    // <RinPer5KeluargaPengantinWanitaPage next={() => next()} back={() => back()} />,
-    // <RinPer6TanggalWaktuPage next={() => next()} back={() => back()} />,
-    // <RinPer7LokasiPage next={() => next()} back={() => back()} />,
-    // <RinPer8TambahRekPage next={() => next()} back={() => back()} />,
-    // <RinPer9JumlahTamuPage next={() => next()} back={() => back()} />,
-    // <RinPer10TahuDariManaPage next={() => next()} back={() => back()} />,
-
-  ])
+  
+  const PageList = [
+  <RinPer1NamaUndanganPage />,
+  <RinPer2NamaPengantinPage />,
+  <RinPer3UsernameInstagramPage />,
+  <RinPer4KeluargaPengantinPriaPage />,
+  <RinPer5KeluargaPengantinWanitaPage />,
+  <RinPer6TanggalWaktuPage />,
+  <RinPer7LokasiPage />,
+  <RinPer8TambahRekPage />,
+  <RinPer9JumlahTamuPage />,
+  <RinPer10TahuDariManaPage />,
+]
+  const { step, steps, currentStepIndex, next, back, isFirstStep } = UseMultiStepForm(PageList)
   return (
     <section className='template'>
       <form>
-        {/* <div>
-          {currentStepIndex + 1}/{steps.length}
-        </div> */}
         {step}
-        <RinPerButtonSection next={next} back={back} />
-        <RinPerProgress count={currentStepIndex} />
+        <div className='form_container'>
+          <RinPerButtonSection next={next} back={back} />
+          <RinPerProgress count={currentStepIndex + 1} steps={steps}/>
+        </div>
       </form>
     </section>
   )
