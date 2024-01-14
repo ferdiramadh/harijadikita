@@ -1,4 +1,4 @@
-import TopSection from "../components/TopSection"
+import TopSection from "../TopSection"
 import { useState } from "react"
 
 const RinPer7LokasiPage = () => {

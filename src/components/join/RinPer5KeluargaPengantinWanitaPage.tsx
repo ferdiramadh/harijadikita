@@ -1,4 +1,4 @@
-import TopSection from "../components/TopSection"
+import TopSection from "../TopSection"
 
 const RinPer5KeluargaPengantinWanitaPage = () => {
     return (
