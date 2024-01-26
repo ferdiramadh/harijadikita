@@ -2,16 +2,16 @@ import React from 'react'
 import LoginPage from './pages/LoginPage'
 import RegisPage from './pages/RegisPage'
 import VerificationPage from './pages/VerificationPage'
-import RinPer1NamaUndanganPage from './pages/RinPer1NamaUndanganPage'
-import RinPer2NamaPengantinPage from './pages/RinPer2NamaPengantinPage'
-import RinPer3UsernameInstagramPage from './pages/RinPer3UsernameInstagramPage'
-import RinPer4KeluargaPengantinPriaPage from './pages/RinPer4KeluargaPengantinPriaPage'
-import RinPer5KeluargaPengantinWanitaPage from './pages/RinPer5KeluargaPengantinWanitaPage'
-import RinPer6TanggalWaktuPage from './pages/RinPer6TanggalWaktuPage'
-import RinPer7LokasiPage from './pages/RinPer7LokasiPage'
-import RinPer8TambahRekPage from './pages/RinPer8TambahRekPage'
-import RinPer9JumlahTamuPage from './pages/RinPer9JumlahTamuPage'
-import RinPer10TahuDariManaPage from './pages/RinPer10TahuDariManaPage'
+import RinPer1NamaUndanganPage from './components/join/RinPer1NamaUndanganPage'
+import RinPer2NamaPengantinPage from './components/join/RinPer2NamaPengantinPage'
+import RinPer3UsernameInstagramPage from './components/join/RinPer3UsernameInstagramPage'
+import RinPer4KeluargaPengantinPriaPage from './components/join/RinPer4KeluargaPengantinPriaPage'
+import RinPer5KeluargaPengantinWanitaPage from './components/join/RinPer5KeluargaPengantinWanitaPage'
+import RinPer6TanggalWaktuPage from './components/join/RinPer6TanggalWaktuPage'
+import RinPer7LokasiPage from './components/join/RinPer7LokasiPage'
+import RinPer8TambahRekPage from './components/join/RinPer8TambahRekPage'
+import RinPer9JumlahTamuPage from './components/join/RinPer9JumlahTamuPage'
+import RinPer10TahuDariManaPage from './components/join/RinPer10TahuDariManaPage'
 import AccountPage from './pages/AccountPage'
 import NotificationPage from './pages/NotificationPage'
 import MenuPage from './pages/MenuPage'
@@ -25,6 +25,7 @@ import { Provider, useDispatch, useSelector } from 'react-redux'
 import { store } from './redux'
 import { AppDispatch, RootState } from './redux/store'
 import { decrement, increment } from './redux/state/counter/counterSlice'
+import JoinPage from './pages/JoinPage'
 
 const Counter = () => {
   const count = useSelector((state: RootState) => state.counter.value)
@@ -52,6 +53,9 @@ const router = createBrowserRouter(
         <Route path='/home' element={<TemporerHomePage />} />
         {/* <Route path='/verification' element={<VerificationPage />} /> */}
       </Route>
+      <Route>
+        <Route path='/join' element={<JoinPage />}/>
+      </Route>
     </Route>
   )
 )
@@ -61,7 +65,7 @@ function App() {
       <AuthContextProvider>
         <main>
           <RouterProvider router={router} />
-          <Counter />
+          {/* <Counter /> */}
         </main>
       </AuthContextProvider>
     </Provider>
