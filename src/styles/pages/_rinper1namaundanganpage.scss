@@ -44,7 +44,6 @@
         justify-content: space-between;
         margin-top: 20px;
         align-items: center;
-       
 
         .reception_title {
             @include font-inter;
@@ -81,6 +80,22 @@
             outline: inherit;
         }
 
+    }
+
+    label{
+        @include breakpoint(sm) {
+            margin: 20px 0 5px 30px;
+        }
+        @include breakpoint(med) {
+            margin: 10px 0 0 70px;
+        }
+
+        color: #A8A8A8;
+        font-size: $font-size-16;
+        font-family: 'Inter';
+        font-weight: '400';
+        align-self: flex-start;
+        margin: 20px 0 10px 95px;
     }
 
 }
