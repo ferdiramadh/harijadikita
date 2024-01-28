@@ -1,12 +1,20 @@
 import TopSection from "../TopSection"
 
-const RinPer10TahuDariManaPage = () => {
+type RinPer10TahuDariManaType = {
+    tahuDariMana: string
+}
+
+type UpdateFormProps = RinPer10TahuDariManaType & {
+    updateData: (field: Partial<RinPer10TahuDariManaType>) => void
+}
+
+const RinPer10TahuDariManaPage = ({ tahuDariMana, updateData }: UpdateFormProps) => {
     return (
         <>
             <TopSection title="Tahu harijadikita dari mana?" />
             <div className='form_container'>
                 <div className="custom-select selected">
-                    <select>
+                    <select value={tahuDariMana} onChange={e => updateData({ tahuDariMana: e.target.value })}>
                         <option className="select-items">Instagram</option>
                         <option className="select-items">Facebook</option>
                         <option className="select-items">Twitter</option>
@@ -16,7 +24,7 @@ const RinPer10TahuDariManaPage = () => {
                         <option className="select-items">Keluarga</option>
                     </select>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
