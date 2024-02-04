@@ -1,3 +1,4 @@
+import { JoinPageType } from "../../pages/JoinPage"
 import TopSection from "../TopSection"
 
 type RinPer2NamaPengantinType = {
@@ -9,10 +10,10 @@ type UpdateFormProps = RinPer2NamaPengantinType & {
     updateData: (field: Partial<RinPer2NamaPengantinType>) => void
 }
 
-const RinPer2NamaPengantinPage = ({ pengantinPria, pengantinWanita, updateData }: UpdateFormProps) => {
+const RinPer2NamaPengantinPage = ({ pengantinPria, pengantinWanita, updateData, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
     return (
         <>
-            <TopSection title="Nama Pengantin" tagline="Masukkan nama kamu dan pasangan." />
+            <TopSection title="Nama Pengantin" tagline="Masukkan nama kamu dan pasangan." storingData={storingData} />
             <div className='form_container'>
                 <input placeholder="Pengantin pria" type="text" value={pengantinPria} onChange={e => updateData({ pengantinPria: e.target.value })} />
                 <input placeholder="Pengantin wanita" type="text" value={pengantinWanita} onChange={e => updateData({ pengantinWanita: e.target.value })} />

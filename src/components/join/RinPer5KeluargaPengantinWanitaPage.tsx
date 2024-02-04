@@ -1,3 +1,4 @@
+import { JoinPageType } from "../../pages/JoinPage"
 import TopSection from "../TopSection"
 
 type RinPer5KeluargaPengantinWanitaType = {
@@ -11,7 +12,7 @@ type UpdateFormProps = RinPer5KeluargaPengantinWanitaType & {
     updateData: (field: Partial<RinPer5KeluargaPengantinWanitaType>) => void
 }
 
-const RinPer5KeluargaPengantinWanitaPage = ({ ayahWaliWanita, ibuWaliWanita, anakKeBerapaWanita, jmlSaudaraWanita, updateData }: UpdateFormProps) => {
+const RinPer5KeluargaPengantinWanitaPage = ({ ayahWaliWanita, ibuWaliWanita, anakKeBerapaWanita, jmlSaudaraWanita, updateData, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
 
     function setToZero(field: number) {
         if (isNaN(field)) return 0
@@ -20,7 +21,7 @@ const RinPer5KeluargaPengantinWanitaPage = ({ ayahWaliWanita, ibuWaliWanita, ana
 
     return (
         <>
-            <TopSection title="Keluarga Pengantin Wanita" tagline="Masukkan profil keluarga pengantin wanita." />
+            <TopSection title="Keluarga Pengantin Wanita" tagline="Masukkan profil keluarga pengantin wanita." storingData={storingData} />
             <div className='form_container'>
                 <input placeholder="Nama ayah/wali" type="text" value={ayahWaliWanita} onChange={e => updateData({ ayahWaliWanita: e.target.value })} />
                 <input placeholder="Nama ibu/wali" type="text" value={ibuWaliWanita} onChange={e => updateData({ ibuWaliWanita: e.target.value })} />

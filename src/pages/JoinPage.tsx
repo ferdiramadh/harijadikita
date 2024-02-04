@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import RinPer1NamaUndanganPage from '../components/join/RinPer1NamaUndanganPage'
 import RinPer2NamaPengantinPage from '../components/join/RinPer2NamaPengantinPage'
 import { UseMultiStepForm } from '../hooks/Join/UseMultiStepForm'
@@ -12,6 +12,10 @@ import RinPer8TambahRekPage from '../components/join/RinPer8TambahRekPage'
 import RinPer9JumlahTamuPage from '../components/join/RinPer9JumlahTamuPage'
 import RinPer10TahuDariManaPage from '../components/join/RinPer10TahuDariManaPage'
 import RinPerProgress from '../components/RinPerProgress'
+import { UserAuth } from '../context/AuthContext'
+import { addDoc, collection } from "firebase/firestore"
+import { db } from "../firebase"
+import { useNavigate } from "react-router-dom"
 
 export type ButtonType = {
   next(): void
@@ -23,9 +27,10 @@ export type JoinPageType = ButtonType & {
   steps: ReactElement[]
   isLastStep: boolean
   isFirstStep: boolean
+  storingData: () => Promise<void>
 }
 
-type FormDataType = {
+export type FormDataType = {
   namaUndangan: string
   pengantinPria: string
   pengantinWanita: string
@@ -53,6 +58,7 @@ type FormDataType = {
   noRek2: string
   jmlTamu: number
   tahuDariMana: string
+  user: string
 }
 
 const INITIAL_DATA: FormDataType = {
@@ -83,31 +89,49 @@ const INITIAL_DATA: FormDataType = {
   noRek2: "",
   jmlTamu: 0,
   tahuDariMana: "",
+  user: ''
 }
 const JoinPage = () => {
 
   const [data, setData] = useState(INITIAL_DATA)
   const [addReception, setAddReception] = useState<boolean>(false)
   const [addRekening, setAddRekening] = useState<boolean>(false)
+  const { user } = UserAuth()
+  const navigate = useNavigate()
+  const storingData = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "userdata"), {
+        data
+      })
+      console.log(docRef)
+      navigate('/home')
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   function updateData(field: Partial<FormDataType>) {
-    console.log(field)
     setData(prev => {
       return { ...prev, ...field }
     })
   }
+  useEffect(() => {
+    if (user != null) {
+      setData(prev => ({ ...prev, user: user.uid }))
+    }
+  }, [user])
 
   const { step, steps, currentStepIndex, next, back, isFirstStep, isLastStep } = UseMultiStepForm([
-    <RinPer1NamaUndanganPage {...data} updateData={updateData} />,
-    <RinPer2NamaPengantinPage {...data} updateData={updateData} />,
-    <RinPer3UsernameInstagramPage {...data} updateData={updateData} />,
-    <RinPer4KeluargaPengantinPriaPage {...data} updateData={updateData} />,
-    <RinPer5KeluargaPengantinWanitaPage {...data} updateData={updateData} />,
-    <RinPer6TanggalWaktuPage {...data} updateData={updateData} addReception={addReception} setAddReception={setAddReception} />,
-    <RinPer7LokasiPage {...data} updateData={updateData} />,
-    <RinPer8TambahRekPage {...data} updateData={updateData} addRekening={addRekening} setAddRekening={setAddRekening} />,
-    <RinPer9JumlahTamuPage {...data} updateData={updateData}/>,
-    <RinPer10TahuDariManaPage {...data} updateData={updateData}/>,
+    <RinPer1NamaUndanganPage {...data} updateData={updateData} storingData={storingData}/>,
+    <RinPer2NamaPengantinPage {...data} updateData={updateData} storingData={storingData}/>,
+    <RinPer3UsernameInstagramPage {...data} updateData={updateData} storingData={storingData}/>,
+    <RinPer4KeluargaPengantinPriaPage {...data} updateData={updateData} storingData={storingData}/>,
+    <RinPer5KeluargaPengantinWanitaPage {...data} updateData={updateData} storingData={storingData}/>,
+    <RinPer6TanggalWaktuPage {...data} updateData={updateData} addReception={addReception} setAddReception={setAddReception} storingData={storingData}/>,
+    <RinPer7LokasiPage {...data} updateData={updateData} storingData={storingData}/>,
+    <RinPer8TambahRekPage {...data} updateData={updateData} addRekening={addRekening} setAddRekening={setAddRekening} storingData={storingData}/>,
+    <RinPer9JumlahTamuPage {...data} updateData={updateData} storingData={storingData}/>,
+    <RinPer10TahuDariManaPage {...data} updateData={updateData} storingData={storingData} />,
   ])
 
   return (
@@ -115,8 +139,17 @@ const JoinPage = () => {
       <form>
         {step}
         <div className='form_container'>
-          <RinPerButtonSection next={next} back={back} isFirstStep={isFirstStep} isLastStep={isLastStep} />
-          <RinPerProgress count={currentStepIndex + 1} steps={steps} />
+          <RinPerButtonSection
+            next={next}
+            back={back}
+            isFirstStep={isFirstStep}
+            isLastStep={isLastStep}
+            storingData={storingData}
+          />
+          <RinPerProgress
+            count={currentStepIndex + 1}
+            steps={steps}
+          />
           {/* <button type='button' onClick={() => console.log(data)}>Test</button> */}
         </div>
       </form>

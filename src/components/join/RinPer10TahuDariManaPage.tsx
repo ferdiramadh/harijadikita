@@ -1,4 +1,5 @@
 import TopSection from "../TopSection"
+import { JoinPageType } from "../../pages/JoinPage"
 
 type RinPer10TahuDariManaType = {
     tahuDariMana: string
@@ -8,10 +9,10 @@ type UpdateFormProps = RinPer10TahuDariManaType & {
     updateData: (field: Partial<RinPer10TahuDariManaType>) => void
 }
 
-const RinPer10TahuDariManaPage = ({ tahuDariMana, updateData }: UpdateFormProps) => {
+const RinPer10TahuDariManaPage = ({ tahuDariMana, updateData, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
     return (
         <>
-            <TopSection title="Tahu harijadikita dari mana?" />
+            <TopSection title="Tahu harijadikita dari mana?" storingData={storingData} />
             <div className='form_container'>
                 <div className="custom-select selected">
                     <select value={tahuDariMana} onChange={e => updateData({ tahuDariMana: e.target.value })}>

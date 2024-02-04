@@ -1,6 +1,7 @@
 import TopSection from "../TopSection"
 import { useState } from "react"
 import { IoIosCloseCircle } from "react-icons/io"
+import { JoinPageType } from "../../pages/JoinPage"
 
 type RinPer6TanggalWaktuType = {
     tglAkad: string
@@ -20,7 +21,7 @@ type AddReceptionProp = Partial<RinPer6TanggalWaktuType> & {
     updateData: (field: Partial<RinPer6TanggalWaktuType>) => void
 }
 
-const RinPer6TanggalWaktuPage = ({ tglAkad, wktAkad, tglResepsi, wktResepsi, updateData, addReception, setAddReception }: UpdateFormProps) => {
+const RinPer6TanggalWaktuPage = ({ tglAkad, wktAkad, tglResepsi, wktResepsi, updateData, addReception, setAddReception, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
 
 
     const addingReception = (e: any) => {
@@ -29,7 +30,7 @@ const RinPer6TanggalWaktuPage = ({ tglAkad, wktAkad, tglResepsi, wktResepsi, upd
     }
     return (
         <>
-            <TopSection title="Tanggal dan Waktu Pernikahan" tagline="Kamu bisa tambah lebih dari satu tanggal resepsi. Jika tidak ada resepsi, tidak perlu klik tombol ‘Tambah resepsi’" />
+            <TopSection title="Tanggal dan Waktu Pernikahan" tagline="Kamu bisa tambah lebih dari satu tanggal resepsi. Jika tidak ada resepsi, tidak perlu klik tombol ‘Tambah resepsi’" storingData={storingData} />
 
 
             <div className='form_container'>

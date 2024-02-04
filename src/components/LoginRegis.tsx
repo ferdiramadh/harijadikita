@@ -15,7 +15,7 @@ type LoginRegisProps = {
     isEmailVerification: boolean
 }
 
-type VerificationProp = {
+type VerificationProp = Partial<LoginRegisProps> & {
     title: string
     isEmailVerification?: boolean
 }
@@ -26,7 +26,7 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
 
     return (
         <section className='template'>
-            <TopSection title={title} tagline={tagLine} isLoginPage={true}/>
+            <TopSection title={title} tagline={tagLine} isLoginPage={true} />
             <InputEmailPassSection title={title} isEmailVerification={isEmailVerification} />
             {
                 !isEmailVerification && <hr />
@@ -34,7 +34,7 @@ const LoginRegis = ({ title, tagLine, isLogin, isEmailVerification = false }: Lo
             }
 
             {
-                !isEmailVerification && <GoogleFbSection title={title} />
+                !isEmailVerification && <GoogleFbSection title={title} isLogin={isLogin} />
 
             }
 
@@ -98,7 +98,7 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
     )
 }
 
-const GoogleFbSection = ({ title }: VerificationProp) => {
+const GoogleFbSection = ({ title, isLogin }: VerificationProp) => {
 
     const navigate = useNavigate()
     const { googleSignIn, userAcc, facebookSignIn, setUserAcc, user } = UserAuth()
@@ -131,7 +131,12 @@ const GoogleFbSection = ({ title }: VerificationProp) => {
     // }, [userAcc])
     useEffect(() => {
         if (user != null) {
-            navigate('/home')
+            if (isLogin) {
+                navigate('/home')
+            } else {
+                navigate('/join')
+            }
+
         }
     }, [user])
 

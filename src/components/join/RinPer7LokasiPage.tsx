@@ -1,3 +1,4 @@
+import { JoinPageType } from "../../pages/JoinPage"
 import TopSection from "../TopSection"
 import { useState } from "react"
 
@@ -15,7 +16,7 @@ type AddReceptionProp = Partial<RinPer7LokasiType> & {
     updateData: (field: Partial<RinPer7LokasiType>) => void
 }
 
-const RinPer7LokasiPage = ({ lokasiAkad, updateData, lokasiResepsi }: UpdateFormProps) => {
+const RinPer7LokasiPage = ({ lokasiAkad, updateData, lokasiResepsi, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
 
     const [addReception, setAddReception] = useState<boolean>(false)
     const addingReception = (e: any) => {
@@ -25,7 +26,7 @@ const RinPer7LokasiPage = ({ lokasiAkad, updateData, lokasiResepsi }: UpdateForm
     const locAd = `*Lokasi terhubung dengan Google Maps, jika lokasi tidak ditemukan, kamu bisa masukkan lintang dan bujur:`
     return (
         <>
-            <TopSection title="Lokasi Pernikahan" tagline="Masukkan lokasi akad dan resepsi pernikahan kamu." locAd={locAd} />
+            <TopSection title="Lokasi Pernikahan" tagline="Masukkan lokasi akad dan resepsi pernikahan kamu." locAd={locAd} storingData={storingData} />
             {
                 !addReception && <AddReception updateData={updateData} lokasiAkad={lokasiAkad} lokasiResepsi={lokasiResepsi} />
             }
