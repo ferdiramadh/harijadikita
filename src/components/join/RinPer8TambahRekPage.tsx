@@ -22,7 +22,7 @@ type AddRekeningProp = Partial<RinPer8TambahRekType> & {
     updateData: (field: Partial<RinPer8TambahRekType>) => void
 }
 
-const RinPer8TambahRekPage = ({ namaRekening, namaBank, noRek, namaRekening2, namaBank2, noRek2, updateData, addRekening, setAddRekening, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
+const RinPer8TambahRekPage = ({ namaRekening, namaBank, noRek, namaRekening2, namaBank2, noRek2, updateData, addRekening, setAddRekening }: UpdateFormProps & Partial<JoinPageType>) => {
 
 
     const addingRekening = (e: any) => {
@@ -31,7 +31,7 @@ const RinPer8TambahRekPage = ({ namaRekening, namaBank, noRek, namaRekening2, na
     }
     return (
         <>
-            <TopSection title="Tambah Rekening" tagline="Masukkan rekening kamu untuk menerima hadiah uang cashless dari tamu yang kamu undang." storingData={storingData} />
+            <TopSection title="Tambah Rekening" tagline="Masukkan rekening kamu untuk menerima hadiah uang cashless dari tamu yang kamu undang."  />
             <div className='form_container'>
                 {addRekening && <div className="title">
                     <h1 className="reception_title">Pemilik rekening ke-1</h1>

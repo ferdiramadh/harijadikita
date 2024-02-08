@@ -9,10 +9,10 @@ type UpdateFormProps = RinPer1NamaUndanganType & {
     updateData: (field: RinPer1NamaUndanganType) => void
 }
 
-const RinPer1NamaUndanganPage = ({ namaUndangan, updateData, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
+const RinPer1NamaUndanganPage = ({ namaUndangan, updateData }: UpdateFormProps & Partial<JoinPageType>) => {
     return (
         <>
-            <TopSection title="Nama undangan" tagline="Masukkan nama undangan yang akan ditampilkan di beberapa bagian fitur undangan." storingData={storingData}/>
+            <TopSection title="Nama undangan" tagline="Masukkan nama undangan yang akan ditampilkan di beberapa bagian fitur undangan." />
             <div className='form_container'>
                 <input placeholder="Nama undangan" type="text" value={namaUndangan} onChange={e => updateData({ namaUndangan: e.target.value })} />
                 <p className="example_text">contoh: Herlambang dan Nia wedding</p>

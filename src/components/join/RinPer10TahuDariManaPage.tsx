@@ -9,10 +9,10 @@ type UpdateFormProps = RinPer10TahuDariManaType & {
     updateData: (field: Partial<RinPer10TahuDariManaType>) => void
 }
 
-const RinPer10TahuDariManaPage = ({ tahuDariMana, updateData, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
+const RinPer10TahuDariManaPage = ({ tahuDariMana, updateData }: UpdateFormProps & Partial<JoinPageType>) => {
     return (
         <>
-            <TopSection title="Tahu harijadikita dari mana?" storingData={storingData} />
+            <TopSection title="Tahu harijadikita dari mana?"  />
             <div className='form_container'>
                 <div className="custom-select selected">
                     <select value={tahuDariMana} onChange={e => updateData({ tahuDariMana: e.target.value })}>

@@ -21,7 +21,7 @@ type AddReceptionProp = Partial<RinPer6TanggalWaktuType> & {
     updateData: (field: Partial<RinPer6TanggalWaktuType>) => void
 }
 
-const RinPer6TanggalWaktuPage = ({ tglAkad, wktAkad, tglResepsi, wktResepsi, updateData, addReception, setAddReception, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
+const RinPer6TanggalWaktuPage = ({ tglAkad, wktAkad, tglResepsi, wktResepsi, updateData, addReception, setAddReception }: UpdateFormProps & Partial<JoinPageType>) => {
 
 
     const addingReception = (e: any) => {
@@ -30,7 +30,7 @@ const RinPer6TanggalWaktuPage = ({ tglAkad, wktAkad, tglResepsi, wktResepsi, upd
     }
     return (
         <>
-            <TopSection title="Tanggal dan Waktu Pernikahan" tagline="Kamu bisa tambah lebih dari satu tanggal resepsi. Jika tidak ada resepsi, tidak perlu klik tombol ‘Tambah resepsi’" storingData={storingData} />
+            <TopSection title="Tanggal dan Waktu Pernikahan" tagline="Kamu bisa tambah lebih dari satu tanggal resepsi. Jika tidak ada resepsi, tidak perlu klik tombol ‘Tambah resepsi’"  />
 
 
             <div className='form_container'>

@@ -10,10 +10,10 @@ type UpdateFormProps = RinPer3UsernameInstagramType & {
     updateData: (field: Partial<RinPer3UsernameInstagramType>) => void
 }
 
-const RinPer3UsernameInstagramPage = ({ instaPengantinPria, instaPengantinWanita, updateData, storingData }: UpdateFormProps & Partial<JoinPageType>) => {
+const RinPer3UsernameInstagramPage = ({ instaPengantinPria, instaPengantinWanita, updateData }: UpdateFormProps & Partial<JoinPageType>) => {
     return (
         <>
-            <TopSection title="Username Instagram" tagline="Masukkan username Instagram pengantin untuk ditampilkan di undangan, kosongkan jika pengantin tidak memiliki akun instagram." storingData={storingData} />
+            <TopSection title="Username Instagram" tagline="Masukkan username Instagram pengantin untuk ditampilkan di undangan, kosongkan jika pengantin tidak memiliki akun instagram." />
             <div className='form_container'>
                 <input placeholder="Instagram pengantin pria" type="text" value={instaPengantinPria} onChange={e => updateData({ instaPengantinPria: e.target.value })} />
                 <input placeholder="Instagram pengantin wanita" type="text" value={instaPengantinWanita} onChange={e => updateData({ instaPengantinWanita: e.target.value })} />

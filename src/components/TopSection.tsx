@@ -9,11 +9,11 @@ type TopSectionProps = {
     isLoginPage?: boolean
 }
 
-const TopSection = ({ title, tagline, locAd, isLoginPage, storingData }: TopSectionProps & Partial<JoinPageType>) => {
+const TopSection = ({ title, tagline, locAd, isLoginPage }: TopSectionProps & Partial<JoinPageType>) => {
     return (
         <div className="top-sec-wrapper">
             {
-                isLoginPage ? <Logo /> : <LogoJoinSkip storingData={storingData} />
+                isLoginPage ? <Logo /> : <LogoJoinSkip />
             }
             <h1 className="top-title">{title}</h1>
             <div className='tagline'>
