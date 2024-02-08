@@ -12,10 +12,7 @@ import RinPer8TambahRekPage from '../components/join/RinPer8TambahRekPage'
 import RinPer9JumlahTamuPage from '../components/join/RinPer9JumlahTamuPage'
 import RinPer10TahuDariManaPage from '../components/join/RinPer10TahuDariManaPage'
 import RinPerProgress from '../components/RinPerProgress'
-import { UserAuth } from '../context/AuthContext'
-import { addDoc, collection } from "firebase/firestore"
-import { db } from "../firebase"
-import { useNavigate } from "react-router-dom"
+import { FormDataType, UserAuth } from '../context/AuthContext'
 
 export type ButtonType = {
   next(): void
@@ -27,88 +24,14 @@ export type JoinPageType = ButtonType & {
   steps: ReactElement[]
   isLastStep: boolean
   isFirstStep: boolean
-  storingData: () => Promise<void>
 }
 
-export type FormDataType = {
-  namaUndangan: string
-  pengantinPria: string
-  pengantinWanita: string
-  instaPengantinPria: string
-  instaPengantinWanita: string
-  ayahWaliPria: string
-  ibuWaliPria: string
-  anakKeBerapaPria: number
-  jmlSaudaraPria: number
-  ayahWaliWanita: string
-  ibuWaliWanita: string
-  anakKeBerapaWanita: number
-  jmlSaudaraWanita: number
-  tglAkad: string
-  wktAkad: string
-  tglResepsi: string
-  wktResepsi: string
-  lokasiAkad: string
-  lokasiResepsi: string
-  namaRekening: string
-  namaBank: string
-  noRek: string
-  namaRekening2: string
-  namaBank2: string
-  noRek2: string
-  jmlTamu: number
-  tahuDariMana: string
-  user: string
-}
-
-const INITIAL_DATA: FormDataType = {
-  namaUndangan: '',
-  pengantinPria: '',
-  pengantinWanita: "",
-  instaPengantinPria: "",
-  instaPengantinWanita: "",
-  ayahWaliPria: "",
-  ibuWaliPria: "",
-  anakKeBerapaPria: 0,
-  jmlSaudaraPria: 0,
-  ayahWaliWanita: "",
-  ibuWaliWanita: "",
-  anakKeBerapaWanita: 0,
-  jmlSaudaraWanita: 0,
-  tglAkad: "",
-  wktAkad: "",
-  tglResepsi: "",
-  wktResepsi: "",
-  lokasiAkad: "",
-  lokasiResepsi: "",
-  namaRekening: "",
-  namaBank: "",
-  noRek: "",
-  namaRekening2: "",
-  namaBank2: "",
-  noRek2: "",
-  jmlTamu: 0,
-  tahuDariMana: "",
-  user: ''
-}
 const JoinPage = () => {
 
-  const [data, setData] = useState(INITIAL_DATA)
+
   const [addReception, setAddReception] = useState<boolean>(false)
   const [addRekening, setAddRekening] = useState<boolean>(false)
-  const { user } = UserAuth()
-  const navigate = useNavigate()
-  const storingData = async () => {
-    try {
-      const docRef = await addDoc(collection(db, "userdata"), {
-        data
-      })
-      console.log(docRef)
-      navigate('/home')
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  const { user, data, setData } = UserAuth()
 
   function updateData(field: Partial<FormDataType>) {
     setData(prev => {
@@ -122,16 +45,16 @@ const JoinPage = () => {
   }, [user])
 
   const { step, steps, currentStepIndex, next, back, isFirstStep, isLastStep } = UseMultiStepForm([
-    <RinPer1NamaUndanganPage {...data} updateData={updateData} storingData={storingData}/>,
-    <RinPer2NamaPengantinPage {...data} updateData={updateData} storingData={storingData}/>,
-    <RinPer3UsernameInstagramPage {...data} updateData={updateData} storingData={storingData}/>,
-    <RinPer4KeluargaPengantinPriaPage {...data} updateData={updateData} storingData={storingData}/>,
-    <RinPer5KeluargaPengantinWanitaPage {...data} updateData={updateData} storingData={storingData}/>,
-    <RinPer6TanggalWaktuPage {...data} updateData={updateData} addReception={addReception} setAddReception={setAddReception} storingData={storingData}/>,
-    <RinPer7LokasiPage {...data} updateData={updateData} storingData={storingData}/>,
-    <RinPer8TambahRekPage {...data} updateData={updateData} addRekening={addRekening} setAddRekening={setAddRekening} storingData={storingData}/>,
-    <RinPer9JumlahTamuPage {...data} updateData={updateData} storingData={storingData}/>,
-    <RinPer10TahuDariManaPage {...data} updateData={updateData} storingData={storingData} />,
+    <RinPer1NamaUndanganPage {...data} updateData={updateData} />,
+    <RinPer2NamaPengantinPage {...data} updateData={updateData} />,
+    <RinPer3UsernameInstagramPage {...data} updateData={updateData} />,
+    <RinPer4KeluargaPengantinPriaPage {...data} updateData={updateData} />,
+    <RinPer5KeluargaPengantinWanitaPage {...data} updateData={updateData} />,
+    <RinPer6TanggalWaktuPage {...data} updateData={updateData} addReception={addReception} setAddReception={setAddReception} />,
+    <RinPer7LokasiPage {...data} updateData={updateData} />,
+    <RinPer8TambahRekPage {...data} updateData={updateData} addRekening={addRekening} setAddRekening={setAddRekening} />,
+    <RinPer9JumlahTamuPage {...data} updateData={updateData} />,
+    <RinPer10TahuDariManaPage {...data} updateData={updateData} />,
   ])
 
   return (
@@ -144,7 +67,6 @@ const JoinPage = () => {
             back={back}
             isFirstStep={isFirstStep}
             isLastStep={isLastStep}
-            storingData={storingData}
           />
           <RinPerProgress
             count={currentStepIndex + 1}
