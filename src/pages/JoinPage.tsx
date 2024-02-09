@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import RinPer1NamaUndanganPage from '../components/join/RinPer1NamaUndanganPage'
 import RinPer2NamaPengantinPage from '../components/join/RinPer2NamaPengantinPage'
 import { UseMultiStepForm } from '../hooks/Join/UseMultiStepForm'
@@ -12,6 +12,7 @@ import RinPer8TambahRekPage from '../components/join/RinPer8TambahRekPage'
 import RinPer9JumlahTamuPage from '../components/join/RinPer9JumlahTamuPage'
 import RinPer10TahuDariManaPage from '../components/join/RinPer10TahuDariManaPage'
 import RinPerProgress from '../components/RinPerProgress'
+import { FormDataType, UserAuth } from '../context/AuthContext'
 
 export type ButtonType = {
   next(): void
@@ -24,30 +25,54 @@ export type JoinPageType = ButtonType & {
   isLastStep: boolean
   isFirstStep: boolean
 }
-const PageList = [
-  <RinPer1NamaUndanganPage />,
-  <RinPer2NamaPengantinPage />,
-  <RinPer3UsernameInstagramPage />,
-  <RinPer4KeluargaPengantinPriaPage />,
-  <RinPer5KeluargaPengantinWanitaPage />,
-  <RinPer6TanggalWaktuPage />,
-  <RinPer7LokasiPage />,
-  <RinPer8TambahRekPage />,
-  <RinPer9JumlahTamuPage />,
-  <RinPer10TahuDariManaPage />,
-]
 
 const JoinPage = () => {
 
-  const { step, steps, currentStepIndex, next, back, isFirstStep, isLastStep } = UseMultiStepForm(PageList)
+
+  const [addReception, setAddReception] = useState<boolean>(false)
+  const [addRekening, setAddRekening] = useState<boolean>(false)
+  const { user, data, setData } = UserAuth()
+
+  function updateData(field: Partial<FormDataType>) {
+    setData(prev => {
+      return { ...prev, ...field }
+    })
+  }
+  useEffect(() => {
+    if (user != null) {
+      setData(prev => ({ ...prev, user: user.uid }))
+    }
+  }, [user])
+
+  const { step, steps, currentStepIndex, next, back, isFirstStep, isLastStep } = UseMultiStepForm([
+    <RinPer1NamaUndanganPage {...data} updateData={updateData} />,
+    <RinPer2NamaPengantinPage {...data} updateData={updateData} />,
+    <RinPer3UsernameInstagramPage {...data} updateData={updateData} />,
+    <RinPer4KeluargaPengantinPriaPage {...data} updateData={updateData} />,
+    <RinPer5KeluargaPengantinWanitaPage {...data} updateData={updateData} />,
+    <RinPer6TanggalWaktuPage {...data} updateData={updateData} addReception={addReception} setAddReception={setAddReception} />,
+    <RinPer7LokasiPage {...data} updateData={updateData} />,
+    <RinPer8TambahRekPage {...data} updateData={updateData} addRekening={addRekening} setAddRekening={setAddRekening} />,
+    <RinPer9JumlahTamuPage {...data} updateData={updateData} />,
+    <RinPer10TahuDariManaPage {...data} updateData={updateData} />,
+  ])
 
   return (
     <section className='template'>
       <form>
         {step}
         <div className='form_container'>
-          <RinPerButtonSection next={next} back={back} isFirstStep={isFirstStep} isLastStep={isLastStep} />
-          <RinPerProgress count={currentStepIndex + 1} steps={steps} />
+          <RinPerButtonSection
+            next={next}
+            back={back}
+            isFirstStep={isFirstStep}
+            isLastStep={isLastStep}
+          />
+          <RinPerProgress
+            count={currentStepIndex + 1}
+            steps={steps}
+          />
+          {/* <button type='button' onClick={() => console.log(data)}>Test</button> */}
         </div>
       </form>
     </section>

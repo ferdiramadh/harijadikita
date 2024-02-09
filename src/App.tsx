@@ -31,7 +31,7 @@ const Counter = () => {
   const count = useSelector((state: RootState) => state.counter.value)
   const dispatch = useDispatch<AppDispatch>()
 
-  return(
+  return (
     <div>
       <h2>{count}</h2>
       <div>
@@ -51,10 +51,8 @@ const router = createBrowserRouter(
       <Route path='/resetpassword' element={<ForgetPasswordPage />} />
       <Route element={<PrivateRoutes />}>
         <Route path='/home' element={<TemporerHomePage />} />
+        <Route path='/join' element={<JoinPage />} />
         {/* <Route path='/verification' element={<VerificationPage />} /> */}
-      </Route>
-      <Route>
-        <Route path='/join' element={<JoinPage />}/>
       </Route>
     </Route>
   )

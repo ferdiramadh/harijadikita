@@ -1,5 +1,6 @@
 import Logo from "./Logo"
 import LogoJoinSkip from "./LogoJoinSkip"
+import { JoinPageType } from "../pages/JoinPage"
 
 type TopSectionProps = {
     title: string
@@ -8,7 +9,7 @@ type TopSectionProps = {
     isLoginPage?: boolean
 }
 
-const TopSection = ({ title, tagline, locAd, isLoginPage }: TopSectionProps) => {
+const TopSection = ({ title, tagline, locAd, isLoginPage }: TopSectionProps & Partial<JoinPageType>) => {
     return (
         <div className="top-sec-wrapper">
             {
