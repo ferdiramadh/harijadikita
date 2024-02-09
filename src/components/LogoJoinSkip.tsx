@@ -8,12 +8,12 @@ import { db } from "../firebase"
 export default function LogoJoinSkip() {
 
   const navigate = useNavigate()
-  const { setIsFinishJoin, data } = UserAuth()
+  const { setIsFinishJoin, data, setData, INITIAL_DATA } = UserAuth()
   const skipData = async () => {
     try {
       setIsFinishJoin(false)
-      const docRef = await addDoc(collection(db, "userdata"), data)
-      console.log(docRef)
+      await addDoc(collection(db, "userdata"), data)
+      setData(INITIAL_DATA)
       navigate('/home')
     } catch (err) {
       console.log(err)

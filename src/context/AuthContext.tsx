@@ -24,6 +24,7 @@ type UserContextType = {
     setIsFinishJoin: React.Dispatch<React.SetStateAction<boolean>>
     data: FormDataType
     setData: React.Dispatch<React.SetStateAction<FormDataType>>
+    INITIAL_DATA: FormDataType
 }
 type UserCollectionProps = {
     email: string
@@ -73,41 +74,40 @@ export type FormDataType = {
     user: string
 }
 
-const INITIAL_DATA: FormDataType = {
-    namaUndangan: '',
-    pengantinPria: '',
-    pengantinWanita: "",
-    instaPengantinPria: "",
-    instaPengantinWanita: "",
-    ayahWaliPria: "",
-    ibuWaliPria: "",
-    anakKeBerapaPria: 0,
-    jmlSaudaraPria: 0,
-    ayahWaliWanita: "",
-    ibuWaliWanita: "",
-    anakKeBerapaWanita: 0,
-    jmlSaudaraWanita: 0,
-    tglAkad: "",
-    wktAkad: "",
-    tglResepsi: "",
-    wktResepsi: "",
-    lokasiAkad: "",
-    lokasiResepsi: "",
-    namaRekening: "",
-    namaBank: "",
-    noRek: "",
-    namaRekening2: "",
-    namaBank2: "",
-    noRek2: "",
-    jmlTamu: 0,
-    tahuDariMana: "",
-    user: ''
-}
 
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const [user, setUser] = useState<any>({})
     const [userAcc, setUserAcc] = useState<UserCollectionProps | DocumentData>(INITIAL_USER)
-
+    const INITIAL_DATA: FormDataType = {
+        namaUndangan: '',
+        pengantinPria: '',
+        pengantinWanita: "",
+        instaPengantinPria: "",
+        instaPengantinWanita: "",
+        ayahWaliPria: "",
+        ibuWaliPria: "",
+        anakKeBerapaPria: 0,
+        jmlSaudaraPria: 0,
+        ayahWaliWanita: "",
+        ibuWaliWanita: "",
+        anakKeBerapaWanita: 0,
+        jmlSaudaraWanita: 0,
+        tglAkad: "",
+        wktAkad: "",
+        tglResepsi: "",
+        wktResepsi: "",
+        lokasiAkad: "",
+        lokasiResepsi: "",
+        namaRekening: "",
+        namaBank: "",
+        noRek: "",
+        namaRekening2: "",
+        namaBank2: "",
+        noRek2: "",
+        jmlTamu: 0,
+        tahuDariMana: "",
+        user: ''
+    }
     const [isFinishJoin, setIsFinishJoin] = useState<boolean>(false)
     const [data, setData] = useState(INITIAL_DATA)
     const googleSignIn = () => {
@@ -185,7 +185,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     }, [user])
 
     return (
-        <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc, setIsFinishJoin, data, setData }}>
+        <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc, setIsFinishJoin, data, setData, INITIAL_DATA }}>
             {children}
         </AuthContext.Provider>
     )

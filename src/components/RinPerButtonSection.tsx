@@ -5,13 +5,13 @@ import { db } from "../firebase"
 import { useNavigate } from "react-router-dom"
 
 const RinPerButtonSection = ({ next, back, isLastStep, isFirstStep }: Partial<JoinPageType>) => {
-  const { setIsFinishJoin, data } = UserAuth()
+  const { setIsFinishJoin, data, setData, INITIAL_DATA } = UserAuth()
   const navigate = useNavigate()
   const storingData = async () => {
     try {
       setIsFinishJoin(true)
-      const docRef = await addDoc(collection(db, "userdata"), data)
-      console.log(docRef)
+      await addDoc(collection(db, "userdata"), data)
+      setData(INITIAL_DATA)
       navigate('/home')
     } catch (err) {
       console.log(err)
