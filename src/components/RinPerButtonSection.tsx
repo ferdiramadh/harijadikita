@@ -10,9 +10,7 @@ const RinPerButtonSection = ({ next, back, isLastStep, isFirstStep }: Partial<Jo
   const storingData = async () => {
     try {
       setIsFinishJoin(true)
-      const docRef = await addDoc(collection(db, "userdata"), {
-        data
-      })
+      const docRef = await addDoc(collection(db, "userdata"), data)
       console.log(docRef)
       navigate('/home')
     } catch (err) {
