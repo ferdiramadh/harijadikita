@@ -38,11 +38,13 @@ const TemporerHomePage = () => {
   }, [])
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
-      <div style={{ display: 'flex', height: '100%', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column'}}>
+      <div style={{ display: 'flex', height: '100%', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
         <h3>Welcome, {userAcc?.displayName}</h3>
         {user ? <button onClick={handleLogout}>Logout</button> : null}
+        {/* <button onClick={() => console.log(userData)}>userData</button> */}
       </div>
-      <DisplayUserData itemData={userData} />
+      {userData ? <DisplayUserData itemData={userData} /> : null}
+
     </div>
   )
 }
