@@ -107,7 +107,7 @@ const INITIAL_DATA: FormDataType = {
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const [user, setUser] = useState<any>({})
     const [userAcc, setUserAcc] = useState<UserCollectionProps | DocumentData>(INITIAL_USER)
-    const [userData, setUserData] = useState<FormDataType | DocumentData>()
+
     const [isFinishJoin, setIsFinishJoin] = useState<boolean>(false)
     const [data, setData] = useState(INITIAL_DATA)
     const googleSignIn = () => {
@@ -143,7 +143,8 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
                     displayName: userAcc?.displayName ? userAcc?.displayName : user.displayName,
                     email: user.email,
                     email_verified: userAcc?.email_verified ? userAcc?.email_verified : user.emailVerified,
-                    uid: user.uid
+                    uid: user.uid,
+                    isFinishJoin: user.isFinishJoin
                 }))
             }
 
@@ -166,23 +167,6 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         }
     }
 
-    const getUserData = async () => {
-
-        try {
-            console.log('cari user data')
-            const q = query(collection(db, "userdata"), where("uid", "==", user.uid))
-            const querySnapshot = await getDocs(q)
-            querySnapshot.forEach((doc) => {
-                const data = doc.data()
-                console.log(data)
-
-            })
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
@@ -199,11 +183,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
             getData()
         }
     }, [user])
-    useEffect(() => {
-        if (userAcc?.isFinishJoin) {
-            getUserData()
-        }
-    }, [userAcc])
+
     return (
         <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc, setIsFinishJoin, data, setData }}>
             {children}
