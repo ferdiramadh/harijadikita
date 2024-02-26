@@ -84,32 +84,32 @@ const DisplayUserData = ({ itemData }: DocumentData | FormDataType | any) => {
     <div>
       <h1>Data User</h1>
       <h5>Nama Undangan: {namaUndangan}</h5>
-      <h5>Pengantin Pria{pengantinPria}</h5>
-      <h5>Pengantin Wanita{pengantinWanita}</h5>
-      <h5>Instagram Pengantin Pria{instaPengantinPria}</h5>
-      <h5>Instagram Pengantin Wanita{instaPengantinWanita}</h5>
-      <h5>Ayah Wali Pria{ayahWaliPria}</h5>
-      <h5>Ibu Wali Pria{ibuWaliPria}</h5>
-      <h5>Pengantin Pria Anak Ke Berapa{anakKeBerapaPria}</h5>
-      <h5>Jumlah Saudara Pengantin Pria{jmlSaudaraPria}</h5>
-      <h5>Ayah Wali Wanita{ayahWaliWanita}</h5>
-      <h5>Ibu Wali Wanita{ibuWaliWanita}</h5>
-      <h5>Pengantin Wanita Anak Ke Berapa{anakKeBerapaWanita}</h5>
-      <h5>Jumlah Saudara Pengantin Wanita{jmlSaudaraWanita}</h5>
-      <h5>Tanggal Akad{tglAkad}</h5>
-      <h5>Waktu Akad{wktAkad}</h5>
-      <h5>Tanggal Resepsi{tglResepsi}</h5>
-      <h5>Waktu Resepsi{wktResepsi}</h5>
-      <h5>Lokasi Akad{lokasiAkad}</h5>
-      <h5>Lokasi Resepsi{lokasiResepsi}</h5>
-      <h5>Nama Rekening{namaRekening}</h5>
-      <h5>Nama Bank{namaBank}</h5>
-      <h5>Nomor Rekening{noRek}</h5>
-      <h5>Nama Rekening 2{namaRekening2}</h5>
-      <h5>Nama Bank 2{namaBank2}</h5>
-      <h5>Nomor Rekening 2{noRek2}</h5>
-      <h5>Jumlah Tamu{jmlTamu}</h5>
-      <h5>Tahu Dari Mana{tahuDariMana}</h5>
+      <h5>Pengantin Pria: {pengantinPria}</h5>
+      <h5>Pengantin Wanita: {pengantinWanita}</h5>
+      <h5>Instagram Pengantin Pria: {instaPengantinPria}</h5>
+      <h5>Instagram Pengantin Wanita: {instaPengantinWanita}</h5>
+      <h5>Ayah Wali Pria: {ayahWaliPria}</h5>
+      <h5>Ibu Wali Pria: {ibuWaliPria}</h5>
+      <h5>Pengantin Pria Anak Ke Berapa: {anakKeBerapaPria}</h5>
+      <h5>Jumlah Saudara Pengantin Pria: {jmlSaudaraPria}</h5>
+      <h5>Ayah Wali Wanita: {ayahWaliWanita}</h5>
+      <h5>Ibu Wali Wanita: {ibuWaliWanita}</h5>
+      <h5>Pengantin Wanita Anak Ke Berapa: {anakKeBerapaWanita}</h5>
+      <h5>Jumlah Saudara Pengantin Wanita: {jmlSaudaraWanita}</h5>
+      <h5>Tanggal Akad: {tglAkad}</h5>
+      <h5>Waktu Akad: {wktAkad}</h5>
+      <h5>Tanggal Resepsi: {tglResepsi}</h5>
+      <h5>Waktu Resepsi: {wktResepsi}</h5>
+      <h5>Lokasi Akad: {lokasiAkad}</h5>
+      <h5>Lokasi Resepsi: {lokasiResepsi}</h5>
+      <h5>Nama Rekening: {namaRekening}</h5>
+      <h5>Nama Bank: {namaBank}</h5>
+      <h5>Nomor Rekening: {noRek}</h5>
+      <h5>Nama Rekening 2: {namaRekening2}</h5>
+      <h5>Nama Bank 2: {namaBank2}</h5>
+      <h5>Nomor Rekening 2: {noRek2}</h5>
+      <h5>Jumlah Tamu: {jmlTamu}</h5>
+      <h5>Tahu Dari Mana: {tahuDariMana}</h5>
     </div>
   )
 }
