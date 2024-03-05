@@ -2,7 +2,7 @@ import { JoinPageType } from "../../pages/JoinPage"
 import TopSection from "../TopSection"
 import { IoIosCloseCircle } from "react-icons/io"
 import SearchableDropdown from "./SearchableDropdown"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BankList } from "../../utils/BankList"
 
 type RinPer8TambahRekType = {
@@ -27,12 +27,14 @@ type AddRekeningProp = Partial<RinPer8TambahRekType> & {
 
 const RinPer8TambahRekPage = ({ namaRekening, namaBank, noRek, namaRekening2, namaBank2, noRek2, updateData, addRekening, setAddRekening }: UpdateFormProps & Partial<JoinPageType>) => {
 
-
     const addingRekening = (e: any) => {
         e.preventDefault()
         setAddRekening(!addRekening)
     }
-    const [value, setValue] = useState("Pilih Bank...");
+    const [value, setValue] = useState(namaBank)
+    useEffect(() => {
+        updateData({ namaBank: value })
+    }, [value])
     return (
         <>
             <TopSection title="Tambah Rekening" tagline="Masukkan rekening kamu untuk menerima hadiah uang cashless dari tamu yang kamu undang." />
@@ -63,7 +65,10 @@ const RinPer8TambahRekPage = ({ namaRekening, namaBank, noRek, namaRekening2, na
 }
 
 const AddRekening = ({ onClick, namaRekening2, namaBank2, noRek2, updateData }: AddRekeningProp) => {
-    const [value, setValue] = useState("Pilih Bank...");
+    const [value, setValue] = useState(namaBank2)
+    useEffect(() => {
+        updateData({ namaBank2: value })
+    }, [value])
     return (
         <>
             <div className="title">
@@ -73,12 +78,12 @@ const AddRekening = ({ onClick, namaRekening2, namaBank2, noRek2, updateData }: 
             <input placeholder="Nama pemilik rekening " type="text" value={namaRekening2} onChange={e => updateData({ namaRekening2: e.target.value })} />
             {/* <input placeholder="Pilih bank" type="text" value={namaBank2} onChange={e => updateData({ namaBank2: e.target.value })} /> */}
             <SearchableDropdown
-                    options={BankList}
-                    label="name"
-                    id="id"
-                    selectedVal={value}
-                    handleChange={(val: any) => setValue(val)}
-                />
+                options={BankList}
+                label="name"
+                id="id"
+                selectedVal={value}
+                handleChange={(val: any) => setValue(val)}
+            />
             <input placeholder="Masukkan no. rekening" type="text" value={noRek2} onChange={e => updateData({ noRek2: e.target.value })} />
         </>
     )
