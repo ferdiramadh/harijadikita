@@ -48,7 +48,11 @@ const SearchableDropdown = ({
             (option: any) => option[label].toLowerCase().indexOf(query.toLowerCase()) > -1
         );
     };
-
+    useEffect(() => {
+        if(isOpen) {
+            handleChange("")
+        }
+    }, [isOpen])
     return (
         <div className="dropdown">
             <div className="control">
