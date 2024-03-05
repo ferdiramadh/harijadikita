@@ -5,12 +5,9 @@
     position: relative;
     color: #333;
     cursor: default;
-    // background-color: $dark;
     align-self: center;
 }
-// .control{
-//     background-color: red;
-// }
+
 .dropdown .arrow {
     border-color: #999 transparent transparent;
     border-style: solid;
@@ -23,7 +20,6 @@
     right: 10px;
     top: 35px;
     width: 0;
-    // background-color: yellow;
 }
 
 .dropdown .arrow.open {
@@ -33,17 +29,7 @@
 
 .dropdown .selected-value input {
     @include input-template;
-    // line-height: 1.5;
-    // font-size: 1rem;
-    // background-color: #fff;
-    // border: 1px solid #ccc;
-    // border-radius: 2px;
-    // box-sizing: border-box;
-    // cursor: default;
-    // outline: none;
-    // padding: 8px 52px 8px 10px;
     transition: all 200ms ease;
-    // width: 100%;
 }
 
 .dropdown .options {

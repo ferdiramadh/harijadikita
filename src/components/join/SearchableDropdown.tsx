@@ -18,7 +18,7 @@ const SearchableDropdown = ({
 
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
-
+    const placeHolder = `${isOpen? "Cari": "Pilih"} Bank`
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -67,6 +67,7 @@ const SearchableDropdown = ({
                             handleChange(null);
                         }}
                         onClick={toggle}
+                        placeholder={placeHolder}
                     />
                 </div>
                 <div className={`arrow ${isOpen ? "open" : ""}`}></div>
