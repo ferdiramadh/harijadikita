@@ -18,16 +18,23 @@ const RinPer4KeluargaPengantinPriaPage = ({ ayahWaliPria, ibuWaliPria, anakKeBer
         if (isNaN(field)) return 0
         return field
     }
+    const handleChange = (e: any, isJumlah: boolean) => {
+        if (isJumlah) {
+            updateData({ jmlSaudaraPria: parseInt(e.target.value) })
+        } else {
+            updateData({ anakKeBerapaPria: parseInt(e.target.value) })
+        }
+    }
     return (
         <>
-            <TopSection title="Keluarga Pengantin Pria" tagline="Masukkan profil keluarga pengantin pria."  />
+            <TopSection title="Keluarga Pengantin Pria" tagline="Masukkan profil keluarga pengantin pria." />
             <div className='form_container'>
                 <input placeholder="Nama ayah/wali" type="text" value={ayahWaliPria} onChange={e => updateData({ ayahWaliPria: e.target.value })} />
                 <input placeholder="Nama ibu/wali" type="text" value={ibuWaliPria} onChange={e => updateData({ ibuWaliPria: e.target.value })} />
                 <label>Pengantin pria anak ke berapa</label>
-                <input type="number" value={setToZero(anakKeBerapaPria)} onChange={e => updateData({ anakKeBerapaPria: parseInt(e.target.value) })} />
+                <input placeholder="Pengantin pria anak ke berapa" value={setToZero(anakKeBerapaPria)} onChange={e => handleChange(e, false)} />
                 <label>Jumlah saudara pengantin pria</label>
-                <input type="number" value={setToZero(jmlSaudaraPria)} onChange={e => updateData({ jmlSaudaraPria: parseInt(e.target.value) })} />
+                <input placeholder="Jumlah saudara pengantin pria" value={setToZero(jmlSaudaraPria)} onChange={e => handleChange(e, true)} />
             </div>
         </>
     )

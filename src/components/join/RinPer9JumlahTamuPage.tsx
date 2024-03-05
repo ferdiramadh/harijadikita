@@ -18,7 +18,7 @@ const RinPer9JumlahTamuPage = ({ jmlTamu, updateData }: UpdateFormProps & Partia
         <>
             <TopSection title="Jumlah Tamu" tagline="Masukkan estimasi jumlah tamu yang akan diundang."  />
             <div className='form_container'>
-                <input placeholder="Jumlah tamu yang diundang" type="number" value={setToZero(jmlTamu)} onChange={e => updateData({ jmlTamu: parseInt(e.target.value) })} />
+                <input placeholder="Jumlah tamu yang diundang" value={setToZero(jmlTamu)} onChange={e => updateData({ jmlTamu: parseInt(e.target.value) })} />
             </div>
         </>
     )
