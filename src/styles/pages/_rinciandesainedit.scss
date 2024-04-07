@@ -1,0 +1,8 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.editRinDesPage {
+    @include breakpoint(sm) {
+        height: 110vh;
+      }
+}
