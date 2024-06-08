@@ -1,21 +1,16 @@
 import TopSection from "../TopSection"
-import { JoinPageType } from "../../pages/JoinPage"
+import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
+import { useSelector } from "react-redux"
+import { RootState } from "../../redux/store"
 
-type RinPer10TahuDariManaType = {
-    tahuDariMana: string
-}
-
-type UpdateFormProps = RinPer10TahuDariManaType & {
-    updateData: (field: Partial<RinPer10TahuDariManaType>) => void
-}
-
-const RinPer10TahuDariManaPage = ({ tahuDariMana, updateData }: UpdateFormProps & Partial<JoinPageType>) => {
+const RinPer10TahuDariManaPage = () => {
+    const { tahuDariMana } = useSelector((state: RootState) => state.rinper.data)
     return (
         <>
             <TopSection title="Tahu harijadikita dari mana?"  />
             <div className='form_container'>
                 <div className="custom-select selected">
-                    <select value={tahuDariMana} onChange={e => updateData({ tahuDariMana: e.target.value })}>
+                    <select value={tahuDariMana} onChange={e => updateRincianPernikahan({ tahuDariMana: e.target.value })}>
                         <option className="select-items">Instagram</option>
                         <option className="select-items">Facebook</option>
                         <option className="select-items">Twitter</option>

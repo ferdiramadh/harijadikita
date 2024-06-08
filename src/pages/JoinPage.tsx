@@ -45,16 +45,16 @@ const JoinPage = () => {
   }, [user])
 
   const { step, steps, currentStepIndex, next, back, isFirstStep, isLastStep } = UseMultiStepForm([
-    <RinPer1NamaUndanganPage {...data} updateData={updateData} />,
-    <RinPer2NamaPengantinPage {...data} updateData={updateData} />,
-    <RinPer3UsernameInstagramPage {...data} updateData={updateData} />,
-    <RinPer4KeluargaPengantinPriaPage {...data} updateData={updateData} />,
-    <RinPer5KeluargaPengantinWanitaPage {...data} updateData={updateData} />,
-    <RinPer6TanggalWaktuPage {...data} updateData={updateData} addReception={addReception} setAddReception={setAddReception} />,
-    <RinPer7LokasiPage {...data} updateData={updateData} />,
-    <RinPer8TambahRekPage {...data} updateData={updateData} addRekening={addRekening} setAddRekening={setAddRekening} />,
-    <RinPer9JumlahTamuPage {...data} updateData={updateData} />,
-    <RinPer10TahuDariManaPage {...data} updateData={updateData} />,
+    <RinPer1NamaUndanganPage />,
+    <RinPer2NamaPengantinPage />,
+    <RinPer3UsernameInstagramPage />,
+    <RinPer4KeluargaPengantinPriaPage />,
+    <RinPer5KeluargaPengantinWanitaPage />,
+    <RinPer6TanggalWaktuPage addReception={addReception} setAddReception={setAddReception} />,
+    <RinPer7LokasiPage />,
+    <RinPer8TambahRekPage addRekening={addRekening} setAddRekening={setAddRekening} />,
+    <RinPer9JumlahTamuPage />,
+    <RinPer10TahuDariManaPage />,
   ])
 
   return (

@@ -1,22 +1,16 @@
-import { JoinPageType } from "../../pages/JoinPage"
+import { useSelector } from "react-redux"
+import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
 import TopSection from "../TopSection"
+import { RootState } from "../../redux/store"
 
-type RinPer2NamaPengantinType = {
-    pengantinPria: string
-    pengantinWanita: string
-}
-
-type UpdateFormProps = RinPer2NamaPengantinType & {
-    updateData: (field: Partial<RinPer2NamaPengantinType>) => void
-}
-
-const RinPer2NamaPengantinPage = ({ pengantinPria, pengantinWanita, updateData }: UpdateFormProps & Partial<JoinPageType>) => {
+const RinPer2NamaPengantinPage = () => {
+    const { pengantinPria, pengantinWanita } = useSelector((state: RootState) => state.rinper.data)
     return (
         <>
             <TopSection title="Nama Pengantin" tagline="Masukkan nama kamu dan pasangan." />
             <div className='form_container'>
-                <input placeholder="Pengantin pria" type="text" value={pengantinPria} onChange={e => updateData({ pengantinPria: e.target.value })} />
-                <input placeholder="Pengantin wanita" type="text" value={pengantinWanita} onChange={e => updateData({ pengantinWanita: e.target.value })} />
+                <input placeholder="Pengantin pria" type="text" value={pengantinPria} onChange={e => updateRincianPernikahan({ pengantinPria: e.target.value })} />
+                <input placeholder="Pengantin wanita" type="text" value={pengantinWanita} onChange={e => updateRincianPernikahan({ pengantinWanita: e.target.value })} />
             </div>
         </>
     )

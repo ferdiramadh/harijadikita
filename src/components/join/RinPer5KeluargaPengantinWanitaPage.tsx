@@ -1,36 +1,27 @@
-import { JoinPageType } from "../../pages/JoinPage"
+import { useSelector } from "react-redux"
+import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
 import TopSection from "../TopSection"
+import { RootState } from "../../redux/store"
 
-type RinPer5KeluargaPengantinWanitaType = {
-    ayahWaliWanita: string
-    ibuWaliWanita: string
-    anakKeBerapaWanita: number
-    jmlSaudaraWanita: number
-}
-
-type UpdateFormProps = RinPer5KeluargaPengantinWanitaType & {
-    updateData: (field: Partial<RinPer5KeluargaPengantinWanitaType>) => void
-}
-
-const RinPer5KeluargaPengantinWanitaPage = ({ ayahWaliWanita, ibuWaliWanita, anakKeBerapaWanita, jmlSaudaraWanita, updateData }: UpdateFormProps & Partial<JoinPageType>) => {
-
+const RinPer5KeluargaPengantinWanitaPage = () => {
+    const { ayahWaliWanita, ibuWaliWanita, anakKeBerapaWanita, jmlSaudaraWanita } = useSelector((state: RootState) => state.rinper.data)
     function setToZero(field: number) {
         if (isNaN(field)) return 0
         return field
     }
     const handleChange = (e: any, isJumlah: boolean) => {
         if (isJumlah) {
-            updateData({ jmlSaudaraWanita: parseInt(e.target.value) })
+            updateRincianPernikahan({ jmlSaudaraWanita: parseInt(e.target.value) })
         } else {
-            updateData({ anakKeBerapaWanita: parseInt(e.target.value) })
+            updateRincianPernikahan({ anakKeBerapaWanita: parseInt(e.target.value) })
         }
     }
     return (
         <>
             <TopSection title="Keluarga Pengantin Wanita" tagline="Masukkan profil keluarga pengantin wanita." />
             <div className='form_container'>
-                <input placeholder="Nama ayah/wali" type="text" value={ayahWaliWanita} onChange={e => updateData({ ayahWaliWanita: e.target.value })} />
-                <input placeholder="Nama ibu/wali" type="text" value={ibuWaliWanita} onChange={e => updateData({ ibuWaliWanita: e.target.value })} />
+                <input placeholder="Nama ayah/wali" type="text" value={ayahWaliWanita} onChange={e => updateRincianPernikahan({ ayahWaliWanita: e.target.value })} />
+                <input placeholder="Nama ibu/wali" type="text" value={ibuWaliWanita} onChange={e => updateRincianPernikahan({ ibuWaliWanita: e.target.value })} />
                 <label>Pengantin wanita anak ke berapa</label>
                 <input placeholder="Pengantin wanita anak ke berapa" value={setToZero(anakKeBerapaWanita)} onChange={e => handleChange(e, false)} />
                 <label>Jumlah saudara pengantin wanita</label>

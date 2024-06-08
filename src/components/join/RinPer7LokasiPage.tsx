@@ -16,26 +16,14 @@ import {
 } from "@reach/combobox"
 import "@reach/combobox/styles.css"
 import React from "react"
-
-type RinPer7LokasiType = {
-    lokasiAkad: string
-    lokasiResepsi: string
-}
-
-type UpdateFormProps = RinPer7LokasiType & {
-    updateData: (field: Partial<RinPer7LokasiType>) => void
-}
-
-type AddReceptionProp = Partial<RinPer7LokasiType> & {
-    onClick?: (e: any) => void
-    updateData: (field: Partial<RinPer7LokasiType>) => void
-}
+import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
+import { useSelector } from "react-redux"
+import { RootState } from "../../redux/store"
 
 type PlacesAutoCompleteType = {
     setSelected: React.Dispatch<React.SetStateAction<LatLngType | null>>
     placeholder: string
     isAkad: boolean
-    updateData: (field: Partial<RinPer7LokasiType>) => void
 }
 
 type LatLngType = {
@@ -43,8 +31,8 @@ type LatLngType = {
     lng: number
 }
 
-const RinPer7LokasiPage = ({ lokasiAkad, updateData, lokasiResepsi }: UpdateFormProps & Partial<JoinPageType>) => {
-
+const RinPer7LokasiPage = () => {
+    const { lokasiAkad, lokasiResepsi } = useSelector((state: RootState) => state.rinper.data)
     const [addReception, setAddReception] = useState<boolean>(false)
     const locAd = `*Lokasi terhubung dengan Google Maps, jika lokasi tidak ditemukan, kamu bisa masukkan lintang dan bujur:`
 
@@ -52,7 +40,7 @@ const RinPer7LokasiPage = ({ lokasiAkad, updateData, lokasiResepsi }: UpdateForm
         <>
             <TopSection title="Lokasi Pernikahan" tagline="Masukkan lokasi akad dan resepsi pernikahan kamu." locAd={locAd} />
             {
-                !addReception && <AddReception updateData={updateData} lokasiAkad={lokasiAkad} lokasiResepsi={lokasiResepsi} />
+                !addReception && <AddReception/>
             }
             {
                 addReception &&
@@ -67,7 +55,7 @@ const RinPer7LokasiPage = ({ lokasiAkad, updateData, lokasiResepsi }: UpdateForm
     )
 }
 
-const AddReception = ({ lokasiAkad, updateData, lokasiResepsi }: AddReceptionProp) => {
+const AddReception = () => {
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
         libraries: ["places"]
@@ -81,26 +69,26 @@ const AddReception = ({ lokasiAkad, updateData, lokasiResepsi }: AddReceptionPro
             </div>
             <div className="title">
                 {
-                    isLoaded && <PlacesAutoComplete setSelected={setSelected} placeholder="Cari lokasi akad" updateData={updateData} isAkad={true} />
+                    isLoaded && <PlacesAutoComplete setSelected={setSelected} placeholder="Cari lokasi akad" isAkad={true} />
                 }
             </div>
 
-            {/* <input placeholder="Cari lokasi akad" type="text" value={lokasiAkad} onChange={e => updateData({ lokasiAkad: e.target.value })} /> */}
+            {/* <input placeholder="Cari lokasi akad" type="text" value={lokasiAkad} onChange={e => updateRincianPernikahan({ lokasiAkad: e.target.value })} /> */}
             <div className="title">
                 <h1 className="reception_title">Resepsi</h1>
             </div>
             <div className="title">
                 {
-                    isLoaded && <PlacesAutoComplete setSelected={setSelected} placeholder="Cari lokasi resepsi" updateData={updateData} isAkad={false} />
+                    isLoaded && <PlacesAutoComplete setSelected={setSelected} placeholder="Cari lokasi resepsi" isAkad={false} />
                 }
             </div>
-            {/* <input placeholder="Cari lokasi resepsi" type="text" value={lokasiResepsi} onChange={e => updateData({ lokasiResepsi: e.target.value })} /> */}
+            {/* <input placeholder="Cari lokasi resepsi" type="text" value={lokasiResepsi} onChange={e => updateRincianPernikahan({ lokasiResepsi: e.target.value })} /> */}
             {/* <input placeholder="Cari lokasi resepsi ke-2" type="text" /> */}
         </div>
     )
 }
 
-const PlacesAutoComplete = ({ setSelected, placeholder, updateData, isAkad }: PlacesAutoCompleteType) => {
+const PlacesAutoComplete = ({ setSelected, placeholder, isAkad }: PlacesAutoCompleteType) => {
     const {
         ready,
         value,
@@ -111,7 +99,7 @@ const PlacesAutoComplete = ({ setSelected, placeholder, updateData, isAkad }: Pl
     const propKey = isAkad ? "lokasiAkad" : "lokasiResepsi"
     const handleSelect = async (address: string) => {
         setValue(address, false)
-        updateData({ [propKey]: address })
+        updateRincianPernikahan({ [propKey]: address })
         clearSuggestions()
 
         const results = await getGeocode({ address })
