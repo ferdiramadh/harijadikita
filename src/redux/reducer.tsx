@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { UserProps, UserReducer } from './UserRedux'
 
-export interface RootState {
+export interface RootStatex {
    USER: UserProps
 }
 
