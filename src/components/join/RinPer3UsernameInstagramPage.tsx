@@ -1,17 +1,20 @@
-import { useDispatch, useSelector } from "react-redux"
-import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
 import TopSection from "../TopSection"
-import { AppDispatch, RootState } from "../../redux/store"
+import { FormDataType, UserAuth } from "../../context/AuthContext"
 
 const RinPer3UsernameInstagramPage = () => {
-    const { instaPengantinPria, instaPengantinWanita } = useSelector((state: RootState) => state.rinper.data)
-    const dispatch = useDispatch<AppDispatch>()
+    const { data, setData } = UserAuth()
+    const { instaPengantinPria, instaPengantinWanita } = data
+    function updateData(field: Partial<FormDataType>) {
+        setData(prev => {
+            return { ...prev, ...field }
+        })
+    }
     return (
         <>
             <TopSection title="Username Instagram" tagline="Masukkan username Instagram pengantin untuk ditampilkan di undangan, kosongkan jika pengantin tidak memiliki akun instagram." />
             <div className='form_container'>
-                <input placeholder="Instagram pengantin pria" type="text" value={instaPengantinPria} onChange={e => dispatch(updateRincianPernikahan({ instaPengantinPria: e.target.value }))} />
-                <input placeholder="Instagram pengantin wanita" type="text" value={instaPengantinWanita} onChange={e => dispatch(updateRincianPernikahan({ instaPengantinWanita: e.target.value }))} />
+                <input placeholder="Instagram pengantin pria" type="text" value={instaPengantinPria} onChange={e => updateData({ instaPengantinPria: e.target.value })} />
+                <input placeholder="Instagram pengantin wanita" type="text" value={instaPengantinWanita} onChange={e => updateData({ instaPengantinWanita: e.target.value })} />
             </div>
         </>
     )

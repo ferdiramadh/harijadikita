@@ -3,9 +3,7 @@ import { IoIosCloseCircle } from "react-icons/io"
 import SearchableDropdown from "./SearchableDropdown"
 import { useEffect, useState } from "react"
 import { BankList } from "../../utils/BankList"
-import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../../redux/store"
+import { FormDataType, UserAuth } from "../../context/AuthContext"
 
 type RinPer8TambahRekType = {
     addRekening: boolean
@@ -13,6 +11,10 @@ type RinPer8TambahRekType = {
 }
 type AddRekeningProp = Partial<RinPer8TambahRekType> & {
     onClick?: (e: any) => void
+    updateData(field: Partial<FormDataType>): void
+    namaRekening2: string
+    namaBank2: string
+    noRek2: string
 }
 
 const RinPer8TambahRekPage = ({
@@ -20,15 +22,20 @@ const RinPer8TambahRekPage = ({
     setAddRekening
 }: RinPer8TambahRekType) => {
 
-    const { namaRekening, namaBank, noRek } = useSelector((state: RootState) => state.rinper.data)
-    const dispatch = useDispatch<AppDispatch>()
+    const { data, setData } = UserAuth()
+    const { namaBank, namaRekening, noRek, namaRekening2, namaBank2, noRek2 } = data
+    function updateData(field: Partial<FormDataType>) {
+        setData(prev => {
+            return { ...prev, ...field }
+        })
+    }
     const addingRekening = (e: any) => {
         e.preventDefault()
         setAddRekening(!addRekening)
     }
     const [value, setValue] = useState(namaBank)
     useEffect(() => {
-        dispatch(updateRincianPernikahan({ namaBank: value }))
+        updateData({ namaBank: value })
     }, [value])
 
     return (
@@ -45,7 +52,7 @@ const RinPer8TambahRekPage = ({
                     placeholder="Nama pemilik rekening "
                     type="text"
                     value={namaRekening}
-                    onChange={e => dispatch(updateRincianPernikahan({ namaRekening: e.target.value }))}
+                    onChange={e => updateData({ namaRekening: e.target.value })}
                 />
                 <SearchableDropdown
                     options={BankList}
@@ -58,7 +65,7 @@ const RinPer8TambahRekPage = ({
                     placeholder="Masukkan no. rekening"
                     type="text"
                     value={noRek}
-                    onChange={e => dispatch(updateRincianPernikahan({ noRek: e.target.value }))}
+                    onChange={e => updateData({ noRek: e.target.value })}
                 />
                 {!addRekening && <a href="/" onClick={addingRekening}>Tambah rekening</a>}
                 {
@@ -66,6 +73,10 @@ const RinPer8TambahRekPage = ({
                     &&
                     <AddRekening
                         onClick={addingRekening}
+                        updateData={updateData}
+                        namaRekening2={namaRekening2}
+                        namaBank2={namaBank2}
+                        noRek2={noRek2}
                     />
                 }
             </div>
@@ -74,13 +85,11 @@ const RinPer8TambahRekPage = ({
 }
 
 const AddRekening = ({
-    onClick
+    onClick, updateData, namaRekening2, namaBank2, noRek2
 }: AddRekeningProp) => {
-    const { namaRekening2, namaBank2, noRek2 } = useSelector((state: RootState) => state.rinper.data)
-    const dispatch = useDispatch<AppDispatch>()
     const [value, setValue] = useState(namaBank2)
     useEffect(() => {
-        dispatch(updateRincianPernikahan({ namaBank2: value }))
+        updateData({ namaBank2: value })
     }, [value])
 
     return (
@@ -93,7 +102,7 @@ const AddRekening = ({
                 placeholder="Nama pemilik rekening "
                 type="text"
                 value={namaRekening2}
-                onChange={e => dispatch(updateRincianPernikahan({ namaRekening2: e.target.value }))}
+                onChange={e => updateData({ namaRekening2: e.target.value })}
             />
             <SearchableDropdown
                 options={BankList}
@@ -106,7 +115,7 @@ const AddRekening = ({
                 placeholder="Masukkan no. rekening"
                 type="text"
                 value={noRek2}
-                onChange={e => dispatch(updateRincianPernikahan({ noRek2: e.target.value }))}
+                onChange={e => updateData({ noRek2: e.target.value })}
             />
         </>
     )

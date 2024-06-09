@@ -1,4 +1,3 @@
-import { JoinPageType } from "../../pages/JoinPage"
 import TopSection from "../TopSection"
 import { useMemo, useState } from "react"
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
@@ -16,9 +15,7 @@ import {
 } from "@reach/combobox"
 import "@reach/combobox/styles.css"
 import React from "react"
-import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../../redux/store"
+import { FormDataType, UserAuth } from "../../context/AuthContext"
 
 type PlacesAutoCompleteType = {
     setSelected: React.Dispatch<React.SetStateAction<LatLngType | null>>
@@ -39,7 +36,7 @@ const RinPer7LokasiPage = () => {
         <>
             <TopSection title="Lokasi Pernikahan" tagline="Masukkan lokasi akad dan resepsi pernikahan kamu." locAd={locAd} />
             {
-                !addReception && <AddReception/>
+                !addReception && <AddReception />
             }
             {
                 addReception &&
@@ -95,16 +92,21 @@ const PlacesAutoComplete = ({ setSelected, placeholder, isAkad }: PlacesAutoComp
         suggestions: { status, data },
         clearSuggestions
     } = usePlacesAutocomplete()
-    const dispatch = useDispatch<AppDispatch>()
+    const { setData } = UserAuth()
+    function updateData(field: Partial<FormDataType>) {
+        setData(prev => {
+            return { ...prev, ...field }
+        })
+    }
     const propKey = isAkad ? "lokasiAkad" : "lokasiResepsi"
     const handleSelect = async (address: string) => {
         try {
             setValue(address, false)
-            dispatch(updateRincianPernikahan({ [propKey]: address }))
+            updateData({ [propKey]: address })
             clearSuggestions()
-    
+
             const results = await getGeocode({ address })
-            console.log({results})
+            console.log({ results })
             const { lat, lng } = await getLatLng(results[0])
             setSelected({ lat, lng })
         } catch (error) {

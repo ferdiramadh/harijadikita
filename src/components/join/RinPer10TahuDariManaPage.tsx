@@ -1,17 +1,20 @@
 import TopSection from "../TopSection"
-import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../../redux/store"
+import { FormDataType, UserAuth } from "../../context/AuthContext"
 
 const RinPer10TahuDariManaPage = () => {
-    const { tahuDariMana } = useSelector((state: RootState) => state.rinper.data)
-    const dispatch = useDispatch<AppDispatch>()
+    const { data, setData } = UserAuth()
+    const { tahuDariMana } = data
+    function updateData(field: Partial<FormDataType>) {
+        setData(prev => {
+            return { ...prev, ...field }
+        })
+    }
     return (
         <>
-            <TopSection title="Tahu harijadikita dari mana?"  />
+            <TopSection title="Tahu harijadikita dari mana?" />
             <div className='form_container'>
                 <div className="custom-select selected">
-                    <select value={tahuDariMana} onChange={e => dispatch(updateRincianPernikahan({ tahuDariMana: e.target.value }))}>
+                    <select value={tahuDariMana} onChange={e => updateData({ tahuDariMana: e.target.value })}>
                         <option className="select-items">Instagram</option>
                         <option className="select-items">Facebook</option>
                         <option className="select-items">Twitter</option>
