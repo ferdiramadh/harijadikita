@@ -14,6 +14,7 @@ const TemporerHomePage = () => {
   const navigate = useNavigate()
   const { logOut, userAcc, user, setUserAcc } = UserAuth()
   const [userData, setUserData] = useState<FormDataType | DocumentData>()
+  const data = useSelector((state: RootState) => state.rinper.data)
   const handleLogout = async () => {
     try {
       await logOut()
@@ -24,20 +25,10 @@ const TemporerHomePage = () => {
   }
   const dispatch = useDispatch<AppDispatch>()
   const getUserData = async () => {
-    console.log("user.uid "+ user.uid)
     try {
-      console.log('cari user data ' + user.uid)
-      const q = query(collection(db, "userdata"), where("user", "==", user.uid))
-      const querySnapshot = await getDocs(q)
       const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
-      console.log({rinperData})
+      console.log({ rinperData })
       dispatch(setRincianPernikahan(rinperData))
-      querySnapshot.forEach((doc) => {
-        const data = doc.data()
-        // console.log(data)
-        setUserData(data)
-
-      })
 
     } catch (err) {
       console.log(err)
@@ -45,11 +36,11 @@ const TemporerHomePage = () => {
   }
 
   useEffect(() => {
-    if(userAcc?.uid == "") {
+    if (data?.user == "") {
       getUserData()
     }
 
-  }, [userAcc])
+  }, [data])
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
       <div style={{ display: 'flex', height: '100%', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
