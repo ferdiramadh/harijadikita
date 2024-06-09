@@ -1,9 +1,17 @@
 import { FormDataType, UserAuth } from '../context/AuthContext'
 import { useEffect, useState } from 'react'
-import { DocumentData, addDoc, collection, getDocs, query, where } from "firebase/firestore"
+import { DocumentData, addDoc, collection, doc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore"
 import { db } from "../firebase"
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../redux/store'
+import { updateRincianPernikahan, setRincianPernikahan } from '../redux/state/rinper/rinperSlice'
+import { addDocWithId, getDataCollection } from '../database/Functions'
+import { RINCIAN_PERNIKAHAN } from '../database/Collections'
+import { useNavigate } from 'react-router-dom'
 
 const TemporerHomePage = () => {
+
+  const navigate = useNavigate()
   const { logOut, userAcc, user, setUserAcc } = UserAuth()
   const [userData, setUserData] = useState<FormDataType | DocumentData>()
   const handleLogout = async () => {
@@ -14,17 +22,19 @@ const TemporerHomePage = () => {
       alert(error)
     }
   }
-
+  const dispatch = useDispatch<AppDispatch>()
   const getUserData = async () => {
-
+    console.log("user.uid "+ user.uid)
     try {
       console.log('cari user data ' + user.uid)
       const q = query(collection(db, "userdata"), where("user", "==", user.uid))
       const querySnapshot = await getDocs(q)
-
+      const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
+      console.log({rinperData})
+      dispatch(setRincianPernikahan(rinperData))
       querySnapshot.forEach((doc) => {
         const data = doc.data()
-        console.log(data)
+        // console.log(data)
         setUserData(data)
 
       })
@@ -33,23 +43,27 @@ const TemporerHomePage = () => {
       console.log(err)
     }
   }
+
   useEffect(() => {
-    getUserData()
-  }, [])
+    if(userAcc?.uid == "") {
+      getUserData()
+    }
+
+  }, [userAcc])
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
       <div style={{ display: 'flex', height: '100%', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
         <h3>Welcome, {userAcc?.displayName}</h3>
         {user ? <button onClick={handleLogout}>Logout</button> : null}
-        {/* <button onClick={() => console.log(userData)}>userData</button> */}
+        <button onClick={() => navigate("/rinciandesain")}>GO To Edit Rincian Desain </button>
       </div>
-      {userData ? <DisplayUserData itemData={userData} /> : null}
+      <DisplayUserData />
 
     </div>
   )
 }
 
-const DisplayUserData = ({ itemData }: DocumentData | FormDataType | any) => {
+const DisplayUserData = () => {
   const {
     namaUndangan,
     pengantinPria,
@@ -79,10 +93,55 @@ const DisplayUserData = ({ itemData }: DocumentData | FormDataType | any) => {
     jmlTamu,
     tahuDariMana,
     user
-  } = itemData
+  } = useSelector((state: RootState) => state.rinper.data)
+  const dispatch = useDispatch<AppDispatch>()
+  let collectionId = "Cars";
+  let docId;
+  let firestore = getFirestore();
+
+  const [testx, setTestX] = useState({
+    id: "1",
+    car: {
+      test: 'Benzo',
+      afeafe: "efef"
+    },
+    createdAt: serverTimestamp()
+  })
+  const docRef = doc(db, 'Cars', '7ltSXKH4WCDUjezMaof6');
+  async function addDocWithIdX() {
+    let collectionRef = collection(firestore, collectionId)
+
+    await addDoc(collectionRef, {}).then(res => {
+      docId = res.id
+      let docRefX = doc(firestore, collectionId + "/" + docId)
+
+      setDoc(docRefX, testx)
+    })
+
+  };
+  const updateData = async () => {
+    try {
+
+      console.log(docRef)
+      // Update the timestamp field with the value from the server
+      await updateDoc(docRef,
+        {
+          car: {
+            test: 'Benzo',
+            afeafe: "efef"
+          },
+        });
+    } catch (error) {
+
+    }
+  }
+
   return (
     <div>
-      <h1>Data User</h1>
+      {/* <button onClick={() => dispatch(updateRincianPernikahan({ namaUndangan: "bebas" }))}>Increment</button>
+      <button onClick={() => addDocWithId("Bola", {Name: "Beckham", Skills: { control: 75, freeKick: 90}}, "jc7MWeFLJbM2GAlHjvZAPY0krZB3")}>testAddData</button>
+      <button onClick={updateData}>updateData</button> */}
+      <h1>Data User: {user}</h1>
       <h5>Nama Undangan: {namaUndangan}</h5>
       <h5>Pengantin Pria: {pengantinPria}</h5>
       <h5>Pengantin Wanita: {pengantinWanita}</h5>
