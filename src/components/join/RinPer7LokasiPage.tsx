@@ -17,8 +17,8 @@ import {
 import "@reach/combobox/styles.css"
 import React from "react"
 import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
-import { useSelector } from "react-redux"
-import { RootState } from "../../redux/store"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../../redux/store"
 
 type PlacesAutoCompleteType = {
     setSelected: React.Dispatch<React.SetStateAction<LatLngType | null>>
@@ -32,7 +32,6 @@ type LatLngType = {
 }
 
 const RinPer7LokasiPage = () => {
-    const { lokasiAkad, lokasiResepsi } = useSelector((state: RootState) => state.rinper.data)
     const [addReception, setAddReception] = useState<boolean>(false)
     const locAd = `*Lokasi terhubung dengan Google Maps, jika lokasi tidak ditemukan, kamu bisa masukkan lintang dan bujur:`
 
@@ -96,15 +95,21 @@ const PlacesAutoComplete = ({ setSelected, placeholder, isAkad }: PlacesAutoComp
         suggestions: { status, data },
         clearSuggestions
     } = usePlacesAutocomplete()
+    const dispatch = useDispatch<AppDispatch>()
     const propKey = isAkad ? "lokasiAkad" : "lokasiResepsi"
     const handleSelect = async (address: string) => {
-        setValue(address, false)
-        updateRincianPernikahan({ [propKey]: address })
-        clearSuggestions()
-
-        const results = await getGeocode({ address })
-        const { lat, lng } = await getLatLng(results[0])
-        setSelected({ lat, lng })
+        try {
+            setValue(address, false)
+            dispatch(updateRincianPernikahan({ [propKey]: address }))
+            clearSuggestions()
+    
+            const results = await getGeocode({ address })
+            console.log({results})
+            const { lat, lng } = await getLatLng(results[0])
+            setSelected({ lat, lng })
+        } catch (error) {
+            alert(error)
+        }
     }
     return (
         <div className="place_input">

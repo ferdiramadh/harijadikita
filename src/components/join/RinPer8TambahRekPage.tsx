@@ -4,8 +4,8 @@ import SearchableDropdown from "./SearchableDropdown"
 import { useEffect, useState } from "react"
 import { BankList } from "../../utils/BankList"
 import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
-import { useSelector } from "react-redux"
-import { RootState } from "../../redux/store"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../../redux/store"
 
 type RinPer8TambahRekType = {
     addRekening: boolean
@@ -19,16 +19,16 @@ const RinPer8TambahRekPage = ({
     addRekening,
     setAddRekening
 }: RinPer8TambahRekType) => {
-    const { namaRekening,
-        namaBank,
-        noRek } = useSelector((state: RootState) => state.rinper.data)
+
+    const { namaRekening, namaBank, noRek } = useSelector((state: RootState) => state.rinper.data)
+    const dispatch = useDispatch<AppDispatch>()
     const addingRekening = (e: any) => {
         e.preventDefault()
         setAddRekening(!addRekening)
     }
     const [value, setValue] = useState(namaBank)
     useEffect(() => {
-        updateRincianPernikahan({ namaBank: value })
+        dispatch(updateRincianPernikahan({ namaBank: value }))
     }, [value])
 
     return (
@@ -45,7 +45,7 @@ const RinPer8TambahRekPage = ({
                     placeholder="Nama pemilik rekening "
                     type="text"
                     value={namaRekening}
-                    onChange={e => updateRincianPernikahan({ namaRekening: e.target.value })}
+                    onChange={e => dispatch(updateRincianPernikahan({ namaRekening: e.target.value }))}
                 />
                 <SearchableDropdown
                     options={BankList}
@@ -58,7 +58,7 @@ const RinPer8TambahRekPage = ({
                     placeholder="Masukkan no. rekening"
                     type="text"
                     value={noRek}
-                    onChange={e => updateRincianPernikahan({ noRek: e.target.value })}
+                    onChange={e => dispatch(updateRincianPernikahan({ noRek: e.target.value }))}
                 />
                 {!addRekening && <a href="/" onClick={addingRekening}>Tambah rekening</a>}
                 {
@@ -76,13 +76,11 @@ const RinPer8TambahRekPage = ({
 const AddRekening = ({
     onClick
 }: AddRekeningProp) => {
-    const {
-        namaRekening2,
-        namaBank2,
-        noRek2 } = useSelector((state: RootState) => state.rinper.data)
+    const { namaRekening2, namaBank2, noRek2 } = useSelector((state: RootState) => state.rinper.data)
+    const dispatch = useDispatch<AppDispatch>()
     const [value, setValue] = useState(namaBank2)
     useEffect(() => {
-        updateRincianPernikahan({ namaBank2: value })
+        dispatch(updateRincianPernikahan({ namaBank2: value }))
     }, [value])
 
     return (
@@ -95,7 +93,7 @@ const AddRekening = ({
                 placeholder="Nama pemilik rekening "
                 type="text"
                 value={namaRekening2}
-                onChange={e => updateRincianPernikahan({ namaRekening2: e.target.value })}
+                onChange={e => dispatch(updateRincianPernikahan({ namaRekening2: e.target.value }))}
             />
             <SearchableDropdown
                 options={BankList}
@@ -108,7 +106,7 @@ const AddRekening = ({
                 placeholder="Masukkan no. rekening"
                 type="text"
                 value={noRek2}
-                onChange={e => updateRincianPernikahan({ noRek2: e.target.value })}
+                onChange={e => dispatch(updateRincianPernikahan({ noRek2: e.target.value }))}
             />
         </>
     )
