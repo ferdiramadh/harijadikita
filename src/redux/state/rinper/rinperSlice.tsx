@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 interface UserData {
-    id: number
+    id: string
     data: FormDataType
+    createdAt: string
+    latestUpdate: string
 }
 
 export type FormDataType = {
@@ -36,10 +38,10 @@ export type FormDataType = {
     user: string
 }
 const initialState: UserData = {
-    id: 0,
+    id: "",
     data: {
-        namaUndangan: 'zzz',
-        pengantinPria: '',
+        namaUndangan: "",
+        pengantinPria: "",
         pengantinWanita: "",
         instaPengantinPria: "",
         instaPengantinWanita: "",
@@ -65,18 +67,20 @@ const initialState: UserData = {
         noRek2: "",
         jmlTamu: 0,
         tahuDariMana: "",
-        user: ''
-    }
+        user: ""
+    },
+    createdAt: "",
+    latestUpdate: ""
 }
 const rinperSlice = createSlice({
     name: "rinper",
     initialState,
     reducers: {
         setState: (state, action) => {
+            console.log(action)
             return action.payload
         },
         updateRincianPernikahan: (state, action) => {
-            console.log()
             return {
                 ...state,
                 data: {
