@@ -40,10 +40,10 @@ const RinPer6TanggalWaktuPage = ({ addReception, setAddReception }: RinPer6Tangg
                 <input placeholder="Pilih tanggal akad" type="date" value={tglAkad} onChange={e => updateData({ tglAkad: e.target.value })} />
                 <label>Pilih waktu akad</label>
                 <input placeholder="Pilih waktu akad" type="time" value={wktAkad} onChange={e => updateData({ wktAkad: e.target.value })} />
-                {!addReception && <a href="/" onClick={addingReception}>Tambah resepsi</a>}
+                {/* {!addReception && <a href="/" onClick={addingReception}>Tambah resepsi</a>}
                 {
                     addReception && <AddReception onClick={addingReception} updateData={updateData} tglResepsi={tglResepsi} wktResepsi={wktResepsi} />
-                }
+                } */}
             </div>
 
         </>
