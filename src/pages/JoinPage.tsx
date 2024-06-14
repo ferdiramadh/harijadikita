@@ -27,17 +27,10 @@ export type JoinPageType = ButtonType & {
 }
 
 const JoinPage = () => {
-
-
   const [addReception, setAddReception] = useState<boolean>(false)
   const [addRekening, setAddRekening] = useState<boolean>(false)
-  const { user, data, setData } = UserAuth()
+  const { user, setData } = UserAuth()
 
-  function updateData(field: Partial<FormDataType>) {
-    setData(prev => {
-      return { ...prev, ...field }
-    })
-  }
   useEffect(() => {
     if (user != null) {
       setData(prev => ({ ...prev, user: user.uid }))

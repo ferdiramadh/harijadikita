@@ -1,7 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
-import { updateRincianPernikahan } from "../../redux/state/rinper/rinperSlice"
 import TopSection from "../TopSection"
-import { AppDispatch, RootState } from "../../redux/store"
 import { FormDataType, UserAuth } from "../../context/AuthContext"
 
 const RinPer4KeluargaPengantinPriaPage = () => {
