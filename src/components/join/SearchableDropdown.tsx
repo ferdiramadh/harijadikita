@@ -6,6 +6,7 @@ type SearchableDropdownType = {
     id: string
     selectedVal: any
     handleChange: any
+    isRinPerPage?: boolean
 }
 
 const SearchableDropdown = ({
@@ -13,12 +14,13 @@ const SearchableDropdown = ({
     label,
     id,
     selectedVal,
-    handleChange
+    handleChange,
+    isRinPerPage
 }: SearchableDropdownType) => {
 
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
-    const placeHolder = `${isOpen? "Cari": "Pilih"} Bank`
+    const placeHolder = `${isOpen ? "Cari" : "Pilih"} Bank`
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -49,14 +51,14 @@ const SearchableDropdown = ({
         );
     };
     useEffect(() => {
-        if(isOpen) {
+        if (isOpen) {
             handleChange("")
         }
     }, [isOpen])
     return (
-        <div className="dropdown">
+        <div className="dropdown" style={isRinPerPage ? { flex: 1, width: '100%' } : {}}>
             <div className="control">
-                <div className="selected-value">
+                <div className={isRinPerPage ? "selected-value-full" : "selected-value"}>
                     <input
                         ref={inputRef}
                         type="text"

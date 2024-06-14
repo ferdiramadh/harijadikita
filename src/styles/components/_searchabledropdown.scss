@@ -31,7 +31,10 @@
     @include input-template;
     transition: all 200ms ease;
 }
-
+.dropdown .selected-value-full input {
+    @include input-template-full-width;
+    transition: all 200ms ease;
+}
 .dropdown .options {
     display: none;
     background-color: #fff;
