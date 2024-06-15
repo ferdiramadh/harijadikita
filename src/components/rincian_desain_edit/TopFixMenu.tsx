@@ -1,19 +1,20 @@
-import React from 'react'
+type ToggleType = {
+  setToggle: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-function TopFixMenu() {
+function TopFixMenu({ setToggle }: ToggleType) {
   return (
     <div className='fixContainer'>
-        <div className="upperSection">
-
-        </div>
-        <div className="lowerSection">
-            <button className="rinPerBtn" onClick={() => console.log("woy")}>
-                Rincian pernikahan
-            </button>
-            <button className="designBtn">
-                Desain undangan
-            </button>
-        </div>
+      {/* <div className="upperSection">
+      </div> */}
+      <div className="lowerSection">
+        <button className="rinPerBtn" onClick={() => setToggle(true)}>
+          Rincian pernikahan
+        </button>
+        <button className="designBtn" onClick={() => setToggle(false)}>
+          Desain undangan
+        </button>
+      </div>
     </div>
   )
 }
