@@ -1,0 +1,94 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.bottomFixContainer {
+    background-color: #FFF;
+    height: 8vh;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    /* Position the navbar at the top of the page */
+    width: 380px;
+    
+    @include breakpoint(smWidth) {
+        width: 420px;
+
+    }
+
+    @include breakpoint(med) {
+        width: 480px;
+
+    }
+
+    .bottomWrapper {
+        flex-direction: row;
+        display: flex;
+        height: 100%;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+        .draftBtn {
+
+            @include font-inter;
+            width: 160px;
+            height: 50px;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            text-align: center;
+            padding: 10px;
+            border: solid #000 .5px;
+            border-radius: .5rem;
+        }
+
+        .draftBtn:hover {
+            background-color: rgb(211, 142, 154);
+            transition: 0.7s;
+        }
+
+        .draftBtn:focus {
+            outline-color: transparent;
+            outline-style: solid;
+            box-shadow: 0 0 0 .5px orchid;
+            transform: 0.7s;
+        }
+
+        .draftBtn:active {
+            background-color: $dark;
+            color: cyan;
+        }
+
+        .shareBtn {
+
+            @include font-inter;
+            color: #FFF;
+            width: 160px;
+            height: 50px;
+            justify-content: center;
+            align-items: center;
+            background-color: $primary;
+            text-align: center;
+            padding: 10px;
+            border: solid $primary .5px;
+            border-radius: .5rem;
+        }
+
+        .shareBtn:hover {
+            background-color: rgb(124, 196, 196);
+            transition: 0.7s;
+        }
+
+        .shareBtn:focus {
+            outline-color: transparent;
+            outline-style: solid;
+            box-shadow: 0 0 0 .5px orchid;
+            transform: 0.7s;
+        }
+
+        .shareBtn:active {
+            background-color: $dark;
+            color: cyan;
+        }
+    }
+
+}
