@@ -42,7 +42,7 @@
         }
 
         .draftBtn:hover {
-            background-color: rgb(211, 142, 154);
+
             transition: 0.7s;
         }
 
@@ -55,7 +55,6 @@
 
         .draftBtn:active {
             background-color: $dark;
-            color: cyan;
         }
 
         .shareBtn {
@@ -74,7 +73,6 @@
         }
 
         .shareBtn:hover {
-            background-color: rgb(124, 196, 196);
             transition: 0.7s;
         }
 
@@ -87,7 +85,6 @@
 
         .shareBtn:active {
             background-color: $dark;
-            color: cyan;
         }
     }
 
