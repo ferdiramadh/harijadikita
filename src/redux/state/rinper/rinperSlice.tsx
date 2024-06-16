@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-interface UserData {
+export interface UserData {
     id: string
     data: FormDataType
     createdAt: string
@@ -76,8 +76,7 @@ const rinperSlice = createSlice({
     name: "rinper",
     initialState,
     reducers: {
-        setState: (state, action) => {
-            console.log(action)
+        setRincianPernikahan: (state, action) => {
             return action.payload
         },
         updateRincianPernikahan: (state, action) => {
@@ -92,6 +91,6 @@ const rinperSlice = createSlice({
     }
 })
 
-export const { updateRincianPernikahan } = rinperSlice.actions
+export const { updateRincianPernikahan, setRincianPernikahan } = rinperSlice.actions
 
 export default rinperSlice.reducer
