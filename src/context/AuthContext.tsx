@@ -171,6 +171,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
             console.log(currentUser)
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
         })
 
         return () => {
@@ -179,6 +180,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     }, [])
 
     useEffect(() => {
+        // const currentUser = JSON.parse(localStorage.getItem('currentUser') || "");
         if (user != null) {
             getData()
         }
