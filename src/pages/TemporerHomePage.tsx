@@ -48,7 +48,7 @@ const TemporerHomePage = () => {
         {user ? <button onClick={handleLogout}>Logout</button> : null}
         <button onClick={() => navigate("/rinciandesain")}>GO To Edit Rincian Desain </button>
       </div>
-      <DisplayUserData />
+      {/* <DisplayUserData /> */}
 
     </div>
   )
