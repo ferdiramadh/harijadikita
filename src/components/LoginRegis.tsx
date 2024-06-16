@@ -72,11 +72,10 @@ const InputEmailPassSection = ({ title, isEmailVerification }: VerificationProp)
         try {
             setUserAcc(prev => ({ ...prev, displayName: name }))
             const result = isRegis() ? await createUserWithEmailAndPassword(auth, email, password) : await signInWithEmailAndPassword(auth, email, password)
-            const { user } = result
-            // if (user) {
-            //     const test = await sendEmailVerification(user)
-            //     console.log({ test })
-            // }
+            const {user} = result
+            if (user) {
+                localStorage.setItem('items', JSON.stringify(user));
+            }
         } catch (error: unknown) {
             if (error instanceof FirebaseError) {
                 setError(error.code)
