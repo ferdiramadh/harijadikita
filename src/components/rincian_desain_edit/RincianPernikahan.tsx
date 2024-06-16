@@ -4,37 +4,34 @@ import InstagramPengantinItem from "./rincian_pernikahan_item/InstagramPengantin
 import KeluargaPengantinItem from "./rincian_pernikahan_item/KeluargaPengantinItem"
 import JadwalLokasiItem from "./rincian_pernikahan_item/JadwalLokasiItem"
 import RekeningPengantinItem from "./rincian_pernikahan_item/RekeningPengantinItem"
-import { useSelector } from "react-redux"
-import { RootState } from "../../redux/store"
-import { useState } from "react"
 import { FormDataType } from "../../context/AuthContext"
 
-const RincianPernikahan = () => {
-  const data = useSelector((state: RootState) => state.rinper.data)
-  const [editData, setEditData] = useState<FormDataType>(data)
-  function updateData(field: Partial<FormDataType>) {
-    setEditData(prev => {
-      return { ...prev, ...field }
-    })
-  }
+type UpdateDataType = {
+  editData: FormDataType
+  updateData(field: Partial<FormDataType>): void
+
+}
+
+const RincianPernikahan = ({ editData, updateData }: UpdateDataType) => {
 
   return (
     <div style={{ width: '100%', marginTop: "7vh" }}>
-      <NamaUndanganItem editData={editData} updateData={updateData}/>
-      <NamaPengantinItem editData={editData} updateData={updateData}/>
-      <InstagramPengantinItem editData={editData} updateData={updateData}/>
-      <KeluargaPengantinItem editData={editData} updateData={updateData}/>
-      <JadwalLokasiItem editData={editData} updateData={updateData}/>
+      <NamaUndanganItem editData={editData} updateData={updateData} />
+      <NamaPengantinItem editData={editData} updateData={updateData} />
+      <InstagramPengantinItem editData={editData} updateData={updateData} />
+      <KeluargaPengantinItem editData={editData} updateData={updateData} />
+      <JadwalLokasiItem editData={editData} updateData={updateData} />
       <RekeningPengantinItem editData={editData} updateData={updateData} />
-      <button onClick={() => {
+      <div style={{ flex: 1, marginBottom: 500, width: "100%", height: 200 }} />
+      {/* <button onClick={() => {
         console.log(data)
-        if(data == editData) {
+        if (data == editData) {
           alert("sama nih")
         } else {
           alert("beda nih")
         }
 
-      }}>Test Data</button>
+      }}>Test Data</button> */}
     </div>
   )
 }

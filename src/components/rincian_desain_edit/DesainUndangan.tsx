@@ -11,7 +11,7 @@ import MusikItem from "./desain_undangan_item/MusikItem"
 
 const DesainUndangan = () => {
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', marginTop: "7vh" }}>
       <SampulItem />
       <PengantinItem />
       <AcaraPernikahanItem />

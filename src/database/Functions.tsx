@@ -49,3 +49,18 @@ export const getDataCollection = async (collectionId: string, userId: string) =>
         alert(err)
     }
 }
+
+export const updateDataCollection = async (collectionId: string, data: any, docId: string) => {
+    let result
+    const docRef = doc(db, collectionId, docId)
+    try {
+        result = await updateDoc(docRef,
+            {
+                data: {...data},
+                latestUpdate: serverTimestamp()
+            })
+        return result
+    } catch (error) {
+        alert(error)
+    }
+}

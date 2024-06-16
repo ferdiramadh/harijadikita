@@ -26,6 +26,7 @@ import { store } from './redux'
 import { AppDispatch, RootState } from './redux/store'
 import { decrement, increment } from './redux/state/counter/counterSlice'
 import JoinPage from './pages/JoinPage'
+import RincianDesainEditPage from './pages/RincianDesainEditPage'
 
 const Counter = () => {
   const count = useSelector((state: RootState) => state.counter.value)
@@ -52,11 +53,13 @@ const router = createBrowserRouter(
       <Route element={<PrivateRoutes />}>
         <Route path='/home' element={<TemporerHomePage />} />
         <Route path='/join' element={<JoinPage />} />
+        <Route path='/rinciandesain' element={<RincianDesainEditPage />} />
         {/* <Route path='/verification' element={<VerificationPage />} /> */}
       </Route>
     </Route>
   )
 )
+
 function App() {
   return (
     <Provider store={store}>
