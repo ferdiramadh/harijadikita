@@ -2,7 +2,6 @@ import React from 'react'
 import LoginPage from './pages/LoginPage'
 import RegisPage from './pages/RegisPage'
 import VerificationPage from './pages/VerificationPage'
-import RinPer1NamaUndanganPage from './components/join/RinPer1NamaUndanganPage'
 import RinPer2NamaPengantinPage from './components/join/RinPer2NamaPengantinPage'
 import RinPer3UsernameInstagramPage from './components/join/RinPer3UsernameInstagramPage'
 import RinPer4KeluargaPengantinPriaPage from './components/join/RinPer4KeluargaPengantinPriaPage'
@@ -80,8 +79,6 @@ function App() {
     //       <Route path='/regis' element={<RegisPage />} />
     //     </Routes>
     //     <RegisPage />
-    //     <VerificationPage />
-    //     <RinPer1NamaUndanganPage />
     //     <RinPer2NamaPengantinPage />
     //     <RinPer3UsernameInstagramPage />
     //     <RinPer4KeluargaPengantinPriaPage />

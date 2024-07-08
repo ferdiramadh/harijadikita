@@ -1,5 +1,4 @@
 import { ReactElement, useEffect, useState } from 'react'
-import RinPer1NamaUndanganPage from '../components/join/RinPer1NamaUndanganPage'
 import RinPer2NamaPengantinPage from '../components/join/RinPer2NamaPengantinPage'
 import { UseMultiStepForm } from '../hooks/Join/UseMultiStepForm'
 import RinPerButtonSection from '../components/RinPerButtonSection'
@@ -38,7 +37,6 @@ const JoinPage = () => {
   }, [user])
 
   const { step, steps, currentStepIndex, next, back, isFirstStep, isLastStep } = UseMultiStepForm([
-    <RinPer1NamaUndanganPage />,
     <RinPer2NamaPengantinPage />,
     <RinPer3UsernameInstagramPage />,
     <RinPer4KeluargaPengantinPriaPage />,

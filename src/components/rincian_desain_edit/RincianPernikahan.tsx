@@ -1,4 +1,3 @@
-import NamaUndanganItem from "./rincian_pernikahan_item/NamaUndanganItem"
 import NamaPengantinItem from "./rincian_pernikahan_item/NamaPengantinItem"
 import InstagramPengantinItem from "./rincian_pernikahan_item/InstagramPengantinItem"
 import KeluargaPengantinItem from "./rincian_pernikahan_item/KeluargaPengantinItem"
@@ -16,7 +15,6 @@ const RincianPernikahan = ({ editData, updateData }: UpdateDataType) => {
 
   return (
     <div style={{ width: '100%', marginTop: "7vh" }}>
-      <NamaUndanganItem editData={editData} updateData={updateData} />
       <NamaPengantinItem editData={editData} updateData={updateData} />
       <InstagramPengantinItem editData={editData} updateData={updateData} />
       <KeluargaPengantinItem editData={editData} updateData={updateData} />
