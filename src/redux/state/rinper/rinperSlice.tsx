@@ -8,8 +8,9 @@ export interface UserData {
 }
 
 export type FormDataType = {
-    namaUndangan: string
+    pengantinPriaLengkap: string
     pengantinPria: string
+    pengantinWanitaLengkap: string
     pengantinWanita: string
     instaPengantinPria: string
     instaPengantinWanita: string
@@ -40,8 +41,9 @@ export type FormDataType = {
 const initialState: UserData = {
     id: "",
     data: {
-        namaUndangan: "",
+        pengantinPriaLengkap: "",
         pengantinPria: "",
+        pengantinWanitaLengkap: "",
         pengantinWanita: "",
         instaPengantinPria: "",
         instaPengantinWanita: "",

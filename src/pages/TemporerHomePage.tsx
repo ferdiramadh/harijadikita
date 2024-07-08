@@ -56,7 +56,8 @@ const TemporerHomePage = () => {
 
 const DisplayUserData = () => {
   const {
-    namaUndangan,
+    pengantinPriaLengkap,
+    pengantinWanitaLengkap,
     pengantinPria,
     pengantinWanita,
     instaPengantinPria,
@@ -133,7 +134,6 @@ const DisplayUserData = () => {
       <button onClick={() => addDocWithId("Bola", {Name: "Beckham", Skills: { control: 75, freeKick: 90}}, "jc7MWeFLJbM2GAlHjvZAPY0krZB3")}>testAddData</button>
       <button onClick={updateData}>updateData</button> */}
       <h1>Data User: {user}</h1>
-      <h5>Nama Undangan: {namaUndangan}</h5>
       <h5>Pengantin Pria: {pengantinPria}</h5>
       <h5>Pengantin Wanita: {pengantinWanita}</h5>
       <h5>Instagram Pengantin Pria: {instaPengantinPria}</h5>
