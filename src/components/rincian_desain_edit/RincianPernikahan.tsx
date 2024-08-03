@@ -3,7 +3,7 @@ import InstagramPengantinItem from "./rincian_pernikahan_item/InstagramPengantin
 import KeluargaPengantinItem from "./rincian_pernikahan_item/KeluargaPengantinItem"
 import JadwalLokasiItem from "./rincian_pernikahan_item/JadwalLokasiItem"
 import RekeningPengantinItem from "./rincian_pernikahan_item/RekeningPengantinItem"
-import { FormDataType } from "../../context/AuthContext"
+import { FormDataType } from "../../redux/state/rinper/rinperSlice"
 
 type UpdateDataType = {
   editData: FormDataType

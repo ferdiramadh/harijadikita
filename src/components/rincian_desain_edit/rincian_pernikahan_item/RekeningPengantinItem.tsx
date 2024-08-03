@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { IoIosCloseCircle } from "react-icons/io"
-import { FormDataType } from "../../../context/AuthContext"
 import RincianPernikahanItem from "./RincianPernikahanItem"
 import SearchableDropdown from "../../join/SearchableDropdown"
 import { BankList } from "../../../utils/BankList"
+import { FormDataType } from "../../../redux/state/rinper/rinperSlice"
 
 type UpdateDataType = {
     editData: FormDataType

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { IoIosCloseCircle } from "react-icons/io"
-import { FormDataType } from "../../../context/AuthContext"
 import RincianPernikahanItem from "./RincianPernikahanItem"
+import { FormDataType } from "../../../redux/state/rinper/rinperSlice"
 
 type UpdateDataType = {
     editData: FormDataType

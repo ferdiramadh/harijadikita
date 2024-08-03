@@ -5,16 +5,16 @@ import DesainUndangan from '../components/rincian_desain_edit/DesainUndangan'
 import BottomMenu from '../components/rincian_desain_edit/BottomMenu'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
-import { FormDataType, UserAuth } from '../context/AuthContext'
+import { UserAuth } from '../context/AuthContext'
 import { getDataCollection, updateDataCollection } from '../database/Functions'
 import { RINCIAN_PERNIKAHAN } from '../database/Collections'
-import { setRincianPernikahan } from '../redux/state/rinper/rinperSlice'
+import { FormDataType, setRincianPernikahan } from '../redux/state/rinper/rinperSlice'
 import LoadingOverlay from 'react-loading-overlay-ts';
 
 function RincianDesainEditPage() {
 
     const [isRincianPernikahan, setIsRincianPernikahan] = useState(true)
-    const {data, id} = useSelector((state: RootState) => state.rinper)
+    const { data, id } = useSelector((state: RootState) => state.rinper)
     const [editData, setEditData] = useState<FormDataType>(data)
     const [getChanged, setGetChanged] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -38,8 +38,8 @@ function RincianDesainEditPage() {
     const saveDraft = async () => {
         try {
             setLoading(true)
-            const result = await updateDataCollection(RINCIAN_PERNIKAHAN,editData,id)
-            if(result == undefined) {
+            const result = await updateDataCollection(RINCIAN_PERNIKAHAN, editData, id)
+            if (result == undefined) {
                 dispatch(setRincianPernikahan(editData))
                 alert("Data telah dipebaharui.")
             } else {
@@ -48,7 +48,7 @@ function RincianDesainEditPage() {
 
             setLoading(false)
         } catch (error) {
-            
+
         }
 
     }
@@ -78,7 +78,7 @@ function RincianDesainEditPage() {
     return (
 
         <div className='editRinDesPage'>
-            <TopFixMenu setToggle={setIsRincianPernikahan} />
+            <TopFixMenu isActiveToggle={isRincianPernikahan} setToggle={setIsRincianPernikahan} />
             {isRincianPernikahan ? <LoadingOverlay
                 active={loading}
                 spinner

@@ -1,4 +1,4 @@
-import { FormDataType } from "../../../context/AuthContext"
+import { FormDataType } from "../../../redux/state/rinper/rinperSlice"
 import RincianPernikahanItem from "./RincianPernikahanItem"
 
 type UpdateDataType = {
@@ -31,27 +31,27 @@ const Content = ({ editData, updateData }: UpdateDataType) => {
 
 const FamilyColumn = ({ gender, editData, updateData }: GenderType) => {
     const isPria = gender == "pria"
-    const ayahValue = isPria? editData.ayahWaliPria : editData.ayahWaliWanita
-    const ibuValue = isPria? editData.ibuWaliPria : editData.ibuWaliWanita
-    const anakKe = isPria? setToZero(editData.anakKeBerapaPria) : setToZero(editData.anakKeBerapaWanita)
-    const jmlSaudara = isPria? setToZero(editData.jmlSaudaraPria) : setToZero(editData.jmlSaudaraWanita)
+    const ayahValue = isPria ? editData.ayahWaliPria : editData.ayahWaliWanita
+    const ibuValue = isPria ? editData.ibuWaliPria : editData.ibuWaliWanita
+    const anakKe = isPria ? setToZero(editData.anakKeBerapaPria) : setToZero(editData.anakKeBerapaWanita)
+    const jmlSaudara = isPria ? setToZero(editData.jmlSaudaraPria) : setToZero(editData.jmlSaudaraWanita)
     const setParent = (e: React.ChangeEvent<HTMLInputElement>, isFather: boolean) => {
-      if(isPria) {
-        if(isFather) {
-            updateData({ ayahWaliPria: e.target.value })
+        if (isPria) {
+            if (isFather) {
+                updateData({ ayahWaliPria: e.target.value })
+            } else {
+                updateData({ ibuWaliPria: e.target.value })
+            }
         } else {
-            updateData({ ibuWaliPria: e.target.value })
+            if (isFather) {
+                updateData({ ayahWaliWanita: e.target.value })
+            } else {
+                updateData({ ibuWaliWanita: e.target.value })
+            }
         }
-      } else {
-        if(isFather) {
-            updateData({ ayahWaliWanita: e.target.value })
-        } else {
-            updateData({ ibuWaliWanita: e.target.value })
-        }
-      }
     }
     const setAnakKe = (e: React.ChangeEvent<HTMLInputElement>, isAnakKe: boolean) => {
-        if(isAnakKe) {
+        if (isAnakKe) {
             handleChange(e, false)
         } else {
             handleChange(e, true)
@@ -61,8 +61,8 @@ const FamilyColumn = ({ gender, editData, updateData }: GenderType) => {
         if (isNaN(field)) return 0
         return field
     }
-    function handleChange (e: React.ChangeEvent<HTMLInputElement>, isJumlah: boolean) {
-        if(isPria) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>, isJumlah: boolean) {
+        if (isPria) {
             if (isJumlah) {
                 updateData({ jmlSaudaraPria: parseInt(e.target.value) })
             } else {

@@ -10,6 +10,7 @@ import {
 import { auth } from "../firebase"
 import { DocumentData, addDoc, collection, getDocs, query, where } from "firebase/firestore"
 import { db } from "../firebase"
+import { FormDataType } from "../redux/state/rinper/rinperSlice"
 
 interface ChildrenProps {
     children?: ReactNode
@@ -43,44 +44,15 @@ const INITIAL_USER: UserCollectionProps = {
     isFinishJoin: false
 }
 
-export type FormDataType = {
-    namaUndangan: string
-    pengantinPria: string
-    pengantinWanita: string
-    instaPengantinPria: string
-    instaPengantinWanita: string
-    ayahWaliPria: string
-    ibuWaliPria: string
-    anakKeBerapaPria: number
-    jmlSaudaraPria: number
-    ayahWaliWanita: string
-    ibuWaliWanita: string
-    anakKeBerapaWanita: number
-    jmlSaudaraWanita: number
-    tglAkad: string
-    wktAkad: string
-    tglResepsi: string
-    wktResepsi: string
-    lokasiAkad: string
-    lokasiResepsi: string
-    namaRekening: string
-    namaBank: string
-    noRek: string
-    namaRekening2: string
-    namaBank2: string
-    noRek2: string
-    jmlTamu: number
-    tahuDariMana: string
-    user: string
-}
 
 
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const [user, setUser] = useState<any>({})
     const [userAcc, setUserAcc] = useState<UserCollectionProps | DocumentData>(INITIAL_USER)
     const INITIAL_DATA: FormDataType = {
-        namaUndangan: '',
-        pengantinPria: '',
+        pengantinPriaLengkap: "",
+        pengantinPria: "",
+        pengantinWanitaLengkap: "",
         pengantinWanita: "",
         instaPengantinPria: "",
         instaPengantinWanita: "",
@@ -170,6 +142,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
+            console.log("onAuthStateChanged")
             console.log(currentUser)
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
         })
@@ -181,8 +154,11 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
 
     useEffect(() => {
         // const currentUser = JSON.parse(localStorage.getItem('currentUser') || "");
-        if (user != null) {
+        if (user) {
+            console.log("Get data lah")
             getData()
+        } else {
+            console.log("manan user")
         }
     }, [user])
 

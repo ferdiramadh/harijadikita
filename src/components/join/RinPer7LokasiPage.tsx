@@ -15,7 +15,8 @@ import {
 } from "@reach/combobox"
 import "@reach/combobox/styles.css"
 import React from "react"
-import { FormDataType, UserAuth } from "../../context/AuthContext"
+import { UserAuth } from "../../context/AuthContext"
+import { FormDataType } from "../../redux/state/rinper/rinperSlice"
 
 type PlacesAutoCompleteType = {
     setSelected: React.Dispatch<React.SetStateAction<LatLngType | null>>

@@ -3,7 +3,8 @@ import { IoIosCloseCircle } from "react-icons/io"
 import SearchableDropdown from "./SearchableDropdown"
 import { useEffect, useState } from "react"
 import { BankList } from "../../utils/BankList"
-import { FormDataType, UserAuth } from "../../context/AuthContext"
+import { UserAuth } from "../../context/AuthContext"
+import { FormDataType } from "../../redux/state/rinper/rinperSlice"
 
 type RinPer8TambahRekType = {
     addRekening: boolean

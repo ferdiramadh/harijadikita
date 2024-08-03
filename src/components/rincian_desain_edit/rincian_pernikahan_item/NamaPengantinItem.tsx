@@ -1,4 +1,4 @@
-import { FormDataType } from "../../../context/AuthContext"
+import { FormDataType } from "../../../redux/state/rinper/rinperSlice"
 import RincianPernikahanItem from "./RincianPernikahanItem"
 
 type UpdateDataType = {

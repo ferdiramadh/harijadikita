@@ -1,5 +1,6 @@
 import TopSection from "../TopSection"
-import { FormDataType, UserAuth } from "../../context/AuthContext"
+import { UserAuth } from "../../context/AuthContext"
+import { FormDataType } from "../../redux/state/rinper/rinperSlice"
 
 const RinPer2NamaPengantinPage = () => {
     const { data, setData } = UserAuth()

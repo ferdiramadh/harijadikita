@@ -1,10 +1,10 @@
-import { FormDataType, UserAuth } from '../context/AuthContext'
+import { UserAuth } from '../context/AuthContext'
 import { useEffect, useState } from 'react'
 import { DocumentData, addDoc, collection, doc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore"
 import { db } from "../firebase"
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
-import { updateRincianPernikahan, setRincianPernikahan } from '../redux/state/rinper/rinperSlice'
+import { updateRincianPernikahan, setRincianPernikahan, FormDataType } from '../redux/state/rinper/rinperSlice'
 import { addDocWithId, getDataCollection } from '../database/Functions'
 import { RINCIAN_PERNIKAHAN } from '../database/Collections'
 import { useNavigate } from 'react-router-dom'
