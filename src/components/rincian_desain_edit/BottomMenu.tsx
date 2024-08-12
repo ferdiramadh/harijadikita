@@ -11,7 +11,7 @@ function BottomMenu({ getChanged, saveDraft }: BottomMenuType) {
         <div className='bottomFixContainer'>
             <div className="bottomWrapper">
                 <button className="draftBtn" onClick={saveDraft} disabled={!getChanged}>
-                    Simpan draft
+                    Simpan
                 </button>
                 <button className="shareBtn" onClick={() => alert("Fitur belum tersedia.")}>
                     Publikasikan
