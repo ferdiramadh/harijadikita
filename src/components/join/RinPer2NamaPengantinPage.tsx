@@ -4,7 +4,7 @@ import { FormDataType } from "../../redux/state/rinper/rinperSlice"
 
 const RinPer2NamaPengantinPage = () => {
     const { data, setData } = UserAuth()
-    const { pengantinPria, pengantinWanita } = data
+    const { pengantinWanitaLengkap, pengantinWanita } = data
     function updateData(field: Partial<FormDataType>) {
         setData(prev => {
             return { ...prev, ...field }
@@ -12,10 +12,10 @@ const RinPer2NamaPengantinPage = () => {
     }
     return (
         <>
-            <TopSection title="Nama Pengantin" tagline="Masukkan nama kamu dan pasangan." />
+            <TopSection title="Nama Pengantin Wanita" tagline="Masukkan nama lengkap dan gelar (jika ada) kamu." />
             <div className='form_container'>
-                <input placeholder="Pengantin pria" type="text" value={pengantinPria} onChange={e => updateData({ pengantinPria: e.target.value })} />
-                <input placeholder="Pengantin wanita" type="text" value={pengantinWanita} onChange={e => updateData({ pengantinWanita: e.target.value })} />
+                <input placeholder="Nama lengkap dan gelar (jika ada)" type="text" value={pengantinWanitaLengkap} onChange={e => updateData({ pengantinWanitaLengkap: e.target.value })} />
+                <input placeholder="Nama panggilan" type="text" value={pengantinWanita} onChange={e => updateData({ pengantinWanita: e.target.value })} />
             </div>
         </>
     )
