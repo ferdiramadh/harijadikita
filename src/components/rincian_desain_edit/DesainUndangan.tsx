@@ -8,12 +8,14 @@ import VideoItem from "./desain_undangan_item/VideoItem"
 import RSVPUcapanItem from "./desain_undangan_item/RSVPUcapanItem"
 import HadiahUangItem from "./desain_undangan_item/HadiahUangItem"
 import MusikItem from "./desain_undangan_item/MusikItem"
+import AyatSuciKataMutiaraItem from "./desain_undangan_item/AyatSuciKataMutiaraItem"
 
 const DesainUndangan = () => {
   return (
     <div style={{ width: '100%', marginTop: "7vh" }}>
       <SampulItem />
       <PengantinItem />
+      <AyatSuciKataMutiaraItem />
       <AcaraPernikahanItem />
       <CountdownTimerItem />
       <LoveStoryItem />
