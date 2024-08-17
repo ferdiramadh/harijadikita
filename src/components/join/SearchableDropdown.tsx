@@ -7,6 +7,7 @@ type SearchableDropdownType = {
     selectedVal: any
     handleChange: any
     isRinPerPage?: boolean
+    objectName?: string
 }
 
 const SearchableDropdown = ({
@@ -15,12 +16,13 @@ const SearchableDropdown = ({
     id,
     selectedVal,
     handleChange,
-    isRinPerPage
+    isRinPerPage,
+    objectName
 }: SearchableDropdownType) => {
 
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
-    const placeHolder = `${isOpen ? "Cari" : "Pilih"} Bank`
+    const placeHolder = `${isOpen ? "Cari" : "Pilih"} ${objectName ? objectName : "Bank"}`
     const inputRef = useRef(null);
 
     useEffect(() => {
