@@ -11,7 +11,8 @@ import RinPer8TambahRekPage from '../components/join/RinPer8TambahRekPage'
 import RinPer9JumlahTamuPage from '../components/join/RinPer9JumlahTamuPage'
 import RinPer10TahuDariManaPage from '../components/join/RinPer10TahuDariManaPage'
 import RinPerProgress from '../components/RinPerProgress'
-import { FormDataType, UserAuth } from '../context/AuthContext'
+import { UserAuth } from '../context/AuthContext'
+import RinPer1NamaPengantinPriaPage from '../components/join/RinPer1NamaPengantinPriaPage'
 
 export type ButtonType = {
   next(): void
@@ -37,6 +38,7 @@ const JoinPage = () => {
   }, [user])
 
   const { step, steps, currentStepIndex, next, back, isFirstStep, isLastStep } = UseMultiStepForm([
+    <RinPer1NamaPengantinPriaPage />,
     <RinPer2NamaPengantinPage />,
     <RinPer3UsernameInstagramPage />,
     <RinPer4KeluargaPengantinPriaPage />,
