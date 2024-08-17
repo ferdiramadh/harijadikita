@@ -17,7 +17,7 @@
 
     @include breakpoint(med) {
         width: 480px;
-   
+
     }
 
 
@@ -34,9 +34,9 @@
         height: 100%;
         width: 100%;
 
-    // @include breakpoint(med) {
-    //     width: 100%;
-    // }
+        // @include breakpoint(med) {
+        //     width: 100%;
+        // }
         .rinPerBtn {
 
             @include font-inter;
@@ -51,7 +51,6 @@
         }
 
         .rinPerBtn:hover {
-            // background-color: rgb(211, 142, 154);
             transition: 0.7s;
         }
 
@@ -62,27 +61,24 @@
             transform: 0.7s;
         }
 
-        .rinPerBtn:active {
-            background-color: $dark;
-            color: cyan;
+        .rinPerBtn.active {
+            background-color: $primary;
+            color: #FFF;
         }
 
         .designBtn {
-   
             @include font-inter;
-            color: #FFF;
             flex: 1;
             width: 50%;
             justify-content: center;
             align-items: center;
-            background-color: $primary;
+            background-color: #D9D9D9;
             text-align: center;
             padding: 10px;
             border: none;
         }
 
         .designBtn:hover {
-            // background-color: rgb(124, 196, 196);
             transition: 0.7s;
         }
 
@@ -93,9 +89,9 @@
             transform: 0.7s;
         }
 
-        .designBtn:active {
-            background-color: $dark;
-   
+        .designBtn.active {
+            background-color: $primary;
+            color: #FFF;
         }
     }
 }

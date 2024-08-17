@@ -1,17 +1,16 @@
 type ToggleType = {
+  isActiveToggle: boolean
   setToggle: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function TopFixMenu({ setToggle }: ToggleType) {
+function TopFixMenu({ isActiveToggle, setToggle }: ToggleType) {
   return (
     <div className='fixContainer'>
-      {/* <div className="upperSection">
-      </div> */}
       <div className="lowerSection">
-        <button className="rinPerBtn" onClick={() => setToggle(true)}>
+        <button className={`rinPerBtn ${isActiveToggle && "active"}`} onClick={() => setToggle(true)}>
           Rincian pernikahan
         </button>
-        <button className="designBtn" onClick={() => setToggle(false)}>
+        <button className={`designBtn  ${!isActiveToggle && "active"}`} onClick={() => setToggle(false)}>
           Desain undangan
         </button>
       </div>
