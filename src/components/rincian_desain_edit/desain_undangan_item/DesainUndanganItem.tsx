@@ -5,11 +5,12 @@ import { IoIosArrowForward } from "react-icons/io"
 type ItemType = {
     title: string
     children: React.ReactNode
+    toggleVal?: boolean
+    onToggle?: () => void
 }
 
-const DesainUndanganItem = ({ title, children }: ItemType) => {
+const DesainUndanganItem = ({ title, children, toggleVal, onToggle }: ItemType) => {
     const [toggle, setToggle] = useState(false)
-    const [checked, setChecked] = useState(false)
     const styleArrow = {
         transform: toggle ? 'rotate(90deg)' : '',
         transition: 'transform 150ms ease', // smooth transition
@@ -32,7 +33,7 @@ const DesainUndanganItem = ({ title, children }: ItemType) => {
                     <h3>{title}</h3>
                 </div>
                 <label className="switch">
-                    <input type="checkbox" onChange={e => setChecked(!checked)} checked={checked}/>
+                    <input type="checkbox" onChange={onToggle} checked={toggleVal}/>
                         <span className="slider round"></span>
                 </label>
                 <div className="btn-arrow-wrapper">
