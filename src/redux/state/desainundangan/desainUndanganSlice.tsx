@@ -18,8 +18,8 @@ export type SampulType = FormDesainUndanganType & {
     gambarBackground: string | ArrayBuffer | null | undefined
 }
 export type PengantinType = FormDesainUndanganType & {
-    gambarPengantinPria: string
-    gambarPengantinWanita: string
+    gambarPengantinPria: string | ArrayBuffer | null | undefined
+    gambarPengantinWanita: string | ArrayBuffer | null | undefined
 }
 export type AyatSuciKalimatMutiaraType = FormDesainUndanganType & {
     isAyatSuci: boolean
