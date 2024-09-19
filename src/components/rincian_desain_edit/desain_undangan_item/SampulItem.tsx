@@ -43,7 +43,7 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
                     teksTombol: e.target.value
                 }
             })} />
-            <UploadGambarSection titleLable="Gambar background" onImageChange={onImageChange} />
+            <UploadGambarSection titleLable="Gambar background" onImageChange={onImageChange} sectionFolder="Sampul" photoUrl={sampulItemData.gambarBackground}/>
         </div>
     )
 }

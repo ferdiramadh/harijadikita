@@ -45,8 +45,8 @@ const Content = ({ pengantinItemData, setPengantinItemData }: PengantinItemType)
     }
     return (
         <div className="content_wrapper">
-            <UploadGambarSection titleLable="Gambar pengantin pria" onImageChange={onImageChangePengantinPria} />
-            <UploadGambarSection titleLable="Gambar pengantin wanita" onImageChange={onImageChangePengantinWanita} />
+            <UploadGambarSection titleLable="Gambar pengantin pria" onImageChange={onImageChangePengantinPria} sectionFolder='Pengatin_Pria' photoUrl={pengantinItemData.gambarPengantinPria}/>
+            <UploadGambarSection titleLable="Gambar pengantin wanita" onImageChange={onImageChangePengantinWanita} sectionFolder='Pengatin_Wanita' photoUrl={pengantinItemData.gambarPengantinWanita}/>
         </div>
     )
 }
