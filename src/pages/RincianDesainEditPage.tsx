@@ -6,16 +6,19 @@ import BottomMenu from '../components/rincian_desain_edit/BottomMenu'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { UserAuth } from '../context/AuthContext'
-import { getDataCollection, updateDataCollection } from '../database/Functions'
-import { RINCIAN_PERNIKAHAN } from '../database/Collections'
+import { addDocWithId, getDataCollection, updateDataCollection } from '../database/Functions'
+import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN } from '../database/Collections'
 import { FormDataType, setRincianPernikahan } from '../redux/state/rinper/rinperSlice'
 import LoadingOverlay from 'react-loading-overlay-ts';
+import { AyatSuciKalimatMutiaraType, INITIAL_EDIT_DESAIN_DATA, ItemValueType, PengantinType, SampulType, setDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice'
 
 function RincianDesainEditPage() {
 
     const [isRincianPernikahan, setIsRincianPernikahan] = useState(true)
     const { data, id } = useSelector((state: RootState) => state.rinper)
+    const { data: dataDesainUndangan, id: idDesainUndangan } = useSelector((state: RootState) => state.desainUndangan)
     const [editData, setEditData] = useState<FormDataType>(data)
+    const [editDesainUndanganData, setEdiDesainUndangantData] = useState<(Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]>(dataDesainUndangan)
     const [getChanged, setGetChanged] = useState(false)
     const [loading, setLoading] = useState(false)
     const { user } = UserAuth()
@@ -34,7 +37,17 @@ function RincianDesainEditPage() {
             console.log(err)
         }
     }
-
+    const getDesainUndanganData = async () => {
+        console.log("getDesainUndanganData")
+        try {
+          const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
+          console.log({ desainDataUndangan })
+          dispatch(setDesainUndangan(desainDataUndangan))
+    
+        } catch (err) {
+          console.log(err)
+        }
+      }
     const saveDraft = async () => {
         try {
             setLoading(true)
@@ -42,27 +55,65 @@ function RincianDesainEditPage() {
             if (result == undefined) {
                 dispatch(setRincianPernikahan(editData))
                 alert("Data telah dipebaharui.")
+                setGetChanged(false)
+                setLoading(false)
             } else {
                 alert("Maaf, data anda gagal tersimpan")
+                setLoading(false)
             }
 
-            setLoading(false)
-        } catch (error) {
 
+        } catch (error) {
+            setLoading(false)
         }
 
     }
 
+    const saveDesainUndangan = async () => {
+        try {
+            setLoading(true)
 
+            console.log(idDesainUndangan)
+            const result = idDesainUndangan? await updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan) : await addDocWithId(DESAIN_UNDANGAN, editDesainUndanganData, user?.uid)
+            console.log(result)
+            if (result !== null) {
+                dispatch(setDesainUndangan(result))
+                alert("Data telah dipebaharui.")
+                setGetChanged(false)
+                setLoading(false)
+            } else {
+                alert("Maaf, data anda gagal tersimpan")
+                setLoading(false)
+            }
+
+
+        } catch (error) {
+            setLoading(false)
+        }
+
+    }
+
+    function arraysEqual(a1: any, a2: any) {
+        /* WARNING: arrays must not contain {objects} or behavior may be undefined */
+        return JSON.stringify(a1) == JSON.stringify(a2);
+    }
+    const onSubmit = () => {
+        if (isRincianPernikahan) {
+            saveDraft()
+        } else {
+            saveDesainUndangan()
+        }
+    }
     useEffect(() => {
         if (user) {
             getUserData()
+            getDesainUndanganData()
         }
 
     }, [user])
 
     useEffect(() => {
-        if (data == editData) {
+        if (arraysEqual(data, editData)) {
             setGetChanged(false)
         } else {
             setGetChanged(true)
@@ -79,14 +130,24 @@ function RincianDesainEditPage() {
 
         <div className='editRinDesPage'>
             <TopFixMenu isActiveToggle={isRincianPernikahan} setToggle={setIsRincianPernikahan} />
-            {isRincianPernikahan ? <LoadingOverlay
-                active={loading}
-                spinner
-                text='Menyimpan data...'
-            ><RincianPernikahan editData={editData} updateData={updateData} /> </LoadingOverlay> :
-                <DesainUndangan />
+            {isRincianPernikahan ?
+                <LoadingOverlay
+                    active={loading}
+                    spinner
+                    text='Menyimpan data rincian pernikahan...'
+                >
+                    <RincianPernikahan editData={editData} updateData={updateData} />
+                </LoadingOverlay>
+                :
+                <LoadingOverlay
+                    active={loading}
+                    spinner
+                    text='Menyimpan data desain pernikahan...'
+                >
+                    <DesainUndangan editDesainUndanganData={editDesainUndanganData} setEdiDesainUndangantData={setEdiDesainUndangantData} />
+                </LoadingOverlay>
             }
-            <BottomMenu getChanged={getChanged} saveDraft={saveDraft} />
+            <BottomMenu getChanged={true} saveDraft={onSubmit} />
         </div>
 
     )

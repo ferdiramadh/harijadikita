@@ -15,8 +15,7 @@ export async function addDocWithId(collectionId: string, data: any, userId: stri
             setDoc(docRef, objectValues)
 
         })
-        console.log(result)
-        if (collectionId == RINCIAN_PERNIKAHAN) {
+        if (collectionId) {
             return rinperObject
         }
         return
