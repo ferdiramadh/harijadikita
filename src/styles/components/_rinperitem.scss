@@ -169,6 +169,28 @@
     }
 
     //desainpage
+    .uploadBtn {
+        @include font-inter;
+        color: #FFF;
+        justify-content: center;
+        align-items: center;
+        background-color: $primary;
+        text-align: center;
+        padding: 10px;
+        border: solid $primary .5px;
+        border-radius: .5rem;
+    }
+    .removeBtn {
+        @include font-inter;
+        color: #FFF;
+        justify-content: center;
+        align-items: center;
+        background-color: $dark;
+        text-align: center;
+        padding: 10px;
+        border: solid $primary .5px;
+        border-radius: .5rem;
+    }
     .upload_image_section {
         display: flex;
         // background-color: yellow;
