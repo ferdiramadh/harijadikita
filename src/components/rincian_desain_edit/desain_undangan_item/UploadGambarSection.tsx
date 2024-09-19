@@ -28,9 +28,10 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             }).then(downloadURL => {
 
                 setImageUrl(downloadURL)
+                setLoading(false)
+                alert('Gambar berhasil diunggah.')
                 return downloadURL
             })
-            setLoading(false)
         } catch (error) {
             setLoading(false)
             alert(error)
@@ -98,11 +99,19 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             }
             {
                 name && image !== "" && photoUrl == "" ?
-                    <div style={{ marginTop: 20, width: '100%', flexDirection: 'row', flex: 1, display: 'flex', justifyContent: 'space-around' }}>
-                        <p>Nama file: </p>
-                        <p>{name.length > 10 ? name.slice(0, 10) + "..." : name}</p>
-                        <button onClick={uploadImage} className="uploadBtn" disabled={loading}>upload</button>
-                        <button onClick={() => setImage('')} className="removeBtn">remove</button>
+                    <div style={{ marginTop: 20, width: '100%', flexDirection: 'row', flex: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+                        {
+                            loading ? <p>Menunggah gambar...</p>
+                                :
+                                <>
+                                    <p>Nama file: </p>
+                                    <p>{name.length > 10 ? name.slice(0, 10) + "..." : name}</p>
+                                    <div style={{ marginLeft: 10, width: '50%', flexDirection: 'row', display: 'flex', justifyContent: 'flex-end' }}>
+                                        <button onClick={uploadImage} className="uploadBtn" >upload</button>
+                                        <button onClick={() => setImage('')} className="removeBtn">remove</button>
+                                    </div>
+                                </>
+                        }
                     </div> :
                     null
             }
