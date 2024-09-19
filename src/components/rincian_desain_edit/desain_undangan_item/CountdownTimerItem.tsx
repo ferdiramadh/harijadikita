@@ -13,7 +13,7 @@ const CountdownTimerItem = () => {
 const Content = () => {
     return (
         <div className="content_wrapper">
-            <UploadGambarSection titleLable="Gambar bersama pengantin pria dan wanita"/>
+            {/* <UploadGambarSection titleLable="Gambar bersama pengantin pria dan wanita"/> */}
         </div>
     )
 }

@@ -15,7 +15,7 @@ const Content = () => {
         <div className="content_wrapper">
             <label className="label_input">Video pengantin via link youtube</label>
             <input type="text" placeholder="Masukkan link youtube" />
-            <UploadGambarSection titleLable="Video pengantin"/>
+            {/* <UploadGambarSection titleLable="Video pengantin"/> */}
         </div>
     )
 }

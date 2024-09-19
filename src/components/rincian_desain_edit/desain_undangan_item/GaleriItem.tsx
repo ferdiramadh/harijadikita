@@ -13,7 +13,7 @@ const GaleriItem = () => {
 const Content = () => {
     return (
         <div className="content_wrapper">
-            <UploadGambarSection titleLable="Galeri pengantin (kamu bisa unggah sampai 10 foto)" />
+            {/* <UploadGambarSection titleLable="Galeri pengantin (kamu bisa unggah sampai 10 foto)" /> */}
         </div>
     )
 }

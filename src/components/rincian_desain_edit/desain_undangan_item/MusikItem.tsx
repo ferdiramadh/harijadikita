@@ -17,7 +17,7 @@ const Content = () => {
             <input type="text" placeholder="Masukkan link Spotify" />
             <label className="label_input">Pilih musik romantis pilihan harijadikita</label>
             <input type="text" placeholder="Thousand Years - Katy Perry"/>
-            <UploadGambarSection titleLable="Unggah berkas musik"/>
+            {/* <UploadGambarSection titleLable="Unggah berkas musik"/> */}
         </div>
     )
 }

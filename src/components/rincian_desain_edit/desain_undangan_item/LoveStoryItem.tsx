@@ -17,7 +17,7 @@ const Content = () => {
             <input type="text" placeholder="Bertemu saat kuliah" />
             <label className="label_input">Cerita</label>
             <textarea id="w3review" name="w3review" rows={6} cols={50} className='large_input_area'></textarea>
-            <UploadGambarSection titleLable="Gambar" />
+            {/* <UploadGambarSection titleLable="Gambar" /> */}
             <button type="submit" id="submitBtn" className="add_story_btn">
                 Tambah cerita
             </button>
