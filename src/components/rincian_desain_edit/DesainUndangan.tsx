@@ -28,7 +28,7 @@ const DesainUndangan = ({editDesainUndanganData, setEdiDesainUndangantData}: Des
   const [ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData] = useState<Partial<AyatSuciKalimatMutiaraType>>(editDesainUndanganData[2])
   const test = [{ id: 1, name: "abc" }, { id: 2, name: "xxx" }]
   const test2 = [{ id: 2, name: "xxx" }, { id: 1, name: "abc" }]
-  console.log(arraysEqual(test.sort((a,b) => a.id - b.id), test2.sort((a,b) => a.id - b.id)))
+  // console.log(arraysEqual(test.sort((a,b) => a.id - b.id), test2.sort((a,b) => a.id - b.id)))
   function arraysEqual(a1: any, a2: any) {
     /* WARNING: arrays must not contain {objects} or behavior may be undefined */
     return JSON.stringify(a1) == JSON.stringify(a2);
@@ -45,7 +45,7 @@ const DesainUndangan = ({editDesainUndanganData, setEdiDesainUndangantData}: Des
       <SampulItem sampulItemData={sampulItemData} setSampulItemData={setSampulItemData} />
       <PengantinItem pengantinItemData={pengantinItemData} setPengantinItemData={setPengantinItemData} />
       <AyatSuciKataMutiaraItem ayaSuciKataMutiaraItemData={ayaSuciKataMutiaraItemData} setAyaSuciKataMutiaraItemData={setAyaSuciKataMutiaraItemData}/> 
-      <button onClick={() => console.log(editDesainUndanganData)}>test</button>
+      {/* <button onClick={() => console.log(editDesainUndanganData)}>test</button> */}
 
       {/* <AcaraPernikahanItem />
       <CountdownTimerItem />

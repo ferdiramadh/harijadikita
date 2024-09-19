@@ -38,10 +38,10 @@ function RincianDesainEditPage() {
         }
     }
     const getDesainUndanganData = async () => {
-        console.log("getDesainUndanganData")
+        // console.log("getDesainUndanganData")
         try {
           const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
-          console.log({ desainDataUndangan })
+        //   console.log({ desainDataUndangan })
           dispatch(setDesainUndangan(desainDataUndangan))
     
         } catch (err) {
@@ -73,9 +73,9 @@ function RincianDesainEditPage() {
         try {
             setLoading(true)
 
-            console.log(idDesainUndangan)
+            // console.log(idDesainUndangan)
             const result = idDesainUndangan? await updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan) : await addDocWithId(DESAIN_UNDANGAN, editDesainUndanganData, user?.uid)
-            console.log(result)
+            // console.log(result)
             if (result !== null) {
                 dispatch(setDesainUndangan(result))
                 alert("Data telah dipebaharui.")
