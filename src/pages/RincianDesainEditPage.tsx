@@ -8,8 +8,8 @@ import { AppDispatch, RootState } from '../redux/store'
 import { UserAuth } from '../context/AuthContext'
 import { addDocWithId, getDataCollection, updateDataCollection } from '../database/Functions'
 import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN } from '../database/Collections'
-import { FormDataType, setRincianPernikahan } from '../redux/state/rinper/rinperSlice'
-import LoadingOverlay from 'react-loading-overlay-ts';
+import { FormDataType, setRincianPernikahan, updateRincianPernikahan } from '../redux/state/rinper/rinperSlice'
+import LoadingOverlay from 'react-loading-overlay-ts'
 import { AyatSuciKalimatMutiaraType, INITIAL_EDIT_DESAIN_DATA, ItemValueType, PengantinType, SampulType, setDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice'
 
 function RincianDesainEditPage() {
@@ -37,23 +37,26 @@ function RincianDesainEditPage() {
             console.log(err)
         }
     }
+
     const getDesainUndanganData = async () => {
         // console.log("getDesainUndanganData")
         try {
-          const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
-        //   console.log({ desainDataUndangan })
-          dispatch(setDesainUndangan(desainDataUndangan))
-    
+            const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
+            //   console.log({ desainDataUndangan })
+            dispatch(setDesainUndangan(desainDataUndangan))
+
         } catch (err) {
-          console.log(err)
+            console.log(err)
         }
-      }
+    }
+
     const saveDraft = async () => {
+
         try {
             setLoading(true)
             const result = await updateDataCollection(RINCIAN_PERNIKAHAN, editData, id)
             if (result == undefined) {
-                dispatch(setRincianPernikahan(editData))
+                dispatch(updateRincianPernikahan(editData))
                 alert("Data telah dipebaharui.")
                 setGetChanged(false)
                 setLoading(false)
@@ -74,7 +77,7 @@ function RincianDesainEditPage() {
             setLoading(true)
 
             // console.log(idDesainUndangan)
-            const result = idDesainUndangan? await updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan) : await addDocWithId(DESAIN_UNDANGAN, editDesainUndanganData, user?.uid)
+            const result = idDesainUndangan ? await updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan) : await addDocWithId(DESAIN_UNDANGAN, editDesainUndanganData, user?.uid)
             // console.log(result)
             if (result !== null) {
                 dispatch(setDesainUndangan(result))
@@ -98,6 +101,7 @@ function RincianDesainEditPage() {
         return JSON.stringify(a1) == JSON.stringify(a2);
     }
     const onSubmit = () => {
+        
         if (isRincianPernikahan) {
             saveDraft()
         } else {
@@ -147,7 +151,7 @@ function RincianDesainEditPage() {
                     <DesainUndangan editDesainUndanganData={editDesainUndanganData} setEdiDesainUndangantData={setEdiDesainUndangantData} />
                 </LoadingOverlay>
             }
-            <BottomMenu getChanged={true} saveDraft={onSubmit} />
+            <BottomMenu getChanged={isRincianPernikahan ? getChanged : true} saveDraft={onSubmit} />
         </div>
 
     )
