@@ -34,9 +34,9 @@ const RekeningSection = ({ editData, updateData }: UpdateDataType) => {
         setAddRekening(!addRekening)
     }
     const additionalText = addRekening ? " ke-1" : ""
-    const [value, setValue] = useState(editData.namaBank)
-    const [value2, setValue2] = useState(editData.namaBank2)
-    const isSecondRek = editData.noRek2
+    const [value, setValue] = useState(editData?.namaBank)
+    const [value2, setValue2] = useState(editData?.namaBank2)
+    const isSecondRek = editData?.noRek2
     return (
         <>
             <div className="title-reception">
@@ -45,7 +45,7 @@ const RekeningSection = ({ editData, updateData }: UpdateDataType) => {
             <input
                 placeholder="Nama pemilik rekening "
                 type="text"
-                value={editData.namaRekening}
+                value={editData?.namaRekening}
                 onChange={e => updateData({ namaRekening: e.target.value })}
             />
             <SearchableDropdown
@@ -59,7 +59,7 @@ const RekeningSection = ({ editData, updateData }: UpdateDataType) => {
             <input
                 placeholder="Masukkan no. rekening"
                 type="text"
-                value={editData.noRek}
+                value={editData?.noRek}
                 onChange={e => updateData({ noRek: e.target.value })}
             />
             {
@@ -71,7 +71,7 @@ const RekeningSection = ({ editData, updateData }: UpdateDataType) => {
                     <input
                         placeholder="Nama pemilik rekening "
                         type="text"
-                        value={editData.namaRekening2}
+                        value={editData?.namaRekening2}
                         onChange={e => updateData({ namaRekening: e.target.value })}
                     />
                     <SearchableDropdown
@@ -85,7 +85,7 @@ const RekeningSection = ({ editData, updateData }: UpdateDataType) => {
                     <input
                         placeholder="Masukkan no. rekening"
                         type="text"
-                        value={editData.noRek2}
+                        value={editData?.noRek2}
                         onChange={e => updateData({ noRek2: e.target.value })}
                     />
                 </>

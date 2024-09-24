@@ -31,10 +31,10 @@ const Content = ({ editData, updateData }: UpdateDataType) => {
 
 const FamilyColumn = ({ gender, editData, updateData }: GenderType) => {
     const isPria = gender == "pria"
-    const ayahValue = isPria ? editData.ayahWaliPria : editData.ayahWaliWanita
-    const ibuValue = isPria ? editData.ibuWaliPria : editData.ibuWaliWanita
-    const anakKe = isPria ? setToZero(editData.anakKeBerapaPria) : setToZero(editData.anakKeBerapaWanita)
-    const jmlSaudara = isPria ? setToZero(editData.jmlSaudaraPria) : setToZero(editData.jmlSaudaraWanita)
+    const ayahValue = isPria ? editData?.ayahWaliPria : editData?.ayahWaliWanita
+    const ibuValue = isPria ? editData?.ibuWaliPria : editData?.ibuWaliWanita
+    const anakKe = isPria ? setToZero(editData?.anakKeBerapaPria) : setToZero(editData?.anakKeBerapaWanita)
+    const jmlSaudara = isPria ? setToZero(editData?.jmlSaudaraPria) : setToZero(editData?.jmlSaudaraWanita)
     const setParent = (e: React.ChangeEvent<HTMLInputElement>, isFather: boolean) => {
         if (isPria) {
             if (isFather) {

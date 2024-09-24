@@ -31,9 +31,9 @@ const AkadSection = ({ editData, updateData }: UpdateDataType) => {
     return (
         <>
             <label className="label_input_bold">Akad</label>
-            <input placeholder="Tanggal akad" type="date" value={editData.tglAkad} onChange={e => updateData({ tglAkad: e.target.value })} />
-            <input placeholder="Waktu akad" type="time" value={editData.wktAkad} onChange={e => updateData({ wktAkad: e.target.value })} />
-            <input placeholder="Cari lokasi akad" value={editData.lokasiAkad} onChange={e => updateData({ lokasiAkad: e.target.value })} />
+            <input placeholder="Tanggal akad" type="date" value={editData?.tglAkad} onChange={e => updateData({ tglAkad: e.target.value })} />
+            <input placeholder="Waktu akad" type="time" value={editData?.wktAkad} onChange={e => updateData({ wktAkad: e.target.value })} />
+            <input placeholder="Cari lokasi akad" value={editData?.lokasiAkad} onChange={e => updateData({ lokasiAkad: e.target.value })} />
         </>
     )
 }
@@ -52,9 +52,9 @@ const ResepsiSection = ({ editData, updateData }: UpdateDataType) => {
                 <h1 className="label_input_bold">Resepsi</h1>
             </div>
             {addReception && <h1 className="label_input">Resepsi ke-1</h1>}
-            <input placeholder={`Tanggal resepsi${additionalText}`} type="date" value={editData.tglResepsi} onChange={e => updateData({ tglResepsi: e.target.value })} />
-            <input placeholder={`Waktu resepsi${additionalText}`} type="time" value={editData.wktResepsi} onChange={e => updateData({ wktResepsi: e.target.value })} />
-            <input placeholder={`Cari lokasi resepsi${additionalText}`} value={editData.lokasiResepsi} onChange={e => updateData({ lokasiResepsi: e.target.value })} />
+            <input placeholder={`Tanggal resepsi${additionalText}`} type="date" value={editData?.tglResepsi} onChange={e => updateData({ tglResepsi: e.target.value })} />
+            <input placeholder={`Waktu resepsi${additionalText}`} type="time" value={editData?.wktResepsi} onChange={e => updateData({ wktResepsi: e.target.value })} />
+            <input placeholder={`Cari lokasi resepsi${additionalText}`} value={editData?.lokasiResepsi} onChange={e => updateData({ lokasiResepsi: e.target.value })} />
             {/* {!addReception && <a onClick={addingReception}>Tambah resepsi</a>}
             {
                 addReception && <>
