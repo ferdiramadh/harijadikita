@@ -10,15 +10,11 @@ const RinPer5KeluargaPengantinWanitaPage = () => {
             return { ...prev, ...field }
         })
     }
-    function setToZero(field: number) {
-        if (isNaN(field)) return 0
-        return field
-    }
     const handleChange = (e: any, isJumlah: boolean) => {
         if (isJumlah) {
-            updateData({ jmlSaudaraWanita: parseInt(e.target.value) })
+            updateData({ jmlSaudaraWanita: e.target.value })
         } else {
-            updateData({ anakKeBerapaWanita: parseInt(e.target.value) })
+            updateData({ anakKeBerapaWanita: e.target.value })
         }
     }
     return (
@@ -27,10 +23,10 @@ const RinPer5KeluargaPengantinWanitaPage = () => {
             <div className='form_container'>
                 <input placeholder="Nama ayah/wali" type="text" value={ayahWaliWanita} onChange={e => updateData({ ayahWaliWanita: e.target.value })} />
                 <input placeholder="Nama ibu/wali" type="text" value={ibuWaliWanita} onChange={e => updateData({ ibuWaliWanita: e.target.value })} />
-                <label>Pengantin wanita anak ke berapa</label>
-                <input placeholder="Pengantin wanita anak ke berapa" value={setToZero(anakKeBerapaWanita)} onChange={e => handleChange(e, false)} />
-                <label>Jumlah saudara pengantin wanita</label>
-                <input placeholder="Jumlah saudara pengantin wanita" value={setToZero(jmlSaudaraWanita)} onChange={e => handleChange(e, true)} />
+                <input placeholder="Pengantin wanita anak ke berapa" value={anakKeBerapaWanita} onChange={e => handleChange(e, false)} />
+                <label className="ex_label_family">Contoh: pertama</label>
+                <input placeholder="Jumlah saudara pengantin wanita" value={jmlSaudaraWanita} onChange={e => handleChange(e, true)} />
+                <label className="ex_label_family">Contoh: dua</label>
             </div>
         </>
     )
