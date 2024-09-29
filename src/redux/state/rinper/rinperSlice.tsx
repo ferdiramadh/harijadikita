@@ -16,12 +16,12 @@ export type FormDataType = {
     instaPengantinWanita: string
     ayahWaliPria: string
     ibuWaliPria: string
-    anakKeBerapaPria: number
-    jmlSaudaraPria: number
+    anakKeBerapaPria: string
+    jmlSaudaraPria: string
     ayahWaliWanita: string
     ibuWaliWanita: string
-    anakKeBerapaWanita: number
-    jmlSaudaraWanita: number
+    anakKeBerapaWanita: string
+    jmlSaudaraWanita: string
     tglAkad: string
     wktAkad: string
     tglResepsi: string
@@ -49,12 +49,12 @@ const initialState: UserData = {
         instaPengantinWanita: "",
         ayahWaliPria: "",
         ibuWaliPria: "",
-        anakKeBerapaPria: 0,
-        jmlSaudaraPria: 0,
+        anakKeBerapaPria: "",
+        jmlSaudaraPria: "",
         ayahWaliWanita: "",
         ibuWaliWanita: "",
-        anakKeBerapaWanita: 0,
-        jmlSaudaraWanita: 0,
+        anakKeBerapaWanita: "",
+        jmlSaudaraWanita: "",
         tglAkad: "",
         wktAkad: "",
         tglResepsi: "",
