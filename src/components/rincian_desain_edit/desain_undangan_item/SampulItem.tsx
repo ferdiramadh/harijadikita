@@ -34,16 +34,38 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
             }
         })
     }
+    const onToggle = () => {
+        setSampulItemData(prev => {
+            return {
+                ...prev,
+                isGunakanTema: !prev.isGunakanTema
+            }
+        })
+    }
     return (
         <div className="content_wrapper">
-            <label className="label_input">Teks pada tombol</label>
-            <input type="text" placeholder="Buka undangan" value={sampulItemData.teksTombol} onChange={e => setSampulItemData(prev => {
-                return {
-                    ...prev,
-                    teksTombol: e.target.value
-                }
-            })} />
-            <UploadGambarSection titleLable="Gambar background" onImageChange={onImageChange} sectionFolder="Sampul" photoUrl={sampulItemData.gambarBackground}/>
+            <div className="radioBtnWrapper">
+                <input className='radioBtn' type="radio" checked={sampulItemData.isGunakanTema} onClick={onToggle} />
+                <p>Gunakan dari tema</p>
+            </div>
+            <div className="radioBtnWrapper">
+                <input className='radioBtn' type="radio" checked={!sampulItemData.isGunakanTema} onClick={onToggle} />
+                <p>Gunakan punya pengantin</p>
+            </div>
+            {
+                !sampulItemData.isGunakanTema &&
+                <>
+                    <label className="label_input">Teks pada tombol</label>
+                    <input type="text" placeholder="Buka undangan" value={sampulItemData.teksTombol} onChange={e => setSampulItemData(prev => {
+                        return {
+                            ...prev,
+                            teksTombol: e.target.value
+                        }
+                    })} />
+                    <UploadGambarSection titleLable="Gambar background" onImageChange={onImageChange} sectionFolder="Sampul" photoUrl={sampulItemData.gambarBackground} />
+                </>
+            }
+
         </div>
     )
 }
