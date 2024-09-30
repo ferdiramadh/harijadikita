@@ -16,10 +16,12 @@ export type FormDesainUndanganType = {
 export type SampulType = FormDesainUndanganType & {
     teksTombol: string
     gambarBackground: string | ArrayBuffer | null | undefined
+    isGunakanTema: boolean
 }
 export type PengantinType = FormDesainUndanganType & {
     gambarPengantinPria: string | ArrayBuffer | null | undefined
     gambarPengantinWanita: string | ArrayBuffer | null | undefined
+    isNoImage: boolean
 }
 export type AyatSuciKalimatMutiaraType = FormDesainUndanganType & {
     isAyatSuci: boolean
@@ -31,20 +33,22 @@ export type AyatSuciKalimatMutiaraType = FormDesainUndanganType & {
 export type ItemValueType = SampulType | PengantinType | AyatSuciKalimatMutiaraType
 
 export const INITIAL_EDIT_DESAIN_DATA = [
-    
+
     {
         itemId: 1,
         isActive: false,
         sectionName: "Sampul",
         teksTombol: "",
-        gambarBackground: ""
+        gambarBackground: "",
+        isGunakanTema: false
     },
     {
         itemId: 2,
         isActive: false,
         sectionName: "Pengantin",
         gambarPengantinPria: "",
-        gambarPengantinWanita: ""
+        gambarPengantinWanita: "",
+        isNoImage: true
     },
     {
         itemId: 3,
