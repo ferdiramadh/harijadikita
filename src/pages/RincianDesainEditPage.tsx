@@ -28,7 +28,9 @@ function RincianDesainEditPage() {
         })
     }
     const dispatch = useDispatch<AppDispatch>()
+    
     const getUserData = async () => {
+        console.log("getUserData")
         try {
             const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
             dispatch(setRincianPernikahan(rinperData))
@@ -39,7 +41,7 @@ function RincianDesainEditPage() {
     }
 
     const getDesainUndanganData = async () => {
-        // console.log("getDesainUndanganData")
+        console.log("getDesainUndanganData")
         try {
             const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
             //   console.log({ desainDataUndangan })
@@ -49,7 +51,20 @@ function RincianDesainEditPage() {
             console.log(err)
         }
     }
-
+    const GetAllData = async () => {
+        try {
+            const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
+            const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
+            Promise.all([rinperData, desainDataUndangan]).then(([rinperval, desainval]) => {
+                // compiler correctly warns if someField not found from foo's type
+                dispatch(setRincianPernikahan(rinperval))
+                dispatch(setDesainUndangan(desainval))
+              });
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
     const saveDraft = async () => {
 
         try {
@@ -110,8 +125,9 @@ function RincianDesainEditPage() {
     }
     useEffect(() => {
         if (user) {
-            getUserData()
-            getDesainUndanganData()
+            // getUserData()
+            // getDesainUndanganData()
+            GetAllData()
         }
 
     }, [user])
