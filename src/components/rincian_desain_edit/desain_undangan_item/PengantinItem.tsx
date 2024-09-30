@@ -54,11 +54,11 @@ const Content = ({ pengantinItemData, setPengantinItemData }: PengantinItemType)
     return (
         <div className="content_wrapper">
             <div className="radioBtnWrapper">
-                <input className='radioBtn' type="radio" checked={pengantinItemData.isNoImage} onClick={onToggle} />
+                <input className='radioBtn' type="radio" checked={pengantinItemData.isNoImage} onChange={onToggle} />
                 <p>Tanpa gambar atau foto</p>
             </div>
             <div className="radioBtnWrapper">
-                <input className='radioBtn' type="radio" checked={!pengantinItemData.isNoImage} onClick={onToggle} />
+                <input className='radioBtn' type="radio" checked={!pengantinItemData.isNoImage} onChange={onToggle} />
                 <p>Pakai gambar atau foto</p>
             </div>
             {

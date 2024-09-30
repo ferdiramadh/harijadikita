@@ -83,7 +83,7 @@ const Content = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData }: 
     return (
         <div className="content_wrapper">
             <div className="radioBtnWrapper">
-                <input className='radioBtn' type="radio" checked={ayaSuciKataMutiaraItemData.isAyatSuci} onClick={onToggleIsAyatSuci} />
+                <input className='radioBtn' type="radio" checked={ayaSuciKataMutiaraItemData?.isAyatSuci} onChange={onToggleIsAyatSuci} />
                 <p>Pilih ayat suci</p>
             </div>
             {
@@ -101,7 +101,7 @@ const Content = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData }: 
             }
 
             <div className="radioBtnWrapper">
-                <input className='radioBtn' type="radio" checked={!ayaSuciKataMutiaraItemData.isAyatSuci} onClick={onToggleIsAyatSuci} />
+                <input className='radioBtn' type="radio" checked={!ayaSuciKataMutiaraItemData?.isAyatSuci} onChange={onToggleIsAyatSuci} />
                 <p>Buat kalimat mutiara</p>
             </div>
             {

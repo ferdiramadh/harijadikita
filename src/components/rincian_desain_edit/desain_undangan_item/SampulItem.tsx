@@ -45,11 +45,11 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
     return (
         <div className="content_wrapper">
             <div className="radioBtnWrapper">
-                <input className='radioBtn' type="radio" checked={sampulItemData.isGunakanTema} onClick={onToggle} />
+                <input className='radioBtn' type="radio" checked={sampulItemData?.isGunakanTema} onChange={onToggle} />
                 <p>Gunakan dari tema</p>
             </div>
             <div className="radioBtnWrapper">
-                <input className='radioBtn' type="radio" checked={!sampulItemData.isGunakanTema} onClick={onToggle} />
+                <input className='radioBtn' type="radio" checked={!sampulItemData?.isGunakanTema} onChange={onToggle} />
                 <p>Gunakan punya pengantin</p>
             </div>
             {
