@@ -181,6 +181,7 @@
         border-radius: .5rem;
         margin-right: 1rem;
     }
+
     .removeBtn {
         @include font-inter;
         color: #FFF;
@@ -192,9 +193,71 @@
         border: solid $primary .5px;
         border-radius: .5rem;
     }
+
+    .editSection {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            width: 200px;
+            padding: .5rem;
+            justify-content: space-between;
+            align-self: center;
+
+            input[type="file"] {
+                display: none;
+            }
+
+            .custom-file-upload {
+                @include font-inter;
+                color: #FFF;
+                width: 85px;
+                height: 37px;
+                justify-content: center;
+                align-items: center;
+                background-color: $primary;
+                text-align: center;
+                padding: 10px;
+                border: solid $primary .5px;
+                border-radius: .25rem;
+            }
+
+            .deleteBtn {
+                @include font-inter;
+                width: 85px;
+                height: 37px;
+                justify-content: center;
+                align-items: center;
+                background-color: white;
+                text-align: center;
+                padding: 10px;
+                border: solid #C4C4C4 .25px;
+                border-radius: .25rem;
+            }
+
+            .editBtn {
+                @include font-inter;
+                color: #FFF;
+                width: 85px;
+                height: 37px;
+                justify-content: center;
+                align-items: center;
+                background-color: $primary;
+                text-align: center;
+                padding: 10px;
+                border: solid $primary .5px;
+                border-radius: .25rem;
+            }
+        }
+    }
+
     .upload_image_section {
         display: flex;
-        // background-color: yellow;
         width: 100%;
         border: 1px solid #667085;
         border-style: dashed;
@@ -239,7 +302,8 @@
             }
         }
     }
-    .radioBtnWrapper{
+
+    .radioBtnWrapper {
         display: flex;
         flex-direction: row;
         align-self: flex-start;
@@ -247,12 +311,13 @@
         justify-content: center;
         height: 3rem;
 
-        .radioBtn{
+        .radioBtn {
             width: 20px;
             align-self: center;
             margin-bottom: 20px;
-            accent-color:$primary;
+            accent-color: $primary;
         }
+
         p {
             font-size: $font-size-14;
             @include font-inter;

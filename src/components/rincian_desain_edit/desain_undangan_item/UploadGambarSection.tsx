@@ -2,7 +2,7 @@ import { FiUploadCloud } from "react-icons/fi"
 import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect, useState } from 'react'
 import { storage } from "../../../firebase"
-import { getBytes, getDownloadURL, ref, uploadString } from "firebase/storage"
+import { getDownloadURL, ref, uploadString } from "firebase/storage"
 import { UserAuth } from "../../../context/AuthContext"
 
 type UploadImageType = {
@@ -18,7 +18,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     const [loading, setLoading] = useState(false)
     const [image, setImage] = useState<string | ArrayBuffer | null | undefined>()
     const [imageUrl, setImageUrl] = useState(photoUrl)
-    const [count, setCount] = useState(0)
+
     const storageRef = ref(storage, `${sectionFolder}/Images/${user.uid}`)
     const uploadImage = async () => {
         setLoading(true)
@@ -60,7 +60,12 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     })
 
     let name = acceptedFiles[0]?.name
-
+    const onImageChangeX = (event: any) => {
+        if (event.target.files && event.target.files[0]) {
+            console.log(event.target.files[0])
+            // setImage(URL.createObjectURL(event.target.files[0]));
+        }
+    }
     useEffect(() => {
         if (image) {
             onImageChange(imageUrl)
@@ -72,10 +77,23 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         <>
             <label className="label_input">{titleLable}</label>
             {
-                imageUrl ? <div style={{ marginTop: 10 }}>
-                    <img src={`${imageUrl}`} style={{ width: '100%', }}
-                    ></img>
-                </div> :
+                imageUrl ?
+                    <div style={{ marginTop: 10 }}>
+                        <img src={`${imageUrl}`} style={{ width: '100%', }}
+                            alt={titleLable} />
+                        <div className="editSection">
+                            <div className="buttons">
+                                <button className="deleteBtn" onClick={() => alert("Hapus")}>Hapus</button>
+                                {/* <button className="editBtn" onClick={() => alert("Ubah")}>Ubah</button> */}
+                                <label className="custom-file-upload">
+                                    <input type="file" onChange={onImageChangeX} />
+                                    Ubah
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    :
                     null
             }
             {
