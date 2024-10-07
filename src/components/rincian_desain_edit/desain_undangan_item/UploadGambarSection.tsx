@@ -60,6 +60,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     })
 
     let name = acceptedFiles[0]?.name
+    console.log(acceptedFiles[0])
     const onImageChangeX = (event: any) => {
         if (event.target.files && event.target.files[0]) {
             console.log(event.target.files[0])
@@ -84,11 +85,19 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                         <div className="editSection">
                             <div className="buttons">
                                 <button className="deleteBtn" onClick={() => alert("Hapus")}>Hapus</button>
-                                {/* <button className="editBtn" onClick={() => alert("Ubah")}>Ubah</button> */}
-                                <label className="custom-file-upload">
-                                    <input type="file" onChange={onImageChangeX} />
-                                    Ubah
-                                </label>
+                                <div className="editWrapper">
+                                <div {...getRootProps()} className="drag_drop">
+                                    <label className="custom-file-upload">
+                                        <input {...getInputProps()}
+                                            type="file"
+                                            className="drag_drop_input"
+                                            accept="image/jpg, image/png, image/jpeg"
+                                        />
+                                        Ubah
+                                    </label>
+                                </div>
+                                </div>
+
                             </div>
 
                         </div>
