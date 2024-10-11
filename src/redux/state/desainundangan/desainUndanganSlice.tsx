@@ -69,7 +69,7 @@ const initialState: UserDataDesainUndangan = {
     latestUpdate: ""
 }
 const desainUndanganSlice = createSlice({
-    name: "rinper",
+    name: "desainUndangan",
     initialState,
     reducers: {
         setDesainUndangan: (state, action) => {
