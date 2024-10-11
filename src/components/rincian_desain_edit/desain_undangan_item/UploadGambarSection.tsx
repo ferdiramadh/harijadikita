@@ -2,7 +2,7 @@ import { FiUploadCloud } from "react-icons/fi"
 import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect, useState } from 'react'
 import { storage } from "../../../firebase"
-import { getDownloadURL, ref, uploadString } from "firebase/storage"
+import { getDownloadURL, ref, uploadString, deleteObject } from "firebase/storage"
 import { UserAuth } from "../../../context/AuthContext"
 
 type UploadImageType = {
@@ -13,13 +13,14 @@ type UploadImageType = {
 }
 
 const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl = "" }: UploadImageType) => {
-
+ 
     const { user } = UserAuth()
     const [loading, setLoading] = useState(false)
     const [image, setImage] = useState<string | ArrayBuffer | null | undefined>()
     const [imageUrl, setImageUrl] = useState(photoUrl)
-
+   
     const storageRef = ref(storage, `${sectionFolder}/Images/${user.uid}`)
+    // console.log(user.uid)
     const uploadImage = async () => {
         setLoading(true)
         try {
@@ -36,6 +37,21 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             setLoading(false)
             alert(error)
         }
+    }
+    const deleteImage = async () => {
+        let text = "Gambar akan dihapus. Anda yakin?"
+        if (window.confirm(text) == true) {
+            await deleteObject(storageRef).then((snapshot) => {
+                setImageUrl("")
+                onImageChange("")
+                alert('gambar berhasil dihapus')
+            }).catch((error) => {
+                alert(error.message)
+            })
+        } else {
+          alert("Dibatalkan")
+        }
+       
     }
     const onDrop = useCallback((acceptedFiles: File[]) => {
         acceptedFiles.map((file) => {
@@ -84,18 +100,18 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                             alt={titleLable} />
                         <div className="editSection">
                             <div className="buttons">
-                                <button className="deleteBtn" onClick={() => alert("Hapus")}>Hapus</button>
+                                <button className="deleteBtn" onClick={deleteImage}>Hapus</button>
                                 <div className="editWrapper">
-                                <div {...getRootProps()} className="drag_drop">
-                                    <label className="custom-file-upload">
-                                        <input {...getInputProps()}
-                                            type="file"
-                                            className="drag_drop_input"
-                                            accept="image/jpg, image/png, image/jpeg"
-                                        />
-                                        Ubah
-                                    </label>
-                                </div>
+                                    <div {...getRootProps()} className="drag_drop">
+                                        <label className="custom-file-upload">
+                                            <input {...getInputProps()}
+                                                type="file"
+                                                className="drag_drop_input"
+                                                accept="image/jpg, image/png, image/jpeg"
+                                            />
+                                            Ubah
+                                        </label>
+                                    </div>
                                 </div>
 
                             </div>
