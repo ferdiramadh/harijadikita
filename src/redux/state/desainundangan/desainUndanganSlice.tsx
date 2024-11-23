@@ -74,10 +74,13 @@ const desainUndanganSlice = createSlice({
     reducers: {
         setDesainUndangan: (state, action) => {
             return action.payload
-        }
+        },
+        initiateDesainUndangan: () => {
+            return initialState
+        },
     }
 })
 
-export const { setDesainUndangan } = desainUndanganSlice.actions
+export const { setDesainUndangan, initiateDesainUndangan } = desainUndanganSlice.actions
 
 export default desainUndanganSlice.reducer
