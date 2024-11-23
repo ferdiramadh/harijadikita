@@ -10,7 +10,13 @@ import {
 import { auth } from "../firebase"
 import { DocumentData, addDoc, collection, getDocs, query, where } from "firebase/firestore"
 import { db } from "../firebase"
-import { FormDataType } from "../redux/state/rinper/rinperSlice"
+import { FormDataType, setRincianPernikahan } from "../redux/state/rinper/rinperSlice"
+import { useDispatch } from "react-redux"
+import { setUserCredential } from '../redux/state/userCredential/userCredentialSlice'
+import { AppDispatch } from "../redux/store"
+import { getDataCollection } from "../database/Functions"
+import { initiateDesainUndangan, setDesainUndangan, UserDataDesainUndangan } from "../redux/state/desainundangan/desainUndanganSlice"
+import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN } from "../database/Collections"
 
 interface ChildrenProps {
     children?: ReactNode
@@ -47,7 +53,7 @@ const INITIAL_USER: UserCollectionProps = {
 
 
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
-    const [user, setUser] = useState<any>({})
+    const [user, setUser] = useState<any>(null)
     const [userAcc, setUserAcc] = useState<UserCollectionProps | DocumentData>(INITIAL_USER)
     const INITIAL_DATA: FormDataType = {
         pengantinPriaLengkap: "",
@@ -82,6 +88,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     }
     const [isFinishJoin, setIsFinishJoin] = useState<boolean>(false)
     const [data, setData] = useState(INITIAL_DATA)
+    const dispatch = useDispatch<AppDispatch>()
     const googleSignIn = () => {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
@@ -91,7 +98,9 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         signInWithPopup(auth, provider)
     }
     const logOut = () => {
+        setUser(null)
         signOut(auth)
+        localStorage.clear()
     }
 
     const getData = async () => {
@@ -138,13 +147,36 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
             console.log(err)
         }
     }
+    const GetRinperDesainData = async () => {
+        try {
+            const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
+            const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
+            Promise.all([rinperData, desainDataUndangan]).then(([rinperval, desainval]) => {
+                if (rinperval) {
+                    dispatch(setRincianPernikahan(rinperval))
+                }
+                if (!desainval) {
+                    dispatch(initiateDesainUndangan())
+                }
+                if (desainval) {
+                    dispatch(setDesainUndangan(desainval))
+                }
 
+            })
+        } catch (error) {
+            alert(error)
+        }
+
+    }
     useEffect(() => {
+
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser)
-            console.log("onAuthStateChanged")
-            console.log(currentUser)
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            if (currentUser) {
+                dispatch(setUserCredential(currentUser))
+                setUser(currentUser)
+                localStorage.setItem('currentUser', JSON.stringify(currentUser))
+            }
+
         })
 
         return () => {
@@ -153,12 +185,9 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     }, [])
 
     useEffect(() => {
-        // const currentUser = JSON.parse(localStorage.getItem('currentUser') || "");
         if (user) {
-            console.log("Get data lah")
             getData()
-        } else {
-            console.log("manan user")
+            GetRinperDesainData()
         }
     }, [user])
 
