@@ -13,7 +13,7 @@ const AyatSuciKataMutiaraItem = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMut
         setAyaSuciKataMutiaraItemData(prev => {
             return {
                 ...prev,
-                isActive: !prev.isActive
+                isActive: !prev?.isActive
             }
         })
     }
@@ -21,7 +21,7 @@ const AyatSuciKataMutiaraItem = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMut
         <DesainUndanganItem
             title="Ayat suci/kalimat mutiara"
             children={<Content ayaSuciKataMutiaraItemData={ayaSuciKataMutiaraItemData} setAyaSuciKataMutiaraItemData={setAyaSuciKataMutiaraItemData} />}
-            toggleVal={ayaSuciKataMutiaraItemData.isActive}
+            toggleVal={ayaSuciKataMutiaraItemData?.isActive}
             onToggle={onToggle}
         />
     )

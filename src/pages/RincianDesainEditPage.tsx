@@ -6,42 +6,58 @@ import BottomMenu from '../components/rincian_desain_edit/BottomMenu'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { UserAuth } from '../context/AuthContext'
-import { addDocWithId, getDataCollection, updateDataCollection } from '../database/Functions'
+import { addDocWithId, updateDataCollection } from '../database/Functions'
 import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN } from '../database/Collections'
 import { FormDataType, setRincianPernikahan, updateRincianPernikahan } from '../redux/state/rinper/rinperSlice'
 import LoadingOverlay from 'react-loading-overlay-ts'
-import { AyatSuciKalimatMutiaraType, INITIAL_EDIT_DESAIN_DATA, ItemValueType, PengantinType, SampulType, setDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice'
+import { AyatSuciKalimatMutiaraType, PengantinType, SampulType, setDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice'
 
 function RincianDesainEditPage() {
 
     const [isRincianPernikahan, setIsRincianPernikahan] = useState(true)
     const { data, id } = useSelector((state: RootState) => state.rinper)
     const { data: dataDesainUndangan, id: idDesainUndangan } = useSelector((state: RootState) => state.desainUndangan)
-    const [editData, setEditData] = useState<FormDataType>(data)
-    const [editDesainUndanganData, setEdiDesainUndangantData] = useState<(Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]>(dataDesainUndangan)
+    const [editData, setEditData] = useState<FormDataType>({
+        pengantinPriaLengkap: "",
+        pengantinPria: "",
+        pengantinWanitaLengkap: "",
+        pengantinWanita: "",
+        instaPengantinPria: "",
+        instaPengantinWanita: "",
+        ayahWaliPria: "",
+        ibuWaliPria: "",
+        anakKeBerapaPria: "",
+        jmlSaudaraPria: "",
+        ayahWaliWanita: "",
+        ibuWaliWanita: "",
+        anakKeBerapaWanita: "",
+        jmlSaudaraWanita: "",
+        tglAkad: "",
+        wktAkad: "",
+        tglResepsi: "",
+        wktResepsi: "",
+        lokasiAkad: "",
+        lokasiResepsi: "",
+        namaRekening: "",
+        namaBank: "",
+        noRek: "",
+        namaRekening2: "",
+        namaBank2: "",
+        noRek2: "",
+        jmlTamu: 0,
+        tahuDariMana: "",
+        user: ""
+    })
     const [getChanged, setGetChanged] = useState(false)
     const [loading, setLoading] = useState(false)
-    const { user } = UserAuth()
+    const { user, editDesainUndanganData, setEdiDesainUndangantData } = UserAuth()
     function updateData(field: Partial<FormDataType>) {
         setEditData(prev => {
             return { ...prev, ...field }
         })
     }
     const dispatch = useDispatch<AppDispatch>()
-    
-    const GetAllData = async () => {
-        try {
-            const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
-            const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
-            Promise.all([rinperData, desainDataUndangan]).then(([rinperval, desainval]) => {
-                dispatch(setRincianPernikahan(rinperval))
-                dispatch(setDesainUndangan(desainval))
-              })
-        } catch (error) {
-            console.log(error)
-        }
-        
-    }
+
     const saveDraft = async () => {
 
         try {
@@ -92,8 +108,12 @@ function RincianDesainEditPage() {
         /* WARNING: arrays must not contain {objects} or behavior may be undefined */
         return JSON.stringify(a1) == JSON.stringify(a2);
     }
+    const publish = () => {
+        console.log(dataDesainUndangan)
+        alert("Fitur belum tersedia.")
+    }
     const onSubmit = () => {
-        
+
         if (isRincianPernikahan) {
             saveDraft()
         } else {
@@ -101,13 +121,9 @@ function RincianDesainEditPage() {
         }
     }
     useEffect(() => {
-        if (user) {
-            // getUserData()
-            // getDesainUndanganData()
-            GetAllData()
-        }
-
-    }, [user])
+        setEditData(data)
+        setEdiDesainUndangantData(dataDesainUndangan)
+    }, [])
 
     useEffect(() => {
         if (arraysEqual(data, editData)) {
@@ -117,12 +133,6 @@ function RincianDesainEditPage() {
         }
     }, [editData])
 
-    // useEffect(() => {
-    //   const items = JSON.parse(localStorage.getItem('items') || "");
-    //   if (items) {
-    //     console.log(items);
-    //   }
-    // }, []);
     return (
 
         <div className='editRinDesPage'>
@@ -141,10 +151,10 @@ function RincianDesainEditPage() {
                     spinner
                     text='Menyimpan data desain pernikahan...'
                 >
-                    <DesainUndangan editDesainUndanganData={editDesainUndanganData} setEdiDesainUndangantData={setEdiDesainUndangantData} />
+                    <DesainUndangan />
                 </LoadingOverlay>
             }
-            <BottomMenu getChanged={isRincianPernikahan ? getChanged : true} saveDraft={onSubmit} />
+            <BottomMenu getChanged={isRincianPernikahan ? getChanged : true} saveDraft={onSubmit} publish={publish} />
         </div>
 
     )

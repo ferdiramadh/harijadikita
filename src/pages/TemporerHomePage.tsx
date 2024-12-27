@@ -8,22 +8,26 @@ import { updateRincianPernikahan, setRincianPernikahan, FormDataType } from '../
 import { addDocWithId, getDataCollection } from '../database/Functions'
 import { RINCIAN_PERNIKAHAN } from '../database/Collections'
 import { useNavigate } from 'react-router-dom'
+import { initiateDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice'
 
 const TemporerHomePage = () => {
 
   const navigate = useNavigate()
   const { logOut, userAcc, user, setUserAcc } = UserAuth()
+  // console.log({userAcc})
   const [userData, setUserData] = useState<FormDataType | DocumentData>()
   const data = useSelector((state: RootState) => state.rinper.data)
+  const dispatch = useDispatch<AppDispatch>()
   const handleLogout = async () => {
     try {
+      dispatch(initiateDesainUndangan())
       await logOut()
       setUserAcc({})
     } catch (error) {
       alert(error)
     }
   }
-  const dispatch = useDispatch<AppDispatch>()
+
   const getUserData = async () => {
     try {
       const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
@@ -34,7 +38,7 @@ const TemporerHomePage = () => {
       console.log(err)
     }
   }
-
+  const { uid, email} = useSelector((state: RootState) => state.user)
   useEffect(() => {
     if (data?.user == "") {
       getUserData()
@@ -44,7 +48,7 @@ const TemporerHomePage = () => {
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
       <div style={{ display: 'flex', height: '100%', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
-        <h3>Welcome, {userAcc?.displayName}</h3>
+        <h3>Welcome, {userAcc?.displayName} { uid} {email}</h3>
         {user ? <button onClick={handleLogout}>Logout</button> : null}
         <button onClick={() => navigate("/rinciandesain")}>GO To Edit Rincian Desain </button>
       </div>
