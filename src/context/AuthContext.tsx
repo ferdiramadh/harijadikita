@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux"
 import { setUserCredential } from '../redux/state/userCredential/userCredentialSlice'
 import { AppDispatch } from "../redux/store"
 import { getDataCollection } from "../database/Functions"
-import { initiateDesainUndangan, setDesainUndangan, UserDataDesainUndangan } from "../redux/state/desainundangan/desainUndanganSlice"
+import { AyatSuciKalimatMutiaraType, initiateDesainUndangan, PengantinType, SampulType, setDesainUndangan, UserDataDesainUndangan } from "../redux/state/desainundangan/desainUndanganSlice"
 import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN } from "../database/Collections"
 
 interface ChildrenProps {
@@ -32,6 +32,8 @@ type UserContextType = {
     data: FormDataType
     setData: React.Dispatch<React.SetStateAction<FormDataType>>
     INITIAL_DATA: FormDataType
+    editDesainUndanganData: (Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]
+    setEdiDesainUndangantData: React.Dispatch<React.SetStateAction<(Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]>>
 }
 type UserCollectionProps = {
     email: string
@@ -148,14 +150,18 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         }
     }
     const GetRinperDesainData = async () => {
+        console.log("GetRinperDesainData")
         try {
             const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
             const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
             Promise.all([rinperData, desainDataUndangan]).then(([rinperval, desainval]) => {
+                console.log({ rinperval })
+                console.log({ desainval })
                 if (rinperval) {
                     dispatch(setRincianPernikahan(rinperval))
                 }
                 if (!desainval) {
+                    console.log("initiateDesainUndangan")
                     dispatch(initiateDesainUndangan())
                 }
                 if (desainval) {
@@ -168,6 +174,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         }
 
     }
+    const [editDesainUndanganData, setEdiDesainUndangantData] = useState<(Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]>([])
     useEffect(() => {
 
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -192,7 +199,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     }, [user])
 
     return (
-        <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc, setIsFinishJoin, data, setData, INITIAL_DATA }}>
+        <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc, setIsFinishJoin, data, setData, INITIAL_DATA, editDesainUndanganData, setEdiDesainUndangantData }}>
             {children}
         </AuthContext.Provider>
     )
