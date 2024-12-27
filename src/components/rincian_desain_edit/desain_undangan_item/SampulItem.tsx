@@ -36,7 +36,6 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
     const { editDesainUndanganData } = UserAuth()
     const [photoUrl, setPhotoUrl] = useState(sampulItemData?.gambarBackground)
     const onImageChange = (value: string | ArrayBuffer | null | undefined) => {
-        console.log("onImageChange")
         setSampulItemData(prev => {
             return {
                 ...prev,
@@ -53,7 +52,6 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
         })
     }
     const updateDeleteImageField = () => {
-        console.log(editDesainUndanganData)
         setPhotoUrl("")
         setSampulItemData(prev => {
             return {
@@ -61,13 +59,14 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
                 gambarBackground: ""
             }
         })
-
     }
+
     useEffect(() => {
         if (sampulItemData.gambarBackground == "") {
             updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
         }
     }, [sampulItemData])
+
     return (
         <div className="content_wrapper">
             <div className="radioBtnWrapper">
