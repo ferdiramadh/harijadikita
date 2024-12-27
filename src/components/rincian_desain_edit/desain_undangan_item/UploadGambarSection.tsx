@@ -10,9 +10,10 @@ type UploadImageType = {
     onImageChange: (value: string | ArrayBuffer | null | undefined) => void
     sectionFolder?: string
     photoUrl?: string | ArrayBuffer | null | undefined
+    updateDeleteImageField: () => void
 }
 
-const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl = "" }: UploadImageType) => {
+const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl = "", updateDeleteImageField }: UploadImageType) => {
  
     const { user } = UserAuth()
     const [loading, setLoading] = useState(false)
@@ -20,14 +21,14 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     const [imageUrl, setImageUrl] = useState(photoUrl)
    
     const storageRef = ref(storage, `${sectionFolder}/Images/${user.uid}`)
-    // console.log(user.uid)
+  
     const uploadImage = async () => {
         setLoading(true)
         try {
             uploadString(storageRef, `${image}`, 'data_url').then((snapshot) => {
                 return getDownloadURL(snapshot.ref)
             }).then(downloadURL => {
-
+                console.log(downloadURL)
                 setImageUrl(downloadURL)
                 setLoading(false)
                 alert('Gambar berhasil diunggah.')
@@ -38,13 +39,15 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             alert(error)
         }
     }
+
     const deleteImage = async () => {
+        console.log(photoUrl)
         let text = "Gambar akan dihapus. Anda yakin?"
         if (window.confirm(text) == true) {
             await deleteObject(storageRef).then((snapshot) => {
                 setImageUrl("")
-                onImageChange("")
-                alert('gambar berhasil dihapus')
+                updateDeleteImageField()
+                alert('Gambar berhasil dihapus dari data anda.')
             }).catch((error) => {
                 alert(error.message)
             })
@@ -66,17 +69,21 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             return file
         })
     }, [])
-    const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
+    const { acceptedFiles, getRootProps, getInputProps, isDragActive, } = useDropzone({
         onDrop,
         accept: {
             'image/*': ['.jpeg', '.jpg', '.png'],
         },
         maxSize: 2 * 1024 * 1024,
-        multiple: false
+        multiple: false,
+        onDropRejected: (val) => {
+            const error = val[0].errors
+            alert(error[0].message)
+        }
     })
 
     let name = acceptedFiles[0]?.name
-    console.log(acceptedFiles[0])
+    // console.log(acceptedFiles[0])
     const onImageChangeX = (event: any) => {
         if (event.target.files && event.target.files[0]) {
             console.log(event.target.files[0])
@@ -89,7 +96,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         }
 
     }, [imageUrl])
-
+    // console.log(name, image, photoUrl)
     return (
         <>
             <label className="label_input">{titleLable}</label>

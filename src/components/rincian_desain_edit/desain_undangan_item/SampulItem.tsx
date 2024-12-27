@@ -1,6 +1,12 @@
 import DesainUndanganItem from "./DesainUndanganItem"
 import UploadGambarSection from "./UploadGambarSection"
 import { SampulType } from "../../../redux/state/desainundangan/desainUndanganSlice"
+import { updateDataCollection } from "../../../database/Functions"
+import { DESAIN_UNDANGAN } from "../../../database/Collections"
+import { useSelector } from "react-redux"
+import { RootState } from "../../../redux/store"
+import { useEffect, useState } from "react"
+import { UserAuth } from "../../../context/AuthContext"
 
 type SampulItemType = {
     sampulItemData: Partial<SampulType>
@@ -11,7 +17,7 @@ const SampulItem = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
         setSampulItemData(prev => {
             return {
                 ...prev,
-                isActive: !prev.isActive
+                isActive: !prev?.isActive
             }
         })
     }
@@ -19,14 +25,18 @@ const SampulItem = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
         <DesainUndanganItem
             title="Sampul"
             children={<Content sampulItemData={sampulItemData} setSampulItemData={setSampulItemData} />}
-            toggleVal={sampulItemData.isActive}
+            toggleVal={sampulItemData?.isActive}
             onToggle={onToggle}
         />
     )
 }
 
 const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
+    const { id: idDesainUndangan } = useSelector((state: RootState) => state.desainUndangan)
+    const { editDesainUndanganData } = UserAuth()
+    const [photoUrl, setPhotoUrl] = useState(sampulItemData?.gambarBackground)
     const onImageChange = (value: string | ArrayBuffer | null | undefined) => {
+        console.log("onImageChange")
         setSampulItemData(prev => {
             return {
                 ...prev,
@@ -38,10 +48,26 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
         setSampulItemData(prev => {
             return {
                 ...prev,
-                isGunakanTema: !prev.isGunakanTema
+                isGunakanTema: !prev?.isGunakanTema
             }
         })
     }
+    const updateDeleteImageField = () => {
+        console.log(editDesainUndanganData)
+        setPhotoUrl("")
+        setSampulItemData(prev => {
+            return {
+                ...prev,
+                gambarBackground: ""
+            }
+        })
+
+    }
+    useEffect(() => {
+        if (sampulItemData.gambarBackground == "") {
+            updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
+        }
+    }, [sampulItemData])
     return (
         <div className="content_wrapper">
             <div className="radioBtnWrapper">
@@ -53,16 +79,22 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
                 <p>Gunakan punya pengantin</p>
             </div>
             {
-                !sampulItemData.isGunakanTema &&
+                !sampulItemData?.isGunakanTema &&
                 <>
                     <label className="label_input">Teks pada tombol</label>
-                    <input type="text" placeholder="Buka undangan" value={sampulItemData.teksTombol} onChange={e => setSampulItemData(prev => {
+                    <input type="text" placeholder="Buka undangan" value={sampulItemData?.teksTombol} onChange={e => setSampulItemData(prev => {
                         return {
                             ...prev,
                             teksTombol: e.target.value
                         }
                     })} />
-                    <UploadGambarSection titleLable="Gambar background" onImageChange={onImageChange} sectionFolder="Sampul" photoUrl={sampulItemData.gambarBackground} />
+                    <UploadGambarSection
+                        titleLable="Gambar background"
+                        onImageChange={onImageChange}
+                        sectionFolder="Sampul"
+                        photoUrl={photoUrl}
+                        updateDeleteImageField={updateDeleteImageField}
+                    />
                 </>
             }
 
