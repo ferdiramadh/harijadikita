@@ -39,7 +39,7 @@ export const getDataCollection = async (collectionId: string, userId: string) =>
             })
             return result
         } else if (docLength == 0) {
-            alert("There is duplicate data")
+            return null
         }
         return
 
