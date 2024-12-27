@@ -5,6 +5,8 @@ import { PengantinType } from '../../../redux/state/desainundangan/desainUndanga
 import DesainUndanganItem from './DesainUndanganItem'
 import UploadGambarSection from './UploadGambarSection'
 import { RootState } from '../../../redux/store'
+import { useEffect, useState } from 'react'
+import { UserAuth } from '../../../context/AuthContext'
 
 type PengantinItemType = {
     pengantinItemData: Partial<PengantinType>
@@ -31,7 +33,11 @@ const PengantinItem = ({ pengantinItemData, setPengantinItemData }: PengantinIte
 }
 
 const Content = ({ pengantinItemData, setPengantinItemData }: PengantinItemType) => {
+
     const { id: idDesainUndangan } = useSelector((state: RootState) => state.desainUndangan)
+    const { editDesainUndanganData } = UserAuth()
+    const [photoUrlPengantinPria, setPhotoUrlPengantinPria] = useState(pengantinItemData?.gambarPengantinPria)
+    const [photoUrlPengantinWanita, setPhotoUrlPengantinWanita] = useState(pengantinItemData?.gambarPengantinWanita)
     const onImageChangePengantinPria = (value: string | ArrayBuffer | null | undefined) => {
         setPengantinItemData(prev => {
             return {
@@ -56,9 +62,31 @@ const Content = ({ pengantinItemData, setPengantinItemData }: PengantinItemType)
             }
         })
     }
-    const updateDeleteImageField = () => {
-        updateDataCollection(DESAIN_UNDANGAN, pengantinItemData, idDesainUndangan)
+    const updateDeleteImageFieldPria = () => {
+        setPhotoUrlPengantinPria("")
+        setPengantinItemData(prev => {
+            return {
+                ...prev,
+                gambarPengantinPria: ""
+            }
+        })
     }
+    const updateDeleteImageFieldWanita = () => {
+        setPhotoUrlPengantinWanita("")
+        setPengantinItemData(prev => {
+            return {
+                ...prev,
+                gambarPengantinWanita: ""
+            }
+        })
+    }
+    useEffect(() => {
+        if ((pengantinItemData.gambarPengantinPria == "" && photoUrlPengantinPria == "") || pengantinItemData.gambarPengantinWanita == "" && photoUrlPengantinWanita == "") {
+            updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
+        }
+
+    }, [pengantinItemData, photoUrlPengantinPria, photoUrlPengantinWanita])
+
     return (
         <div className="content_wrapper">
             <div className="radioBtnWrapper">
@@ -72,8 +100,8 @@ const Content = ({ pengantinItemData, setPengantinItemData }: PengantinItemType)
             {
                 !pengantinItemData?.isNoImage &&
                 <>
-                    <UploadGambarSection titleLable="Gambar pengantin pria" onImageChange={onImageChangePengantinPria} sectionFolder='Pengatin_Pria' photoUrl={pengantinItemData.gambarPengantinPria} updateDeleteImageField={updateDeleteImageField} />
-                    <UploadGambarSection titleLable="Gambar pengantin wanita" onImageChange={onImageChangePengantinWanita} sectionFolder='Pengatin_Wanita' photoUrl={pengantinItemData.gambarPengantinWanita} updateDeleteImageField={updateDeleteImageField} />
+                    <UploadGambarSection titleLable="Gambar pengantin pria" onImageChange={onImageChangePengantinPria} sectionFolder='Pengatin_Pria' photoUrl={photoUrlPengantinPria} updateDeleteImageField={updateDeleteImageFieldPria} />
+                    <UploadGambarSection titleLable="Gambar pengantin wanita" onImageChange={onImageChangePengantinWanita} sectionFolder='Pengatin_Wanita' photoUrl={photoUrlPengantinWanita} updateDeleteImageField={updateDeleteImageFieldWanita} />
                 </>
             }
         </div>
