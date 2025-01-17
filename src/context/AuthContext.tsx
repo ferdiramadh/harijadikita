@@ -152,23 +152,29 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const GetRinperDesainData = async () => {
         console.log("GetRinperDesainData")
         try {
-            const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
-            const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
-            Promise.all([rinperData, desainDataUndangan]).then(([rinperval, desainval]) => {
-                console.log({ rinperval })
-                console.log({ desainval })
-                if (rinperval) {
-                    dispatch(setRincianPernikahan(rinperval))
-                }
-                if (!desainval) {
-                    console.log("initiateDesainUndangan")
-                    dispatch(initiateDesainUndangan())
-                }
-                if (desainval) {
-                    dispatch(setDesainUndangan(desainval))
-                }
+            // const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
+            // const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
+            // Promise.all([rinperData, desainDataUndangan]).then(([rinperval, desainval]) => {
+            //     console.log({ rinperval })
+            //     console.log({ desainval })
+            //     if (rinperval) {
+            //         dispatch(setRincianPernikahan(rinperval))
+            //     }
+            //     if (!desainval) {
+            //         console.log("initiateDesainUndangan")
+            //         dispatch(initiateDesainUndangan())
+            //     }
+            //     if (desainval) {
+            //         dispatch(setDesainUndangan(desainval))
+            //     }
 
-            })
+            // })
+            const result = await Promise.all([
+                getDataCollection(RINCIAN_PERNIKAHAN, user.uid),
+                getDataCollection(DESAIN_UNDANGAN, user.uid)
+            ])
+            // console.log({result})
+            return result
         } catch (error) {
             alert(error)
         }
@@ -193,8 +199,23 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
 
     useEffect(() => {
         if (user) {
+            const getRinperDesainData = async () => {
+                const test = await GetRinperDesainData()
+                console.log(test?.[0])
+                console.log(test?.[1])
+                if (test?.[0]) {
+                    dispatch(setRincianPernikahan(test?.[0]))
+                }
+                if (!test?.[1]) {
+                    console.log("initiateDesainUndangan")
+                    dispatch(initiateDesainUndangan())
+                }
+                if (test?.[1]) {
+                    dispatch(setDesainUndangan(test?.[1]))
+                }
+            }
             getData()
-            GetRinperDesainData()
+            getRinperDesainData()
         }
     }, [user])
 
