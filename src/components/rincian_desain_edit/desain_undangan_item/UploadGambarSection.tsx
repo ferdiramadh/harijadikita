@@ -4,6 +4,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { storage } from "../../../firebase"
 import { getDownloadURL, ref, uploadString, deleteObject } from "firebase/storage"
 import { UserAuth } from "../../../context/AuthContext"
+import { updateDataCollection } from "../../../database/Functions"
+import { DESAIN_UNDANGAN } from "../../../database/Collections"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../../../redux/store"
+import { setDesainUndangan } from "../../../redux/state/desainundangan/desainUndanganSlice"
 
 type UploadImageType = {
     titleLable: string
@@ -14,14 +19,14 @@ type UploadImageType = {
 }
 
 const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl = "", updateDeleteImageField }: UploadImageType) => {
- 
+
     const { user } = UserAuth()
     const [loading, setLoading] = useState(false)
     const [image, setImage] = useState<string | ArrayBuffer | null | undefined>()
     const [imageUrl, setImageUrl] = useState(photoUrl)
-   
+    const [fileName, setFileName] = useState('')
     const storageRef = ref(storage, `${sectionFolder}/Images/${user.uid}`)
-  
+
     const uploadImage = async () => {
         setLoading(true)
         try {
@@ -30,9 +35,14 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             }).then(downloadURL => {
                 console.log(downloadURL)
                 setImageUrl(downloadURL)
+                setImage('')
+                setFileName('')
                 setLoading(false)
-                alert('Gambar berhasil diunggah.')
-                return downloadURL
+                if (downloadURL) {
+                    alert('Gambar berhasil diunggah.')
+                    return downloadURL
+                }
+                return
             })
         } catch (error) {
             setLoading(false)
@@ -52,12 +62,13 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                 alert(error.message)
             })
         } else {
-          alert("Dibatalkan")
+            alert("Dibatalkan")
         }
-       
+
     }
     const onDrop = useCallback((acceptedFiles: File[]) => {
         acceptedFiles.map((file) => {
+            setFileName(file.name)
             const reader = new FileReader()
 
             reader.onload = function (e) {
@@ -69,7 +80,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             return file
         })
     }, [])
-    const { acceptedFiles, getRootProps, getInputProps, isDragActive, } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive, } = useDropzone({
         onDrop,
         accept: {
             'image/*': ['.jpeg', '.jpg', '.png'],
@@ -82,7 +93,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         }
     })
 
-    let name = acceptedFiles[0]?.name
+    // let name = acceptedFiles[0]?.name
     // console.log(acceptedFiles[0])
     const onImageChangeX = (event: any) => {
         if (event.target.files && event.target.files[0]) {
@@ -91,17 +102,17 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         }
     }
     useEffect(() => {
-        if (image) {
+        if (imageUrl) {
             onImageChange(imageUrl)
         }
 
     }, [imageUrl])
-    // console.log(name, image, photoUrl)
+
     return (
         <>
             <label className="label_input">{titleLable}</label>
             {
-                imageUrl ?
+                imageUrl && !image ?
                     <div style={{ marginTop: 10 }}>
                         <img src={`${imageUrl}`} style={{ width: '100%', }}
                             alt={titleLable} />
@@ -126,7 +137,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                         </div>
                     </div>
                     :
-                    null
+                    <label className="label_input">Upload untuk mengubah gambar</label>
             }
             {
                 (image == undefined || image == "") && photoUrl == "" &&
@@ -148,17 +159,17 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                 </div>
             }
             {
-                name && image !== "" && photoUrl == "" ?
+                image && fileName ?
                     <div style={{ marginTop: 20, width: '100%', flexDirection: 'row', flex: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                         {
                             loading ? <p>Menunggah gambar...</p>
                                 :
                                 <>
                                     <p>Nama file: </p>
-                                    <p>{name.length > 10 ? name.slice(0, 10) + "..." : name}</p>
+                                    <p>{fileName.length > 10 ? fileName.slice(0, 10) + "..." : fileName}</p>
                                     <div style={{ marginLeft: 10, width: '50%', flexDirection: 'row', display: 'flex', justifyContent: 'flex-end' }}>
-                                        <button onClick={uploadImage} className="uploadBtn" >upload</button>
-                                        <button onClick={() => setImage('')} className="removeBtn">remove</button>
+                                        <button onClick={uploadImage} className="uploadBtn" >unggah</button>
+                                        <button onClick={() => setImage('')} className="removeBtn">batal</button>
                                     </div>
                                 </>
                         }
