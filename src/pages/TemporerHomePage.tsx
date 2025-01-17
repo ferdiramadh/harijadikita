@@ -14,9 +14,6 @@ const TemporerHomePage = () => {
 
   const navigate = useNavigate()
   const { logOut, userAcc, user, setUserAcc } = UserAuth()
-  // console.log({userAcc})
-  const [userData, setUserData] = useState<FormDataType | DocumentData>()
-  const data = useSelector((state: RootState) => state.rinper.data)
   const dispatch = useDispatch<AppDispatch>()
   const handleLogout = async () => {
     try {
@@ -27,24 +24,7 @@ const TemporerHomePage = () => {
       alert(error)
     }
   }
-
-  const getUserData = async () => {
-    try {
-      const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
-      console.log({ rinperData })
-      dispatch(setRincianPernikahan(rinperData))
-
-    } catch (err) {
-      console.log(err)
-    }
-  }
   const { uid, email} = useSelector((state: RootState) => state.user)
-  useEffect(() => {
-    if (data?.user == "") {
-      getUserData()
-    }
-
-  }, [data])
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
       <div style={{ display: 'flex', height: '100%', justifyContent: 'flex-start', alignItems: 'flex-start', padding: 20, flexDirection: 'column' }}>
@@ -53,7 +33,6 @@ const TemporerHomePage = () => {
         <button onClick={() => navigate("/rinciandesain")}>GO To Edit Rincian Desain </button>
       </div>
       {/* <DisplayUserData /> */}
-
     </div>
   )
 }
