@@ -8,7 +8,7 @@ import { updateRincianPernikahan, setRincianPernikahan, FormDataType } from '../
 import { addDocWithId, getDataCollection } from '../database/Functions'
 import { RINCIAN_PERNIKAHAN } from '../database/Collections'
 import { useNavigate } from 'react-router-dom'
-import { initiateDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice'
+import { resetDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice'
 
 const TemporerHomePage = () => {
 
@@ -17,7 +17,7 @@ const TemporerHomePage = () => {
   const dispatch = useDispatch<AppDispatch>()
   const handleLogout = async () => {
     try {
-      dispatch(initiateDesainUndangan())
+      dispatch(resetDesainUndangan())
       await logOut()
       setUserAcc({})
     } catch (error) {

@@ -30,7 +30,11 @@ export type AyatSuciKalimatMutiaraType = FormDesainUndanganType & {
     kalimatMutiara: string
 }
 
-export type ItemValueType = SampulType | PengantinType | AyatSuciKalimatMutiaraType
+export type VideoType = FormDesainUndanganType & {
+    videoUrl: string
+}
+
+export type ItemValueType = SampulType | PengantinType | AyatSuciKalimatMutiaraType | VideoType
 
 export const INITIAL_EDIT_DESAIN_DATA = [
 
@@ -59,6 +63,12 @@ export const INITIAL_EDIT_DESAIN_DATA = [
         ayatSuci: "",
         kalimatMutiara: ""
 
+    },
+    {
+        itemId: 4,
+        isActive: false,
+        sectionName: "VideoItem",
+        videoUrl: ""
     }
 ]
 
@@ -68,6 +78,7 @@ const initialState: UserDataDesainUndangan = {
     createdAt: "",
     latestUpdate: ""
 }
+
 const desainUndanganSlice = createSlice({
     name: "desainUndangan",
     initialState,
@@ -78,9 +89,17 @@ const desainUndanganSlice = createSlice({
         initiateDesainUndangan: () => {
             return initialState
         },
+        resetDesainUndangan: () => {
+            return {
+                id: "",
+                data: [],
+                createdAt: "",
+                latestUpdate: ""
+            }
+        },
     }
 })
 
-export const { setDesainUndangan, initiateDesainUndangan } = desainUndanganSlice.actions
+export const { setDesainUndangan, initiateDesainUndangan, resetDesainUndangan } = desainUndanganSlice.actions
 
 export default desainUndanganSlice.reducer
