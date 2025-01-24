@@ -12,6 +12,7 @@ type SampulItemType = {
     sampulItemData: Partial<SampulType>
     setSampulItemData: React.Dispatch<React.SetStateAction<Partial<SampulType>>>
 }
+
 const SampulItem = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
     const onToggle = () => {
         setSampulItemData(prev => {
@@ -62,7 +63,8 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
     }
 
     useEffect(() => {
-        if (sampulItemData.gambarBackground == "") {
+        if (sampulItemData.gambarBackground == "" && idDesainUndangan) {
+            console.log('sampulItem')
             updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
         }
     }, [sampulItemData])

@@ -81,7 +81,8 @@ const Content = ({ pengantinItemData, setPengantinItemData }: PengantinItemType)
         })
     }
     useEffect(() => {
-        if ((pengantinItemData.gambarPengantinPria == "" && photoUrlPengantinPria == "") || pengantinItemData.gambarPengantinWanita == "" && photoUrlPengantinWanita == "") {
+        if ((pengantinItemData.gambarPengantinPria == "" && photoUrlPengantinPria == "" && idDesainUndangan) || pengantinItemData.gambarPengantinWanita == "" && photoUrlPengantinWanita == "" && idDesainUndangan) {
+            console.log("pengantinitem")
             updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
         }
 
