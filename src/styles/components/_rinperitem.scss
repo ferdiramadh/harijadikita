@@ -330,4 +330,18 @@
         height: 200px;
         width: 100%;
     }
+
+    .playBtn {
+        display: flex;
+        flex-direction: row;
+        background-color: #FF5858;
+        padding: .5rem 1rem;
+        justify-content: space-between;
+        align-self: center;
+        margin: 1rem 0rem;
+        border: 1px solid #FF5858;
+        color: #FFF;
+        border-radius: 6px;
+        @include font-quicksand;
+    }
 }
