@@ -34,7 +34,15 @@ export type VideoType = FormDesainUndanganType & {
     videoUrl: string
 }
 
-export type ItemValueType = SampulType | PengantinType | AyatSuciKalimatMutiaraType | VideoType
+export type MusicType = FormDesainUndanganType & {
+    ourMusicSelection: boolean
+    spotifyMusicSelection: boolean
+    userMusicSelection: boolean
+    spotifyUrl: string
+    chosenSong: number
+}
+
+export type ItemValueType = SampulType | PengantinType | AyatSuciKalimatMutiaraType | VideoType | MusicType
 
 export const INITIAL_EDIT_DESAIN_DATA = [
 
@@ -69,6 +77,16 @@ export const INITIAL_EDIT_DESAIN_DATA = [
         isActive: false,
         sectionName: "VideoItem",
         videoUrl: ""
+    },
+    {
+        itemId: 5,
+        isActive: false,
+        sectionName: "MusikItem",
+        ourMusicSelection: true,
+        spotifyMusicSelection: false,
+        userMusicSelection: false,
+        spotifyUrl: "",
+        chosenSong: 0
     }
 ]
 
