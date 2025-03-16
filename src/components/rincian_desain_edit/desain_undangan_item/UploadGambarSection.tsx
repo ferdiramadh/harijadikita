@@ -83,19 +83,26 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         }
 
     }
+
     const onDrop = useCallback((acceptedFiles: File[]) => {
         // let data: any = []
         acceptedFiles.map((file, i) => {
             // setFileName(file.name)
             const reader = new FileReader()
 
-            reader.onload = function (e) {
+            reader.onload = function (e: ProgressEvent<FileReader>) {
                 let img = e.target?.result
-                setImage((prev) => [...prev, {
-                    id: i + 1,
-                    name: file.name,
-                    fileImage: img
-                }])
+                if (e.target?.result instanceof ArrayBuffer) {
+                    const bytes = new Uint8Array(e.target.result);
+                    console.log(bytes);
+                    setImage((prev) => [...prev, {
+                        id: i + 1,
+                        name: file.name,
+                        fileImage: bytes
+                    }])
+                }
+                // const bytes = img?.split('base64,')[1];
+
                 // const item = {
                 //     id: i + 1,
                 //     name: file.name,
@@ -105,7 +112,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
 
             }
             // console.log(data)
-            reader.readAsDataURL(file)
+            reader.readAsArrayBuffer(file)
             return
         })
 
@@ -136,69 +143,71 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         setImage((prevItems) => prevItems.filter((item) => item.id !== id))
     }
     const handleUpload = async () => {
-        for (let i = 0; i < image.length; i++) {
-            const storageRef = setRef(image[i].id);
-            const result = await uploadString(storageRef, image[i].fileImage, 'data_url')
-                .then((snapshot) => {
-                    return getDownloadURL(snapshot.ref)
-                })
-                .then((downloadURL) => {
+        // for (let i = 0; i < image.length; i++) {
+        //     const storageRef = setRef(image[i].id);
+        //     const result = await uploadString(storageRef, image[i].fileImage, 'data_url')
+        //         .then((snapshot) => {
+        //             return getDownloadURL(snapshot.ref)
+        //         })
+        //         .then((downloadURL) => {
 
-                    console.log(downloadURL)
-                    console.log(`${image[i].name} success`)
-                    removeItem(image[i].id)
-                    setImageUrls((prev) => [...prev, {
-                        id: image[i].id,
-                        name: image[i].name,
-                        fileImage: downloadURL
-                    }])
-                })
-                .catch((error) => {
-                    console.log(`${image[i].name} ${error.message}`)
-                })
-            console.log(result)
-        }
+        //             console.log(downloadURL)
+        //             console.log(`${image[i].name} success`)
+        //             removeItem(image[i].id)
+        //             setImageUrls((prev) => [...prev, {
+        //                 id: image[i].id,
+        //                 name: image[i].name,
+        //                 fileImage: downloadURL
+        //             }])
+        //         })
+        //         .catch((error) => {
+        //             console.log(`${image[i].name} ${error.message}`)
+        //         })
+        //     console.log(result)
+        // }
 
-        // if (image.length === 0) return alert("Please select images");
+        setLoading(true)
+        const promises = image.map((img) => {
+            const storageRef = setRef(img.id)
+            const uploadTask = uploadBytesResumable(storageRef, img.fileImage)
 
-        // const promises: any = [];
-
-        // image.forEach((img) => {
-        //     // const test =  uploadImage(img.fileImage, img.id)
-        //     // console.log(test)
-        //     // promises.push(test)
-        //     const storageRef = setRef(img.id);
-        //     const uploadTask = uploadString(storageRef, img.fileImage);
-        //     // uploadTask.then((snapshot) => {
-        //     //     const downloadURL = getDownloadURL(snapshot.ref);
-        //     //     console.log(downloadURL)
-        //     //     promises.push(downloadURL)
-        //     // }).catch((error) => console.log(error))
-        //     // try {
-
-        //     // } catch (error) {
-
-        //     // }
-        //     // const uploadTask = uploadBytesResumable(storageRef, img.fileImage);
-
-        //     // promises.push(
-        //     //     new Promise((resolve, reject) => {
-        //     //         async () => {
-        //     //             const downloadURL = await getDownloadURL(snapshot.ref);
-        //     //             console.log({downloadURL})
-        //     //             resolve(downloadURL);
-        //     //         }
-
-        //     //     })
-        //     // );
-        // });
-
-        // Promise.all(promises)
-        //     .then((urls) => {
-        //         setDownloadURLs(urls);
-        //         alert("All images uploaded successfully!");
-        //     })
-        //     .catch((error) => console.error("Error uploading images: ", error));
+            return new Promise((resolve, reject) => {
+                uploadTask.on(
+                    "state_changed",
+                    (snapshot) => {
+                        // Progress function
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                        console.log(`Upload is ${progress}% done`)
+                    },
+                    (error) => {
+                        // Error function
+                        console.log(error)
+                        reject(error)
+                    },
+                    async () => {
+                        // Complete function
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+                        console.log({ downloadURL })
+                        removeItem(img.id)
+                        setImageUrls((prev) => [...prev, {
+                            id: img.id,
+                            name: img.name,
+                            fileImage: downloadURL
+                        }])
+                        resolve(downloadURL)
+                    }
+                )
+            })
+        })
+        Promise.all(promises)
+            .then(() => {
+                setLoading(false)
+                alert("All images uploaded successfully!")
+            })
+            .catch((error) => {
+                setLoading(false)
+                console.error("Error uploading images: ", error)
+            })
     }
     const cancel = (id: number) => {
         removeItem(id)
@@ -221,6 +230,9 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
 
     useEffect(() => {
         if (imageUrls) {
+            for (let i = 0; i < imageUrls.length; i++) {
+                console.log(imageUrls[i].fileImage)
+            }
             // removeMatchingItems()
         }
 
