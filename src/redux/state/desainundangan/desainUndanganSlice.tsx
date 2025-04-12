@@ -42,6 +42,10 @@ export type MusicType = FormDesainUndanganType & {
     chosenSong: number
 }
 
+export type GaleriType = FormDesainUndanganType & {
+    imageList: []
+}
+
 export type ItemValueType = SampulType | PengantinType | AyatSuciKalimatMutiaraType | VideoType | MusicType
 
 export const INITIAL_EDIT_DESAIN_DATA = [
@@ -87,6 +91,12 @@ export const INITIAL_EDIT_DESAIN_DATA = [
         userMusicSelection: false,
         spotifyUrl: "",
         chosenSong: 0
+    },
+    {
+        itemId: 6,
+        isActive: false,
+        sectionName: "GaleriItem",
+        imageList: []
     }
 ]
 

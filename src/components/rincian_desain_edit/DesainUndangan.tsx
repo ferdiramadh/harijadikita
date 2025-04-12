@@ -10,7 +10,7 @@ import HadiahUangItem from "./desain_undangan_item/HadiahUangItem"
 import MusikItem from "./desain_undangan_item/MusikItem"
 import AyatSuciKataMutiaraItem from "./desain_undangan_item/AyatSuciKataMutiaraItem"
 import { useEffect, useState } from "react"
-import { AyatSuciKalimatMutiaraType, MusicType, PengantinType, SampulType, VideoType } from "../../redux/state/desainundangan/desainUndanganSlice"
+import { AyatSuciKalimatMutiaraType, GaleriType, MusicType, PengantinType, SampulType, VideoType } from "../../redux/state/desainundangan/desainUndanganSlice"
 import { UserAuth } from "../../context/AuthContext"
 
 const DesainUndangan = () => {
@@ -20,11 +20,12 @@ const DesainUndangan = () => {
   const [ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData] = useState<Partial<AyatSuciKalimatMutiaraType>>(editDesainUndanganData[2])
   const [videoItemData, setVideoItemData] = useState<Partial<VideoType>>(editDesainUndanganData[3])
   const [musikItemData, setMusikItemData] = useState<Partial<MusicType>>(editDesainUndanganData[4])
+  const [galeriItemData, setGaleriItemData] = useState<Partial<GaleriType>>(editDesainUndanganData[5])
 
   useEffect(() => {
     // console.log(musikItemData)
-    setEdiDesainUndangantData([sampulItemData, pengantinItemData, ayaSuciKataMutiaraItemData, videoItemData, musikItemData])
-  }, [sampulItemData, pengantinItemData, ayaSuciKataMutiaraItemData, videoItemData, musikItemData])
+    setEdiDesainUndangantData([sampulItemData, pengantinItemData, ayaSuciKataMutiaraItemData, videoItemData, musikItemData,galeriItemData])
+  }, [sampulItemData, pengantinItemData, ayaSuciKataMutiaraItemData, videoItemData, musikItemData,galeriItemData])
 
   return (
     <div style={{ width: '100%', marginTop: "7vh" }}>
@@ -33,6 +34,7 @@ const DesainUndangan = () => {
       <AyatSuciKataMutiaraItem ayaSuciKataMutiaraItemData={ayaSuciKataMutiaraItemData} setAyaSuciKataMutiaraItemData={setAyaSuciKataMutiaraItemData} />
       <VideoItem videoItemData={videoItemData} setVideoItemData={setVideoItemData} />
       <MusikItem musikItemData={musikItemData} setMusikItemData={setMusikItemData} />
+      <GaleriItem galeriItemData={galeriItemData} setGaleriItemData={setGaleriItemData}/>
       {/* <button onClick={() => console.log(editDesainUndanganData)}>test</button>
 
       {/* <AcaraPernikahanItem />
