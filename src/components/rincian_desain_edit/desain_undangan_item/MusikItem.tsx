@@ -28,6 +28,7 @@ const MusikItem = ({ musikItemData, setMusikItemData }: MusikItemType) => {
         <DesainUndanganItem
             title="Musik"
             children={<Content musikItemData={musikItemData} setMusikItemData={setMusikItemData} />}
+            onToggle={onToggle}
         />
     )
 }
