@@ -39,14 +39,15 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     // const [imageUrl, setImageUrl] = useState(Array.isArray(photoUrl) ? photoUrl : [initiateData])
     const [imageUrls, setImageUrls] = useState(Array.isArray(photoUrl) ? photoUrl : [initiateData])
     const [urls, setUrls] = useState<string[]>([]);
-    console.log(sectionFolder)
+    console.log(sectionFolder, "sectionFolder")
     // console.log({ imageUrls })
-    console.log( imageUrls[0]?.fileImage)
+    console.log(imageUrls[0]?.fileImage)
     const [progress, setProgress] = useState(0);
     const [downloadURLs, setDownloadURLs] = useState<any>([])
     const buttonText = initialImage.length > 1 ? "unggah semua" : "unggah"
     function setRef(id?: number) {
-        return ref(storage, `${sectionFolder}/Images/${user.uid}${"numberId" + id?.toString()}`)
+        const photoId = id ? id : 1
+        return ref(storage, `${sectionFolder}/Images/${user.uid}${"numberId" + photoId?.toString()}`)
     }
     const uploadImage = async (val: string | ArrayBuffer | null | undefined, id: number) => {
         setLoading(true)
@@ -72,22 +73,22 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         }
     }
 
-    // const deleteImage = async () => {
-    //     console.log(photoUrl)
-    //     let text = "Gambar akan dihapus. Anda yakin?"
-    //     if (window.confirm(text) == true) {
-    //         await deleteObject(setRef()).then((snapshot) => {
-    //             setImageUrl("")
-    //             updateDeleteImageField()
-    //             alert('Gambar berhasil dihapus dari data anda.')
-    //         }).catch((error) => {
-    //             alert(error.message)
-    //         })
-    //     } else {
-    //         alert("Dibatalkan")
-    //     }
+    const deleteImage = async (id: number) => {
+        console.log(photoUrl)
+        let text = "Gambar akan dihapus. Anda yakin?"
+        if (window.confirm(text) == true) {
+            await deleteObject(setRef(id)).then((snapshot) => {
+                setImageUrls([])
+                updateDeleteImageField()
+                alert('Gambar berhasil dihapus dari data anda.')
+            }).catch((error) => {
+                alert(error.message)
+            })
+        } else {
+            alert("Dibatalkan")
+        }
 
-    // }
+    }
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         // let data: any = []
@@ -174,6 +175,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         setLoading(true)
         const promises = initialImage.map((img) => {
             const storageRef = setRef(img.id)
+            console.log(img.id)
             const uploadTask = uploadBytesResumable(storageRef, img.fileImage)
 
             return new Promise((resolve, reject) => {
@@ -242,7 +244,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     // }, [imageUrl])
 
     useEffect(() => {
-        if (imageUrls) {
+        if (imageUrls && imageUrls.length > 0) {
             console.log(imageUrls)
             if (sectionFolder !== "Gallery") {
                 console.log('bukan gallery')
@@ -250,7 +252,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                 for (let i = 0; i < imageUrls.length; i++) {
                     console.log(imageUrls[i].fileImage)
                 }
-                onImageChange(imageUrls[0]?.fileImage)
+                onImageChange(imageUrls[0]?.fileImage, imageUrls[0]?.id)
             } else {
                 onImageChange(imageUrls)
             }
@@ -268,7 +270,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
 
     return (
         <>
-        {/* <button onClick={() => {
+            {/* <button onClick={() => {
             console.log(imageUrls)
             // console.log(initialImage.length > 0)
             // console.log(photoUrl)
@@ -303,14 +305,14 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                         console.log(item)
                         if (item.fileImage)
                             return (
-                                <UploadParts key={i} imgUrl={item.fileImage} />
+                                <UploadParts key={i} id={item.id} imgUrl={item.fileImage} deleteImage={deleteImage} />
                             )
                     })
                     :
                     <label className="label_input">{titleLable}</label>
             }
             {
-                ((initialImage.length == 0) && imageUrls[0]?.fileImage == "" ) || (imageUrls.length == 0 && (initialImage.length == 0))?
+                ((initialImage.length == 0) && imageUrls[0]?.fileImage == "") || (imageUrls.length == 0 && (initialImage.length == 0)) ?
                     <div className="upload_image_section">
                         <div {...getRootProps()} className="drag_drop">
                             <FiUploadCloud size={40} color="#667085" />
@@ -418,20 +420,25 @@ const Unggah = ({ item, cancel, setRef, setImageUrls }: UnggahType) => {
     )
 }
 type UploadPartsType = {
+    id: number
     imgUrl: any
+    deleteImage: (id: any) => Promise<void>
 }
 
-const UploadParts = ({ imgUrl }: UploadPartsType) => {
+const UploadParts = ({ id, imgUrl, deleteImage }: UploadPartsType) => {
 
     return (
         <div style={{ marginTop: 10 }}>
             <img
                 src={imgUrl} style={{ width: '100%' }}
                 alt={"titleLable"} />
-            {/* <div className="editSection">
+            <div className="editSection">
                 <div className="buttons">
-                    <button className="deleteBtn" onClick={() => null}>Hapus</button>
-                    <div className="editWrapper">
+                    <button className="deleteBtn" onClick={() => {
+                        console.log(id)
+                        deleteImage(id)
+                    }}>Hapus</button>
+                    {/* <div className="editWrapper">
                         <div className="drag_drop">
                             <label className="custom-file-upload">
                                 <input
@@ -442,11 +449,11 @@ const UploadParts = ({ imgUrl }: UploadPartsType) => {
                                 Ubah
                             </label>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
 
-            </div> */}
+            </div>
         </div>
     )
 }
