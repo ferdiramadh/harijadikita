@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+type ImageType = {
+    id: string
+    imageUrl: string | ArrayBuffer | null | undefined
+}
+
 export interface UserDataDesainUndangan {
     id: string
     data: object[]
@@ -15,12 +20,12 @@ export type FormDesainUndanganType = {
 
 export type SampulType = FormDesainUndanganType & {
     teksTombol: string
-    gambarBackground: string | ArrayBuffer | null | undefined
+    gambarBackground: ImageType
     isGunakanTema: boolean
 }
 export type PengantinType = FormDesainUndanganType & {
-    gambarPengantinPria: string | ArrayBuffer | null | undefined
-    gambarPengantinWanita: string | ArrayBuffer | null | undefined
+    gambarPengantinPria: ImageType
+    gambarPengantinWanita: ImageType
     isNoImage: boolean
 }
 export type AyatSuciKalimatMutiaraType = FormDesainUndanganType & {
@@ -43,7 +48,7 @@ export type MusicType = FormDesainUndanganType & {
 }
 
 export type GaleriType = FormDesainUndanganType & {
-    imageList: []
+    imageList: ImageType[]
 }
 
 export type ItemValueType = SampulType | PengantinType | AyatSuciKalimatMutiaraType | VideoType | MusicType
@@ -55,15 +60,24 @@ export const INITIAL_EDIT_DESAIN_DATA = [
         isActive: false,
         sectionName: "Sampul",
         teksTombol: "",
-        gambarBackground: "",
+        gambarBackground: {
+            id: "",
+            imageUrl: ""
+        },
         isGunakanTema: false
     },
     {
         itemId: 2,
         isActive: false,
         sectionName: "Pengantin",
-        gambarPengantinPria: "",
-        gambarPengantinWanita: "",
+        gambarPengantinPria: {
+            id: "",
+            imageUrl: ""
+        },
+        gambarPengantinWanita: {
+            id: "",
+            imageUrl: ""
+        },
         isNoImage: true
     },
     {
@@ -96,7 +110,10 @@ export const INITIAL_EDIT_DESAIN_DATA = [
         itemId: 6,
         isActive: false,
         sectionName: "GaleriItem",
-        imageList: []
+        imageList: [{
+            id: "",
+            imageUrl: ""
+        }]
     }
 ]
 
