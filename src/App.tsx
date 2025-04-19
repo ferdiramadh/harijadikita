@@ -26,6 +26,7 @@ import { AppDispatch, RootState } from './redux/store'
 import { decrement, increment } from './redux/state/counter/counterSlice'
 import JoinPage from './pages/JoinPage'
 import RincianDesainEditPage from './pages/RincianDesainEditPage'
+import { DesainUndanganContextProvider } from './context/DesainUndanganContext'
 
 const Counter = () => {
   const count = useSelector((state: RootState) => state.counter.value)
@@ -63,10 +64,12 @@ function App() {
   return (
     <Provider store={store}>
       <AuthContextProvider>
-        <main>
-          <RouterProvider router={router} />
-          {/* <Counter /> */}
-        </main>
+        <DesainUndanganContextProvider>
+          <main>
+            <RouterProvider router={router} />
+            {/* <Counter /> */}
+          </main>
+        </DesainUndanganContextProvider>
       </AuthContextProvider>
     </Provider>
 
