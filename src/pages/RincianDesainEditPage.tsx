@@ -11,9 +11,11 @@ import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN } from '../database/Collections'
 import { FormDataType, setRincianPernikahan, updateRincianPernikahan } from '../redux/state/rinper/rinperSlice'
 import LoadingOverlay from 'react-loading-overlay-ts'
 import { AyatSuciKalimatMutiaraType, PengantinType, SampulType, setDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice'
+import { DesainUndanganAuth } from '../context/DesainUndanganContext'
 
 function RincianDesainEditPage() {
-
+    
+    const { saveDesainUndangan } = DesainUndanganAuth()
     const [isRincianPernikahan, setIsRincianPernikahan] = useState(true)
     const { data, id } = useSelector((state: RootState) => state.rinper)
     const { data: dataDesainUndangan, id: idDesainUndangan } = useSelector((state: RootState) => state.desainUndangan)
@@ -80,29 +82,29 @@ function RincianDesainEditPage() {
 
     }
 
-    const saveDesainUndangan = async () => {
-        try {
-            setLoading(true)
+    // const saveDesainUndangan = async () => {
+    //     try {
+    //         setLoading(true)
 
-            // console.log(idDesainUndangan)
-            const result = idDesainUndangan ? await updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan) : await addDocWithId(DESAIN_UNDANGAN, editDesainUndanganData, user?.uid)
-            // console.log(result)
-            if (result !== null) {
-                dispatch(setDesainUndangan(result))
-                alert("Data telah dipebaharui.")
-                setGetChanged(false)
-                setLoading(false)
-            } else {
-                alert("Maaf, data anda gagal tersimpan")
-                setLoading(false)
-            }
+    //         // console.log(idDesainUndangan)
+    //         const result = idDesainUndangan ? await updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan) : await addDocWithId(DESAIN_UNDANGAN, editDesainUndanganData, user?.uid)
+    //         // console.log(result)
+    //         if (result !== null) {
+    //             dispatch(setDesainUndangan(result))
+    //             alert("Data telah dipebaharui.")
+    //             setGetChanged(false)
+    //             setLoading(false)
+    //         } else {
+    //             alert("Maaf, data anda gagal tersimpan")
+    //             setLoading(false)
+    //         }
 
 
-        } catch (error) {
-            setLoading(false)
-        }
+    //     } catch (error) {
+    //         setLoading(false)
+    //     }
 
-    }
+    // }
 
     function arraysEqual(a1: any, a2: any) {
         /* WARNING: arrays must not contain {objects} or behavior may be undefined */
@@ -110,19 +112,20 @@ function RincianDesainEditPage() {
     }
     const publish = () => {
         console.log(dataDesainUndangan)
-        alert("Fitur belum tersedia.")
+        // alert("Fitur belum tersedia.")
     }
+    
     const onSubmit = () => {
 
         if (isRincianPernikahan) {
             saveDraft()
         } else {
-            saveDesainUndangan()
+            saveDesainUndangan(user?.uid, setLoading, setGetChanged)
         }
     }
     useEffect(() => {
         setEditData(data)
-        setEdiDesainUndangantData(dataDesainUndangan)
+        // setEdiDesainUndangantData(dataDesainUndangan)
     }, [])
 
     useEffect(() => {
