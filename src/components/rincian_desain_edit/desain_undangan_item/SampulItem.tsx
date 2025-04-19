@@ -7,14 +7,17 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../../redux/store"
 import { useEffect, useState } from "react"
 import { UserAuth } from "../../../context/AuthContext"
+import { DesainUndanganAuth } from "../../../context/DesainUndanganContext"
 
 type SampulItemType = {
     sampulItemData: Partial<SampulType>
     setSampulItemData: React.Dispatch<React.SetStateAction<Partial<SampulType>>>
 }
 
-const SampulItem = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
+const SampulItem = () => {
+    const { sampulItemData, setSampulItemData } = DesainUndanganAuth()
     const onToggle = () => {
+        console.log(sampulItemData)
         setSampulItemData(prev => {
             return {
                 ...prev,
@@ -25,26 +28,34 @@ const SampulItem = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
     return (
         <DesainUndanganItem
             title="Sampul"
-            children={<Content sampulItemData={sampulItemData} setSampulItemData={setSampulItemData} />}
+            children={<Content  />}
             toggleVal={sampulItemData?.isActive}
             onToggle={onToggle}
         />
     )
 }
 
-const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
+const Content = () => {
+    const { sampulItemData, setSampulItemData } = DesainUndanganAuth()
     const { id: idDesainUndangan } = useSelector((state: RootState) => state.desainUndangan)
     const { editDesainUndanganData } = UserAuth()
-    const [photoUrl, setPhotoUrl] = useState(sampulItemData?.gambarBackground)
-    const onImageChange = (value: string | ArrayBuffer | null | undefined) => {
+    const [photoUrl, setPhotoUrl] = useState(sampulItemData?.gambarBackground?.imageUrl)
+    const onImageChange = (value: string | ArrayBuffer | null | undefined, id: string) => {
+        console.log('onImageChange')
+        console.log(value)
+        setPhotoUrl(id)
         setSampulItemData(prev => {
             return {
                 ...prev,
-                gambarBackground: value
+                gambarBackground: {
+                    id: id,
+                    imageUrl: value
+                }
             }
         })
     }
     const onToggle = () => {
+        console.log(sampulItemData)
         setSampulItemData(prev => {
             return {
                 ...prev,
@@ -53,21 +64,25 @@ const Content = ({ sampulItemData, setSampulItemData }: SampulItemType) => {
         })
     }
     const updateDeleteImageField = () => {
+        console.log('delete image updateDeleteImageField')
         setPhotoUrl("")
         setSampulItemData(prev => {
             return {
                 ...prev,
-                gambarBackground: ""
+                gambarBackground: {
+                    id: "",
+                    imageUrl: ""
+                }
             }
         })
     }
 
-    useEffect(() => {
-        if (sampulItemData.gambarBackground == "" && idDesainUndangan) {
-            console.log('sampulItem')
-            updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
-        }
-    }, [sampulItemData])
+    // useEffect(() => {
+    //     if (sampulItemData.gambarBackground == "" && idDesainUndangan) {
+    //         console.log('sampulItem set kosong')
+    //         updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
+    //     }
+    // }, [sampulItemData])
 
     return (
         <div className="content_wrapper">

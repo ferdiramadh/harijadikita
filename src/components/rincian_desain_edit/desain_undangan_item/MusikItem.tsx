@@ -9,13 +9,15 @@ import { useDropzone } from "react-dropzone"
 import { storage } from "../../../firebase"
 import { getDownloadURL, ref, uploadString } from "firebase/storage"
 import { UserAuth } from "../../../context/AuthContext"
+import { DesainUndanganAuth } from "../../../context/DesainUndanganContext"
 
 type MusikItemType = {
     musikItemData: Partial<MusicType>
     setMusikItemData: React.Dispatch<React.SetStateAction<Partial<MusicType>>>
 }
 
-const MusikItem = ({ musikItemData, setMusikItemData }: MusikItemType) => {
+const MusikItem = () => {
+    const { musikItemData, setMusikItemData } = DesainUndanganAuth()
     const onToggle = () => {
         setMusikItemData(prev => {
             return {
@@ -27,8 +29,9 @@ const MusikItem = ({ musikItemData, setMusikItemData }: MusikItemType) => {
     return (
         <DesainUndanganItem
             title="Musik"
-            children={<Content musikItemData={musikItemData} setMusikItemData={setMusikItemData} />}
+            children={<Content />}
             onToggle={onToggle}
+            toggleVal={musikItemData?.isActive}
         />
     )
 }
@@ -51,7 +54,8 @@ const audioSelection = (val: string) => {
 // const pauseMusic = () => {
 //   audio.pause();
 // };
-const Content = ({ musikItemData, setMusikItemData }: MusikItemType) => {
+const Content = () => {
+    const { musikItemData, setMusikItemData } = DesainUndanganAuth()
     const songList = [
         {
             id: 1,
@@ -265,7 +269,7 @@ const Content = ({ musikItemData, setMusikItemData }: MusikItemType) => {
                                         </div>
                                     </div>
                             }
-                           
+
 
 
                         </div>
@@ -273,12 +277,12 @@ const Content = ({ musikItemData, setMusikItemData }: MusikItemType) => {
                     </div>
                     <audio src={firebaseSong} ref={userSong} loop />
                     {
-                    firebaseSong 
-                    && 
-                   <>
-                    <button className="deleteBtn" onClick={() => userSong.current.play()}>Play</button>
-                    <button className="deleteBtn" onClick={() => userSong.current.pause()}>Pause</button>
-                   </>}
+                        firebaseSong
+                        &&
+                        <>
+                            <button className="deleteBtn" onClick={() => userSong.current.play()}>Play</button>
+                            <button className="deleteBtn" onClick={() => userSong.current.pause()}>Pause</button>
+                        </>}
                 </>
 
             }

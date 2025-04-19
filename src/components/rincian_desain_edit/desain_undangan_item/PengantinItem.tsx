@@ -7,14 +7,17 @@ import UploadGambarSection from './UploadGambarSection'
 import { RootState } from '../../../redux/store'
 import { useEffect, useState } from 'react'
 import { UserAuth } from '../../../context/AuthContext'
+import { DesainUndanganAuth } from '../../../context/DesainUndanganContext'
 
-type PengantinItemType = {
-    pengantinItemData: Partial<PengantinType>
-    setPengantinItemData: React.Dispatch<React.SetStateAction<Partial<PengantinType>>>
-}
+// type PengantinItemType = {
+//     pengantinItemData: Partial<PengantinType>
+//     setPengantinItemData: React.Dispatch<React.SetStateAction<Partial<PengantinType>>>
+// }
 
-const PengantinItem = ({ pengantinItemData, setPengantinItemData }: PengantinItemType) => {
+const PengantinItem = () => {
+    const { pengantinItemData, setPengantinItemData } = DesainUndanganAuth()
     const onToggle = () => {
+        console.log(pengantinItemData)
         setPengantinItemData(prev => {
             return {
                 ...prev,
@@ -25,32 +28,38 @@ const PengantinItem = ({ pengantinItemData, setPengantinItemData }: PengantinIte
     return (
         <DesainUndanganItem
             title="Pengantin"
-            children={<Content pengantinItemData={pengantinItemData} setPengantinItemData={setPengantinItemData} />}
+            children={<Content />}
             toggleVal={pengantinItemData?.isActive}
             onToggle={onToggle}
         />
     )
 }
 
-const Content = ({ pengantinItemData, setPengantinItemData }: PengantinItemType) => {
-
+const Content = () => {
+    const { pengantinItemData, setPengantinItemData } = DesainUndanganAuth()
     const { id: idDesainUndangan } = useSelector((state: RootState) => state.desainUndangan)
     const { editDesainUndanganData } = UserAuth()
-    const [photoUrlPengantinPria, setPhotoUrlPengantinPria] = useState(pengantinItemData?.gambarPengantinPria)
-    const [photoUrlPengantinWanita, setPhotoUrlPengantinWanita] = useState(pengantinItemData?.gambarPengantinWanita)
-    const onImageChangePengantinPria = (value: string | ArrayBuffer | null | undefined) => {
+    const [photoUrlPengantinPria, setPhotoUrlPengantinPria] = useState(pengantinItemData?.gambarPengantinPria?.imageUrl)
+    const [photoUrlPengantinWanita, setPhotoUrlPengantinWanita] = useState(pengantinItemData?.gambarPengantinWanita?.imageUrl)
+    const onImageChangePengantinPria = (value: string | ArrayBuffer | null | undefined, id: string) => {
         setPengantinItemData(prev => {
             return {
                 ...prev,
-                gambarPengantinPria: value
+                gambarPengantinPria: {
+                    id: id,
+                    imageUrl: value
+                }
             }
         })
     }
-    const onImageChangePengantinWanita = (value: string | ArrayBuffer | null | undefined) => {
+    const onImageChangePengantinWanita = (value: string | ArrayBuffer | null | undefined, id: string) => {
         setPengantinItemData(prev => {
             return {
                 ...prev,
-                gambarPengantinWanita: value
+                gambarPengantinWanita: {
+                    id: id,
+                    imageUrl: value
+                }
             }
         })
     }
@@ -67,7 +76,10 @@ const Content = ({ pengantinItemData, setPengantinItemData }: PengantinItemType)
         setPengantinItemData(prev => {
             return {
                 ...prev,
-                gambarPengantinPria: ""
+                gambarPengantinPria: {
+                    id: "",
+                    imageUrl: ""
+                }
             }
         })
     }
@@ -76,17 +88,20 @@ const Content = ({ pengantinItemData, setPengantinItemData }: PengantinItemType)
         setPengantinItemData(prev => {
             return {
                 ...prev,
-                gambarPengantinWanita: ""
+                gambarPengantinWanita: {
+                    id: "",
+                    imageUrl: ""
+                }
             }
         })
     }
-    useEffect(() => {
-        if ((pengantinItemData.gambarPengantinPria == "" && photoUrlPengantinPria == "" && idDesainUndangan) || pengantinItemData.gambarPengantinWanita == "" && photoUrlPengantinWanita == "" && idDesainUndangan) {
-            console.log("pengantinitem")
-            updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
-        }
+    // useEffect(() => {
+    //     if ((pengantinItemData.gambarPengantinPria == "" && photoUrlPengantinPria == "" && idDesainUndangan) || pengantinItemData.gambarPengantinWanita == "" && photoUrlPengantinWanita == "" && idDesainUndangan) {
+    //         console.log("pengantinitem set kosong")
+    //         updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
+    //     }
 
-    }, [pengantinItemData, photoUrlPengantinPria, photoUrlPengantinWanita])
+    // }, [pengantinItemData, photoUrlPengantinPria, photoUrlPengantinWanita])
 
     return (
         <div className="content_wrapper">

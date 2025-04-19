@@ -1,3 +1,4 @@
+import { DesainUndanganAuth } from '../../../context/DesainUndanganContext'
 import { GaleriType } from '../../../redux/state/desainundangan/desainUndanganSlice'
 import DesainUndanganItem from './DesainUndanganItem'
 import UploadGambarSection from './UploadGambarSection'
@@ -7,7 +8,8 @@ type GaleriItemType = {
     setGaleriItemData: React.Dispatch<React.SetStateAction<Partial<GaleriType>>>
 }
 
-const GaleriItem = ({ galeriItemData, setGaleriItemData }: GaleriItemType) => {
+const GaleriItem = () => {
+    const { galeriItemData, setGaleriItemData } = DesainUndanganAuth()
     const onToggle = () => {
         setGaleriItemData(prev => {
             return {
@@ -19,15 +21,15 @@ const GaleriItem = ({ galeriItemData, setGaleriItemData }: GaleriItemType) => {
     return (
         <DesainUndanganItem
             title="Galeri"
-            children={<Content galeriItemData={galeriItemData} setGaleriItemData={setGaleriItemData} />}
+            children={<Content />}
             toggleVal={galeriItemData?.isActive}
             onToggle={onToggle}
         />
     )
 }
 
-const Content = ({ galeriItemData, setGaleriItemData }: GaleriItemType) => {
-    console.log(galeriItemData)
+const Content = () => {
+    const { galeriItemData, setGaleriItemData } = DesainUndanganAuth()
     const onImageChange = (value: any) => {
         setGaleriItemData(prev => {
             return {

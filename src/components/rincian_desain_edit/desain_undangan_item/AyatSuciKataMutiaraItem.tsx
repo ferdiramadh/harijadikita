@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react'
 import DesainUndanganItem from './DesainUndanganItem'
 import SearchableDropdown from '../../join/SearchableDropdown'
 import { AyatSuciKalimatMutiaraType } from '../../../redux/state/desainundangan/desainUndanganSlice'
+import { DesainUndanganAuth } from '../../../context/DesainUndanganContext'
 
 type AyatSuciKataMutiaraItemType = {
-    ayaSuciKataMutiaraItemData: Partial<AyatSuciKalimatMutiaraType>
+    ayatSuciKataMutiaraItemData: Partial<AyatSuciKalimatMutiaraType>
     setAyaSuciKataMutiaraItemData: React.Dispatch<React.SetStateAction<Partial<AyatSuciKalimatMutiaraType>>>
 }
 
-const AyatSuciKataMutiaraItem = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData }: AyatSuciKataMutiaraItemType) => {
+const AyatSuciKataMutiaraItem = () => {
+    const { ayatSuciKataMutiaraItemData, setAyatSuciKataMutiaraItemData } = DesainUndanganAuth()
     const onToggle = () => {
-        setAyaSuciKataMutiaraItemData(prev => {
+        setAyatSuciKataMutiaraItemData(prev => {
             return {
                 ...prev,
                 isActive: !prev?.isActive
@@ -20,15 +22,15 @@ const AyatSuciKataMutiaraItem = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMut
     return (
         <DesainUndanganItem
             title="Ayat suci/kalimat mutiara"
-            children={<Content ayaSuciKataMutiaraItemData={ayaSuciKataMutiaraItemData} setAyaSuciKataMutiaraItemData={setAyaSuciKataMutiaraItemData} />}
-            toggleVal={ayaSuciKataMutiaraItemData?.isActive}
+            children={<Content />}
+            toggleVal={ayatSuciKataMutiaraItemData?.isActive}
             onToggle={onToggle}
         />
     )
 }
 
-const Content = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData }: AyatSuciKataMutiaraItemType) => {
-
+const Content = () => {
+    const { ayatSuciKataMutiaraItemData, setAyatSuciKataMutiaraItemData } = DesainUndanganAuth()
     const [religion, setReligion] = useState([
         {
             id: 1,
@@ -61,7 +63,7 @@ const Content = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData }: 
     const [value, setValue] = useState(religion[2].name)
 
     const onToggleIsAyatSuci = () => {
-        setAyaSuciKataMutiaraItemData(prev => {
+        setAyatSuciKataMutiaraItemData(prev => {
             return {
                 ...prev,
                 isAyatSuci: !prev.isAyatSuci
@@ -70,7 +72,7 @@ const Content = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData }: 
     }
     useEffect(() => {
         if (value)
-            setAyaSuciKataMutiaraItemData(prev => {
+            setAyatSuciKataMutiaraItemData(prev => {
                 let choseReligion = religion.filter((item, i) => item.name == value)
                 return {
                     ...prev,
@@ -83,11 +85,11 @@ const Content = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData }: 
     return (
         <div className="content_wrapper">
             <div className="radioBtnWrapper">
-                <input className='radioBtn' type="radio" checked={ayaSuciKataMutiaraItemData?.isAyatSuci} onChange={onToggleIsAyatSuci} />
+                <input className='radioBtn' type="radio" checked={ayatSuciKataMutiaraItemData?.isAyatSuci} onChange={onToggleIsAyatSuci} />
                 <p>Pilih ayat suci</p>
             </div>
             {
-                ayaSuciKataMutiaraItemData.isAyatSuci
+                ayatSuciKataMutiaraItemData.isAyatSuci
                 &&
                 <SearchableDropdown
                     options={religion}
@@ -101,13 +103,13 @@ const Content = ({ ayaSuciKataMutiaraItemData, setAyaSuciKataMutiaraItemData }: 
             }
 
             <div className="radioBtnWrapper">
-                <input className='radioBtn' type="radio" checked={!ayaSuciKataMutiaraItemData?.isAyatSuci} onChange={onToggleIsAyatSuci} />
+                <input className='radioBtn' type="radio" checked={!ayatSuciKataMutiaraItemData?.isAyatSuci} onChange={onToggleIsAyatSuci} />
                 <p>Buat kalimat mutiara</p>
             </div>
             {
-                !ayaSuciKataMutiaraItemData.isAyatSuci
+                !ayatSuciKataMutiaraItemData.isAyatSuci
                 &&
-                <textarea id="w3review" name="w3review" rows={6} cols={50} className='large_input_area' value={ayaSuciKataMutiaraItemData.kalimatMutiara} onChange={e => setAyaSuciKataMutiaraItemData(prev => {
+                <textarea id="w3review" name="w3review" rows={6} cols={50} className='large_input_area' value={ayatSuciKataMutiaraItemData.kalimatMutiara} onChange={e => setAyatSuciKataMutiaraItemData(prev => {
                     return {
                         ...prev,
                         kalimatMutiara: e.target.value

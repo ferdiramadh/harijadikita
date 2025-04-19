@@ -1,3 +1,4 @@
+import { DesainUndanganAuth } from '../../../context/DesainUndanganContext'
 import { VideoType } from '../../../redux/state/desainundangan/desainUndanganSlice'
 import DesainUndanganItem from './DesainUndanganItem'
 
@@ -6,7 +7,8 @@ type VideoItemType = {
     setVideoItemData: React.Dispatch<React.SetStateAction<Partial<VideoType>>>
 }
 
-const VideoItem = ({ videoItemData, setVideoItemData }: VideoItemType) => {
+const VideoItem = () => {
+    const { videoItemData, setVideoItemData } = DesainUndanganAuth()
     const onToggle = () => {
         setVideoItemData(prev => {
             return {
@@ -18,14 +20,16 @@ const VideoItem = ({ videoItemData, setVideoItemData }: VideoItemType) => {
     return (
         <DesainUndanganItem
             title="Video"
-            children={<Content videoItemData={videoItemData} setVideoItemData={setVideoItemData} />}
+            children={<Content />}
             toggleVal={videoItemData?.isActive}
             onToggle={onToggle}
         />
     )
 }
 
-const Content = ({ videoItemData, setVideoItemData }: VideoItemType) => {
+const Content = () => {
+    
+    const { videoItemData, setVideoItemData } = DesainUndanganAuth()
     const splitYtId = (value: string | undefined) => {
         if (value) {
             if (value.indexOf("v/") > -1) {
@@ -55,7 +59,7 @@ const Content = ({ videoItemData, setVideoItemData }: VideoItemType) => {
                 }
             })} />
             {
-                videoItemData.videoUrl && splitYtId(videoItemData.videoUrl)? <iframe className='video'
+                videoItemData.videoUrl && splitYtId(videoItemData.videoUrl) ? <iframe className='video'
                     title='Youtube player'
                     sandbox='allow-same-origin allow-forms allow-popups allow-scripts allow-presentation'
                     src={`https://youtube.com/embed/${splitYtId(videoItemData.videoUrl)}?autoplay=0`}>
