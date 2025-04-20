@@ -16,35 +16,35 @@ type UploadImageType = {
     onImageChange: any
     sectionFolder?: string
     photoUrl?: string | ArrayBuffer | null | undefined | any[]
-    updateDeleteImageField: () => void
+    updateDeleteImageField: (deletedId?: number | undefined) => void
     multiple?: boolean
 }
 
 type ImageType = {
     id: number
     name: string
-    fileImage: any
+    imageUrl: any
 }
 
 const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl = [], updateDeleteImageField, multiple = false }: UploadImageType) => {
     const initiateData = {
         id: 1,
         name: "",
-        fileImage: photoUrl ? photoUrl : ""
+        imageUrl: photoUrl ? photoUrl : ""
     }
     const { user } = UserAuth()
     const [loading, setLoading] = useState(false)
     const [uploading, setUploading] = useState(false)
-    const [initialImage, setInitialImage] = useState<ImageType[]>([])
+    const [pickImageFile, setPickImageFile] = useState<ImageType[]>([])
     // const [imageUrl, setImageUrl] = useState(Array.isArray(photoUrl) ? photoUrl : [initiateData])
     const [imageUrls, setImageUrls] = useState(Array.isArray(photoUrl) ? photoUrl : [initiateData])
     const [urls, setUrls] = useState<string[]>([]);
     console.log(sectionFolder, "sectionFolder")
     // console.log({ imageUrls })
-    console.log(imageUrls[0]?.fileImage)
+    console.log(imageUrls[0]?.imageUrl)
     const [progress, setProgress] = useState(0);
     const [downloadURLs, setDownloadURLs] = useState<any>([])
-    const buttonText = initialImage.length > 1 ? "unggah semua" : "unggah"
+    const buttonText = pickImageFile.length > 1 ? "unggah semua" : "unggah"
     function setRef(id?: number) {
         const photoId = id ? id : 1
         return ref(storage, `${sectionFolder}/Images/${user.uid}${"numberId" + photoId?.toString()}`)
@@ -78,8 +78,17 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         let text = "Gambar akan dihapus. Anda yakin?"
         if (window.confirm(text) == true) {
             await deleteObject(setRef(id)).then((snapshot) => {
-                setImageUrls([])
-                updateDeleteImageField()
+
+                if (sectionFolder !== "Gallery") {
+                    setImageUrls([])
+                    updateDeleteImageField()
+                } else {
+                    setImageUrls((prevItems) =>
+                        prevItems.filter(item => item.id !== id)
+                    );
+                    updateDeleteImageField(id)
+                }
+
                 alert('Gambar berhasil dihapus dari data anda.')
             }).catch((error) => {
                 alert(error.message)
@@ -101,10 +110,10 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                 if (e.target?.result instanceof ArrayBuffer) {
                     const bytes = new Uint8Array(e.target.result);
                     // console.log(bytes);
-                    setInitialImage((prev) => [...prev, {
+                    setPickImageFile((prev) => [...prev, {
                         id: i + 1,
                         name: file.name,
-                        fileImage: bytes
+                        imageUrl: bytes
                     }])
                 }
                 // const bytes = img?.split('base64,')[1];
@@ -112,7 +121,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                 // const item = {
                 //     id: i + 1,
                 //     name: file.name,
-                //     fileImage: img
+                //     imageUrl: img
                 // }
                 // data.push(item)
 
@@ -146,12 +155,12 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         }
     }
     const removeItem = (id: number) => {
-        setInitialImage((prevItems) => prevItems.filter((item) => item.id !== id))
+        setPickImageFile((prevItems) => prevItems.filter((item) => item.id !== id))
     }
     const handleUpload = async () => {
         // for (let i = 0; i < image.length; i++) {
         //     const storageRef = setRef(image[i].id);
-        //     const result = await uploadString(storageRef, image[i].fileImage, 'data_url')
+        //     const result = await uploadString(storageRef, image[i].imageUrl, 'data_url')
         //         .then((snapshot) => {
         //             return getDownloadURL(snapshot.ref)
         //         })
@@ -163,7 +172,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         //             setImageUrls((prev) => [...prev, {
         //                 id: image[i].id,
         //                 name: image[i].name,
-        //                 fileImage: downloadURL
+        //                 imageUrl: downloadURL
         //             }])
         //         })
         //         .catch((error) => {
@@ -173,10 +182,10 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         // }
 
         setLoading(true)
-        const promises = initialImage.map((img) => {
+        const promises = pickImageFile.map((img) => {
             const storageRef = setRef(img.id)
             console.log(img.id)
-            const uploadTask = uploadBytesResumable(storageRef, img.fileImage)
+            const uploadTask = uploadBytesResumable(storageRef, img.imageUrl)
 
             return new Promise((resolve, reject) => {
                 uploadTask.on(
@@ -200,13 +209,13 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                             setImageUrls([{
                                 id: img.id,
                                 name: img.name,
-                                fileImage: downloadURL
+                                imageUrl: downloadURL
                             }])
                         } else {
                             setImageUrls((prev) => [...prev, {
                                 id: img.id,
                                 name: img.name,
-                                fileImage: downloadURL
+                                imageUrl: downloadURL
                             }])
                         }
 
@@ -218,7 +227,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         Promise.all(promises)
             .then(() => {
                 setLoading(false)
-                setInitialImage([])
+                setPickImageFile([])
                 alert("Semua gambar berhasil diunggah.")
             })
             .catch((error) => {
@@ -228,7 +237,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     }
 
     const removeMatchingItems = () => {
-        setInitialImage((prevItems) =>
+        setPickImageFile((prevItems) =>
             prevItems.filter((item) =>
                 !imageUrls.some((removeItem) => removeItem.id === item.id)
             )
@@ -250,9 +259,9 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                 console.log('bukan gallery')
                 console.log(imageUrls)
                 for (let i = 0; i < imageUrls.length; i++) {
-                    console.log(imageUrls[i].fileImage)
+                    console.log(imageUrls[i].imageUrl)
                 }
-                onImageChange(imageUrls[0]?.fileImage, imageUrls[0]?.id)
+                onImageChange(imageUrls[0]?.imageUrl, imageUrls[0]?.id)
             } else {
                 onImageChange(imageUrls)
             }
@@ -270,13 +279,15 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
 
     return (
         <>
-            {/* <button onClick={() => {
+            <button onClick={() => {
             console.log(imageUrls)
-            // console.log(initialImage.length > 0)
-            // console.log(photoUrl)
-        }} className="uploadBtn" >{buttonText}</button> */}
+            console.log(pickImageFile.length > 0)
+            console.log(pickImageFile)
+            console.log(photoUrl)
+            console.log((imageUrls[0]?.imageUrl == "" || imageUrls.length == 0))
+        }} className="uploadBtn" >{buttonText}</button>
             {
-                (initialImage.length > 0) || imageUrls[0]?.fileImage ?
+                (imageUrls.length > 0) || imageUrls[0]?.imageUrl ?
                     // <div style={{ marginTop: 10 }}>
                     //     <img
                     //         src={"https://images.pexels.com/photos/951408/pexels-photo-951408.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} style={{ width: '100%' }}
@@ -303,16 +314,16 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     // </div>
                     imageUrls.map((item, i) => {
                         console.log(item)
-                        if (item.fileImage)
+                        if (item.imageUrl)
                             return (
-                                <UploadParts key={i} id={item.id} imgUrl={item.fileImage} deleteImage={deleteImage} />
+                                <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} />
                             )
                     })
                     :
                     <label className="label_input">{titleLable}</label>
             }
             {
-                ((initialImage.length == 0) && imageUrls[0]?.fileImage == "") || (imageUrls.length == 0 && (initialImage.length == 0)) ?
+                ((pickImageFile.length == 0) && (imageUrls[0]?.imageUrl == "" || imageUrls.length == 0)) || (imageUrls[0]?.imageUrl == "" && (pickImageFile.length == 0)) ?
                     <div className="upload_image_section">
                         <div {...getRootProps()} className="drag_drop">
                             <FiUploadCloud size={40} color="#667085" />
@@ -331,7 +342,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     </div> : null
             }
             {
-                initialImage.length > 0 ?
+                pickImageFile.length > 0 ?
                     // <div style={{ marginTop: 20, width: '100%', flexDirection: 'row', flex: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                     //     {
                     //         loading ? <p>Menunggah gambar...</p>
@@ -346,8 +357,8 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     //             </>
                     //     }
                     // </div>
-                    initialImage.map((item, i) => {
-                        // console.log(typeof item.fileImage)
+                    pickImageFile.map((item, i) => {
+                        // console.log(typeof item.imageUrl)
                         return (
                             <Unggah key={i} item={item} cancel={removeItem} setRef={setRef} setImageUrls={setImageUrls} />
                         )
@@ -356,10 +367,10 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     null
             }
             {/* {
-                image.length > 0 && <button onClick={() => uploadImage(image[0].fileImage,image[0].id)} className="uploadBtn" >{buttonText}</button>
+                image.length > 0 && <button onClick={() => uploadImage(image[0].imageUrl,image[0].id)} className="uploadBtn" >{buttonText}</button>
             } */}
             {
-                initialImage.length > 0 && <button onClick={handleUpload} className="uploadBtn" >{buttonText}</button>
+                pickImageFile.length > 0 && <button onClick={handleUpload} className="uploadBtn" >{buttonText}</button>
             }
         </>
     )
@@ -390,7 +401,7 @@ const Unggah = ({ item, cancel, setRef, setImageUrls }: UnggahType) => {
     //                 setImageUrls((prev) => [...prev, {
     //                     id,
     //                     name,
-    //                     fileImage: downloadURL
+    //                     imageUrl: downloadURL
     //                 }])
     //                 alert('Gambar berhasil diunggah.')
     //                 return downloadURL
@@ -411,7 +422,7 @@ const Unggah = ({ item, cancel, setRef, setImageUrls }: UnggahType) => {
                         <p>Nama file: </p>
                         <p>{name.length > 10 ? name.slice(0, 12) + "..." : name}</p>
                         <div style={{ marginLeft: 10, width: '50%', flexDirection: 'row', display: 'flex', justifyContent: 'flex-end' }}>
-                            {/* <button onClick={() => uploadImageTest(fileImage, id)} className="uploadBtn" >unggah</button> */}
+                            {/* <button onClick={() => uploadImageTest(imageUrl, id)} className="uploadBtn" >unggah</button> */}
                             <button onClick={() => cancel(id)} className="removeBtn">batal</button>
                         </div>
                     </>
