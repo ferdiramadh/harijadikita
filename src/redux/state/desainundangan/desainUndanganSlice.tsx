@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 type ImageType = {
-    id: string
+    id: string | number
     imageUrl: string | ArrayBuffer | null | undefined
 }
 
@@ -110,10 +110,7 @@ export const INITIAL_EDIT_DESAIN_DATA = [
         itemId: 6,
         isActive: false,
         sectionName: "GaleriItem",
-        imageList: [{
-            id: "",
-            imageUrl: ""
-        }]
+        imageList: []
     }
 ]
 
