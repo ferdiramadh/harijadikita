@@ -1,23 +1,12 @@
 import DesainUndanganItem from "./DesainUndanganItem"
 import UploadGambarSection from "./UploadGambarSection"
-import { SampulType } from "../../../redux/state/desainundangan/desainUndanganSlice"
-import { updateDataCollection } from "../../../database/Functions"
-import { DESAIN_UNDANGAN } from "../../../database/Collections"
-import { useSelector } from "react-redux"
-import { RootState } from "../../../redux/store"
-import { useEffect, useState } from "react"
-import { UserAuth } from "../../../context/AuthContext"
+import { useState } from "react"
 import { DesainUndanganAuth } from "../../../context/DesainUndanganContext"
 
-type SampulItemType = {
-    sampulItemData: Partial<SampulType>
-    setSampulItemData: React.Dispatch<React.SetStateAction<Partial<SampulType>>>
-}
 
 const SampulItem = () => {
     const { sampulItemData, setSampulItemData } = DesainUndanganAuth()
     const onToggle = () => {
-        console.log(sampulItemData)
         setSampulItemData(prev => {
             return {
                 ...prev,
@@ -28,7 +17,7 @@ const SampulItem = () => {
     return (
         <DesainUndanganItem
             title="Sampul"
-            children={<Content  />}
+            children={<Content />}
             toggleVal={sampulItemData?.isActive}
             onToggle={onToggle}
         />
@@ -37,12 +26,8 @@ const SampulItem = () => {
 
 const Content = () => {
     const { sampulItemData, setSampulItemData } = DesainUndanganAuth()
-    const { id: idDesainUndangan } = useSelector((state: RootState) => state.desainUndangan)
-    const { editDesainUndanganData } = UserAuth()
     const [photoUrl, setPhotoUrl] = useState(sampulItemData?.gambarBackground?.imageUrl)
     const onImageChange = (value: string | ArrayBuffer | null | undefined, id: string) => {
-        console.log('onImageChange')
-        console.log(value)
         setPhotoUrl(id)
         setSampulItemData(prev => {
             return {
@@ -55,7 +40,6 @@ const Content = () => {
         })
     }
     const onToggle = () => {
-        console.log(sampulItemData)
         setSampulItemData(prev => {
             return {
                 ...prev,
@@ -64,7 +48,6 @@ const Content = () => {
         })
     }
     const updateDeleteImageField = () => {
-        console.log('delete image updateDeleteImageField')
         setPhotoUrl("")
         setSampulItemData(prev => {
             return {
@@ -76,13 +59,6 @@ const Content = () => {
             }
         })
     }
-
-    // useEffect(() => {
-    //     if (sampulItemData.gambarBackground == "" && idDesainUndangan) {
-    //         console.log('sampulItem set kosong')
-    //         updateDataCollection(DESAIN_UNDANGAN, editDesainUndanganData, idDesainUndangan)
-    //     }
-    // }, [sampulItemData])
 
     return (
         <div className="content_wrapper">

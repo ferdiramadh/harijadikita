@@ -1,13 +1,8 @@
 import { DesainUndanganAuth } from '../../../context/DesainUndanganContext'
-import { VideoType } from '../../../redux/state/desainundangan/desainUndanganSlice'
 import DesainUndanganItem from './DesainUndanganItem'
 
-type VideoItemType = {
-    videoItemData: Partial<VideoType>
-    setVideoItemData: React.Dispatch<React.SetStateAction<Partial<VideoType>>>
-}
-
 const VideoItem = () => {
+
     const { videoItemData, setVideoItemData } = DesainUndanganAuth()
     const onToggle = () => {
         setVideoItemData(prev => {
@@ -28,7 +23,7 @@ const VideoItem = () => {
 }
 
 const Content = () => {
-    
+
     const { videoItemData, setVideoItemData } = DesainUndanganAuth()
     const splitYtId = (value: string | undefined) => {
         if (value) {

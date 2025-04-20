@@ -1,26 +1,15 @@
 import { useContext, createContext, useState, useEffect } from "react"
 import { ReactNode } from "react"
-import {
-    GoogleAuthProvider,
-    signInWithPopup,
-    signOut,
-    onAuthStateChanged,
-    FacebookAuthProvider
-} from 'firebase/auth'
-import { auth } from "../firebase"
-import { DocumentData, addDoc, collection, getDocs, query, where } from "firebase/firestore"
-import { db } from "../firebase"
-import { FormDataType, setRincianPernikahan } from "../redux/state/rinper/rinperSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { setUserCredential } from '../redux/state/userCredential/userCredentialSlice'
 import { AppDispatch, RootState } from "../redux/store"
-import { addDocWithId, getDataCollection, updateDataCollection } from "../database/Functions"
-import { AyatSuciKalimatMutiaraType, GaleriType, initiateDesainUndangan, MusicType, PengantinType, SampulType, setDesainUndangan, UserDataDesainUndangan, VideoType } from "../redux/state/desainundangan/desainUndanganSlice"
-import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN } from "../database/Collections"
+import { addDocWithId, updateDataCollection } from "../database/Functions"
+import { AyatSuciKalimatMutiaraType, GaleriType, initiateDesainUndangan, MusicType, PengantinType, SampulType, setDesainUndangan, VideoType } from "../redux/state/desainundangan/desainUndanganSlice"
+import { DESAIN_UNDANGAN } from "../database/Collections"
 
 interface ChildrenProps {
     children?: ReactNode
 }
+
 type DesainUndanganContextType = {
     sampulItemData: Partial<SampulType>
     setSampulItemData: React.Dispatch<React.SetStateAction<Partial<SampulType>>>
@@ -40,6 +29,7 @@ type DesainUndanganContextType = {
 const DesainUndanganContext = createContext<DesainUndanganContextType>({} as DesainUndanganContextType)
 
 export const DesainUndanganContextProvider = ({ children }: ChildrenProps) => {
+    
     const { id, data } = useSelector((state: RootState) => state.desainUndangan)
     const [sampulItemData, setSampulItemData] = useState<Partial<SampulType>>({})
     const [pengantinItemData, setPengantinItemData] = useState<Partial<PengantinType>>({})
@@ -52,10 +42,7 @@ export const DesainUndanganContextProvider = ({ children }: ChildrenProps) => {
     const saveDesainUndangan = async (userId: string, setLoading: React.Dispatch<React.SetStateAction<boolean>>, setGetChanged: React.Dispatch<React.SetStateAction<boolean>>) => {
         try {
             setLoading(true)
-
-            // console.log(idDesainUndangan)
             const result = id ? await updateDataCollection(DESAIN_UNDANGAN, allData, id) : await addDocWithId(DESAIN_UNDANGAN, allData, userId)
-            // console.log(result)
             if (result !== null) {
                 dispatch(setDesainUndangan(result))
                 alert("Data telah dipebaharui.")
