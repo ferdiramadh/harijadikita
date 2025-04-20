@@ -49,7 +49,8 @@ function RincianDesainEditPage() {
         tahuDariMana: "",
         user: ""
     })
-    const [getChanged, setGetChanged] = useState(false)
+    // Im not sure how to check if the data has changed - will check again later
+    // const [getChanged, setGetChanged] = useState(false)
     const [loading, setLoading] = useState(false)
     function updateData(field: Partial<FormDataType>) {
         setEditData(prev => {
@@ -66,7 +67,6 @@ function RincianDesainEditPage() {
             if (result == undefined) {
                 dispatch(updateRincianPernikahan(editData))
                 alert("Data telah dipebaharui.")
-                setGetChanged(false)
                 setLoading(false)
             } else {
                 alert("Maaf, data anda gagal tersimpan")
@@ -94,7 +94,7 @@ function RincianDesainEditPage() {
         if (isRincianPernikahan) {
             saveDraft()
         } else {
-            saveDesainUndangan(user?.uid, setLoading, setGetChanged)
+            saveDesainUndangan(user?.uid, setLoading)
         }
     }
     useEffect(() => {
@@ -102,13 +102,14 @@ function RincianDesainEditPage() {
         // setEdiDesainUndangantData(dataDesainUndangan)
     }, [])
 
-    useEffect(() => {
-        if (arraysEqual(data, editData)) {
-            setGetChanged(false)
-        } else {
-            setGetChanged(true)
-        }
-    }, [editData])
+    // Im not sure how to check if the data has changed - will check again later
+    // useEffect(() => {
+    //     if (arraysEqual(data, editData)) {
+    //         setGetChanged(false)
+    //     } else {
+    //         setGetChanged(true)
+    //     }
+    // }, [editData])
 
     return (
 
@@ -131,7 +132,7 @@ function RincianDesainEditPage() {
                     <DesainUndangan />
                 </LoadingOverlay>
             }
-            <BottomMenu getChanged={isRincianPernikahan ? getChanged : true} saveDraft={onSubmit} publish={publish} />
+            <BottomMenu saveDraft={onSubmit} publish={publish} />
         </div>
 
     )

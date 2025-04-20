@@ -11,9 +11,9 @@ interface ChildrenProps {
 }
 
 type DesainUndanganContextType = {
+    saveDesainUndangan: (userId: string, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => Promise<void>
     sampulItemData: Partial<SampulType>
     setSampulItemData: React.Dispatch<React.SetStateAction<Partial<SampulType>>>
-    saveDesainUndangan: (userId: string, setLoading: React.Dispatch<React.SetStateAction<boolean>>, setGetChanged: React.Dispatch<React.SetStateAction<boolean>>) => Promise<void>
     pengantinItemData: Partial<PengantinType>
     setPengantinItemData: React.Dispatch<React.SetStateAction<Partial<PengantinType>>>
     ayatSuciKataMutiaraItemData: Partial<AyatSuciKalimatMutiaraType>
@@ -39,14 +39,13 @@ export const DesainUndanganContextProvider = ({ children }: ChildrenProps) => {
     const [galeriItemData, setGaleriItemData] = useState<Partial<GaleriType>>({})
     const dispatch = useDispatch<AppDispatch>()
     const allData = [sampulItemData, pengantinItemData, ayatSuciKataMutiaraItemData, videoItemData, musikItemData, galeriItemData]
-    const saveDesainUndangan = async (userId: string, setLoading: React.Dispatch<React.SetStateAction<boolean>>, setGetChanged: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const saveDesainUndangan = async (userId: string, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
         try {
             setLoading(true)
             const result = id ? await updateDataCollection(DESAIN_UNDANGAN, allData, id) : await addDocWithId(DESAIN_UNDANGAN, allData, userId)
             if (result !== null) {
                 dispatch(setDesainUndangan(result))
                 alert("Data telah dipebaharui.")
-                setGetChanged(false)
                 setLoading(false)
             } else {
                 alert("Maaf, data anda gagal tersimpan")
@@ -80,9 +79,9 @@ export const DesainUndanganContextProvider = ({ children }: ChildrenProps) => {
 
     return (
         <DesainUndanganContext.Provider value={{
+            saveDesainUndangan,
             sampulItemData,
             setSampulItemData,
-            saveDesainUndangan,
             pengantinItemData,
             setPengantinItemData,
             ayatSuciKataMutiaraItemData,
