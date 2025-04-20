@@ -38,6 +38,12 @@ const Content = () => {
             }
         })
     }
+    const updateDeleteImageField = (deletedId: number | undefined) => {
+        setGaleriItemData(prevItems => ({
+            ...prevItems,
+            imageList: prevItems?.imageList?.filter(item => item.id !== deletedId)
+        }))
+    }
     return (
         <div className="content_wrapper">
             <UploadGambarSection
@@ -45,7 +51,7 @@ const Content = () => {
                 onImageChange={onImageChange}
                 sectionFolder="Gallery"
                 photoUrl={galeriItemData?.imageList}
-                updateDeleteImageField={() => null}
+                updateDeleteImageField={updateDeleteImageField}
                 multiple={true}
             />
         </div>
