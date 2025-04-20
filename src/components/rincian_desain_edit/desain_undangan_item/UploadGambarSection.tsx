@@ -18,6 +18,7 @@ type ImageType = {
     id: number
     name: string
     imageUrl: any
+    progress?: number
 }
 
 const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl = [], updateDeleteImageField, multiple = false }: UploadImageType) => {
@@ -73,7 +74,8 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     setPickImageFile((prev) => [...prev, {
                         id: i + 1,
                         name: file.name,
-                        imageUrl: bytes
+                        imageUrl: bytes,
+                        progress: 0
                     }])
                 }
             }
@@ -99,7 +101,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         setPickImageFile((prevItems) => prevItems.filter((item) => item.id !== id))
     }
     const handleUpload = async () => {
-
+        const titleText = pickImageFile.length > 1 ? "Semua gambar" : "Gambar"
         setLoading(true)
         const promises = pickImageFile.map((img) => {
             const storageRef = setRef(img.id)
@@ -111,7 +113,16 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     (snapshot) => {
                         // Progress function
                         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                        console.log(`Upload is ${progress}% done`)
+                        setPickImageFile((prev) => {
+                            const updatedItems = prev.map((item) => {
+                                if (item.id === img.id) {
+                                    return { ...item, progress: progress }
+                                }
+                                return item
+                            })
+                            return updatedItems
+                        }
+                        )
                     },
                     (error) => {
                         // Error function
@@ -145,7 +156,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             .then(() => {
                 setLoading(false)
                 setPickImageFile([])
-                alert("Semua gambar berhasil diunggah.")
+                alert(`${titleText} berhasil diunggah.`)
             })
             .catch((error) => {
                 setLoading(false)
@@ -177,6 +188,8 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     }, [imageUrls])
 
     return (
+
+
         <>
             {
                 (imageUrls.length > 0) || imageUrls[0]?.imageUrl ?
@@ -233,12 +246,17 @@ type UnggahType = {
 
 const Unggah = ({ item, cancel, loading }: UnggahType) => {
 
-    const { name, id } = item
-
+    const { name, id, progress } = item
     return (
         <div style={{ marginTop: 20, width: '100%', flexDirection: 'row', flex: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
             {
-                loading ? <p>Menunggah gambar...</p>
+                loading ?
+                    <>
+                        <p>Menunggah gambar...</p>
+                        <div className="progress-bar">
+                            <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                        </div>
+                    </>
                     :
                     <>
                         <p>Nama file: </p>
