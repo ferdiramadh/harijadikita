@@ -15,12 +15,13 @@ import { useDispatch } from "react-redux"
 import { setUserCredential } from '../redux/state/userCredential/userCredentialSlice'
 import { AppDispatch } from "../redux/store"
 import { getDataCollection } from "../database/Functions"
-import { AyatSuciKalimatMutiaraType, initiateDesainUndangan, PengantinType, SampulType, setDesainUndangan, UserDataDesainUndangan } from "../redux/state/desainundangan/desainUndanganSlice"
+import { AyatSuciKalimatMutiaraType, initiateDesainUndangan, PengantinType, SampulType, setDesainUndangan } from "../redux/state/desainundangan/desainUndanganSlice"
 import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN } from "../database/Collections"
 
 interface ChildrenProps {
     children?: ReactNode
 }
+
 type UserContextType = {
     googleSignIn: () => void
     logOut: () => void
@@ -35,6 +36,7 @@ type UserContextType = {
     editDesainUndanganData: (Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]
     setEdiDesainUndangantData: React.Dispatch<React.SetStateAction<(Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]>>
 }
+
 type UserCollectionProps = {
     email: string
     displayName: string
@@ -42,6 +44,7 @@ type UserCollectionProps = {
     email_verified: boolean
     isFinishJoin: boolean
 }
+
 const AuthContext = createContext<UserContextType>({} as UserContextType)
 
 const INITIAL_USER: UserCollectionProps = {
@@ -51,8 +54,6 @@ const INITIAL_USER: UserCollectionProps = {
     email_verified: false,
     isFinishJoin: false
 }
-
-
 
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const [user, setUser] = useState<any>(null)
@@ -112,14 +113,12 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
             const querySnapshot = await getDocs(q)
             const docLength = querySnapshot.docs.length
             if (docLength == 1) {
-                console.log('cari cuy')
                 querySnapshot.forEach((doc) => {
                     const data = doc.data()
                     setUserAcc(data)
 
                 })
             } else if (docLength == 0) {
-                console.log('nambah nih')
                 addUser(user.email, user.displayName, user.uid, user.emailVerified)
                 setUserAcc(prev => ({
                     ...prev,
@@ -132,9 +131,10 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
             }
 
         } catch (err) {
-            console.log(err)
+            alert(err)
         }
     }
+
     const addUser = async (email: string, name: string, uid: string, email_ver: boolean) => {
         try {
             const docRef = await addDoc(collection(db, "users"), {
@@ -144,36 +144,16 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
                 email_verified: userAcc?.email_verified ? userAcc?.email_verified : email_ver,
                 isFinishJoin: isFinishJoin
             })
-            console.log("isFinishJoin " + isFinishJoin)
         } catch (err) {
-            console.log(err)
+            alert(err)
         }
     }
     const GetRinperDesainData = async () => {
-        console.log("GetRinperDesainData")
         try {
-            // const rinperData = await getDataCollection(RINCIAN_PERNIKAHAN, user.uid)
-            // const desainDataUndangan = await getDataCollection(DESAIN_UNDANGAN, user.uid)
-            // Promise.all([rinperData, desainDataUndangan]).then(([rinperval, desainval]) => {
-            //     console.log({ rinperval })
-            //     console.log({ desainval })
-            //     if (rinperval) {
-            //         dispatch(setRincianPernikahan(rinperval))
-            //     }
-            //     if (!desainval) {
-            //         console.log("initiateDesainUndangan")
-            //         dispatch(initiateDesainUndangan())
-            //     }
-            //     if (desainval) {
-            //         dispatch(setDesainUndangan(desainval))
-            //     }
-
-            // })
             const result = await Promise.all([
                 getDataCollection(RINCIAN_PERNIKAHAN, user.uid),
                 getDataCollection(DESAIN_UNDANGAN, user.uid)
             ])
-            // console.log({result})
             return result
         } catch (error) {
             alert(error)
@@ -201,13 +181,10 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
         if (user) {
             const getRinperDesainData = async () => {
                 const test = await GetRinperDesainData()
-                console.log(test?.[0])
-                console.log(test?.[1])
                 if (test?.[0]) {
                     dispatch(setRincianPernikahan(test?.[0]))
                 }
                 if (!test?.[1]) {
-                    console.log("initiateDesainUndangan")
                     dispatch(initiateDesainUndangan())
                 }
                 if (test?.[1]) {

@@ -65,7 +65,6 @@ const JoinPage = () => {
             count={currentStepIndex + 1}
             steps={steps}
           />
-          {/* <button type='button' onClick={() => console.log(data)}>Test</button> */}
         </div>
       </form>
     </section>

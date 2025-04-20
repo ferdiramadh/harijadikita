@@ -21,15 +21,6 @@ const RincianPernikahan = ({ editData, updateData }: UpdateDataType) => {
       <JadwalLokasiItem editData={editData} updateData={updateData} />
       <RekeningPengantinItem editData={editData} updateData={updateData} />
       <div style={{ flex: 1, marginBottom: 500, width: "100%", height: 200 }} />
-      {/* <button onClick={() => {
-        console.log(data)
-        if (data == editData) {
-          alert("sama nih")
-        } else {
-          alert("beda nih")
-        }
-
-      }}>Test Data</button> */}
     </div>
   )
 }

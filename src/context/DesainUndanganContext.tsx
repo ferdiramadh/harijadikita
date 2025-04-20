@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../redux/store"
 import { addDocWithId, updateDataCollection } from "../database/Functions"
-import { AyatSuciKalimatMutiaraType, GaleriType, initiateDesainUndangan, MusicType, PengantinType, SampulType, setDesainUndangan, VideoType } from "../redux/state/desainundangan/desainUndanganSlice"
+import { AyatSuciKalimatMutiaraType, GaleriType, MusicType, PengantinType, SampulType, setDesainUndangan, VideoType } from "../redux/state/desainundangan/desainUndanganSlice"
 import { DESAIN_UNDANGAN } from "../database/Collections"
 
 interface ChildrenProps {
@@ -29,7 +29,7 @@ type DesainUndanganContextType = {
 const DesainUndanganContext = createContext<DesainUndanganContextType>({} as DesainUndanganContextType)
 
 export const DesainUndanganContextProvider = ({ children }: ChildrenProps) => {
-    
+
     const { id, data } = useSelector((state: RootState) => state.desainUndangan)
     const [sampulItemData, setSampulItemData] = useState<Partial<SampulType>>({})
     const [pengantinItemData, setPengantinItemData] = useState<Partial<PengantinType>>({})

@@ -21,7 +21,7 @@ export default function LogoJoinSkip() {
       setData(INITIAL_DATA)
       navigate('/home')
     } catch (err) {
-      console.log(err)
+      alert(err)
     }
   }
 

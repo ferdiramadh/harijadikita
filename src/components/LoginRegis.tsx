@@ -66,11 +66,6 @@ const InputEmailPassSection = ({ title, isEmailVerification, setLoading }: Verif
     const { setUserAcc, user } = UserAuth()
     const handleVerification = async (e: any) => {
         e.preventDefault()
-        // console.log('email ver')
-        // const resultEmailVer = await sendEmailVerification(user)
-        // if(resultEmailVer == null) {
-        //     setUserAcc(prev => ({...prev, email_verified: true}))
-        // }
     }
     const handleOnSubmit = async (e: any) => {
         e.preventDefault()
@@ -119,11 +114,9 @@ const GoogleFbSection = ({ title, isLogin }: Partial<VerificationProp>) => {
     const handleGoogleSignIn = async () => {
         try {
             googleSignIn()
-            // navigate('/home')
-            // setUserAcc(prev => ({ ...prev, email_verified: true }))
         }
         catch (error) {
-            console.log(error)
+            alert(error)
         }
     }
 
@@ -132,7 +125,7 @@ const GoogleFbSection = ({ title, isLogin }: Partial<VerificationProp>) => {
             facebookSignIn()
         }
         catch (error) {
-            console.log(error)
+            alert(error)
         }
     }
     // useEffect(() => {

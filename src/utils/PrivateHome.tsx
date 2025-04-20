@@ -7,9 +7,7 @@ const PrivateHome = () => {
     const [isVerified, setIsVerified] = useState(false)
     useEffect(() => {
         if(userAcc?.email_verified) {
-            console.log('verfikiasih nih')
             setIsVerified(true)
-            // navigate('/home')
         }
     }, [userAcc])
     return (
