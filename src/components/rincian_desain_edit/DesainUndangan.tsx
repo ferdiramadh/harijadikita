@@ -4,11 +4,12 @@ import GaleriItem from "./desain_undangan_item/GaleriItem"
 import VideoItem from "./desain_undangan_item/VideoItem"
 import MusikItem from "./desain_undangan_item/MusikItem"
 import AyatSuciKataMutiaraItem from "./desain_undangan_item/AyatSuciKataMutiaraItem"
+import ItemContainer from "./ItemContainer"
 
 const DesainUndangan = () => {
 
   return (
-    <div style={{ width: '100%', marginTop: "7vh" }}>
+    <ItemContainer>
       <SampulItem />
       <PengantinItem />
       <AyatSuciKataMutiaraItem />
@@ -21,7 +22,7 @@ const DesainUndangan = () => {
       <LoveStoryItem />
       <RSVPUcapanItem />
       <HadiahUangItem /> */}
-    </div>
+    </ItemContainer>
   )
 }
 
