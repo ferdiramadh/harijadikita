@@ -65,10 +65,11 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     }
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
+        if (acceptedFiles.length < 11) {
         acceptedFiles.map((file, i) => {
             const reader = new FileReader()
             reader.onload = function (e: ProgressEvent<FileReader>) {
-                let img = e.target?.result
+       
                 if (e.target?.result instanceof ArrayBuffer) {
                     const bytes = new Uint8Array(e.target.result);
                     setPickImageFile((prev) => [...prev, {
@@ -82,6 +83,9 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             reader.readAsArrayBuffer(file)
             return
         })
+    } else {
+        alert("Maksimal 10 gambar.")
+    }
     }, [])
 
     const { getRootProps, getInputProps } = useDropzone({
