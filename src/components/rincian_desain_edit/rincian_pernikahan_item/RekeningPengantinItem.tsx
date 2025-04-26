@@ -37,14 +37,18 @@ const RekeningSection = ({ editData, updateData }: UpdateDataType) => {
     const [value, setValue] = useState(editData?.namaBank)
     const [value2, setValue2] = useState(editData?.namaBank2)
     const isSecondRek = editData?.noRek2
+
     useEffect(() => {
+        if (!value && editData?.namaBank) {
+            setValue(editData?.namaBank)
+        }
         if (value !== editData?.namaBank) {
             updateData({ namaBank: value })
         }
         if (value2 !== editData?.namaBank2) {
             updateData({ namaBank: value2 })
         }
-    }, [value, value2])
+    }, [editData, value, value2])
     return (
         <>
             <div className="title-reception">
