@@ -192,7 +192,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
 
         <>
             {
-                (imageUrls.length > 0) || imageUrls[0]?.imageUrl ?
+                (imageUrls.length > 0) && imageUrls[0]?.imageUrl !== "" ?
                     imageUrls.map((item, i) => {
                         if (item.imageUrl)
                             return (
