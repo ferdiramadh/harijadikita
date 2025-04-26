@@ -23,16 +23,14 @@ const ItemContainer = ({ children }: ItemContainerType) => {
 
         return () => observer.disconnect()
     }, [])
-    console.log(height)
+
     return (
         <div  ref={containerRef}
         style={{
-            backgroundColor: "yellow",
             resize: "vertical",
             overflow: "auto",
             padding: "1rem",
-            border: "1px solid gray",
-            boxSizing: "border-box",
+            paddingBottom: height > 500 ? "10vh" : "50vh",
         }}>
             <div className='item-container'
                
@@ -40,7 +38,6 @@ const ItemContainer = ({ children }: ItemContainerType) => {
                 {children}
                
             </div>
-            <div style={{ height: '20px', backgroundColor: 'black' }} /> {/* buffer space at bottom */}
         </div>
     )
 }

@@ -1,363 +1,371 @@
 @use '../variables.scss' as *;
 @use '../mixins' as *;
 
-.rinper-item {
-    display: flex;
-    flex-direction: row;
-    background-color: #FFF;
+.item-container {
     width: 100%;
-    height: 72px;
-    justify-content: center;
-    align-items: center;
-    padding-left: 20px;
-    border-bottom: solid 1px #EFEFEF;
+    margin-top: 7vh;
+    // padding-bottom: 50vh;
+    overflow: auto;
 
-    .title {
-        display: flex;
-        width: 80%;
-
-        h3 {
-            @include font-inter;
-            text-align: left;
-            color: #667085;
-            font-size: 14px;
-        }
-    }
-
-    .btn-arrow-wrapper {
-        display: flex;
-        width: 20%;
-        justify-content: center;
-        align-items: center;
-
-        .btn-arrow {
-            padding: 10px;
-            border: none;
-            background-color: transparent;
-            transition: .5s ease-in-out;
-        }
-
-    }
-
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 40px;
-        height: 22px;
-    }
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 3px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    input:checked+.slider {
-        background-color: #FF5858;
-    }
-
-    input:focus+.slider {
-        box-shadow: 0 0 1px #FF5858;
-    }
-
-    input:checked+.slider:before {
-        -webkit-transform: translateX(16px);
-        -ms-transform: translateX(16px);
-        transform: translateX(16px);
-    }
-
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 22px;
-    }
-
-    .slider.round:before {
-        border-radius: 50%;
-    }
-}
-
-.content_wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1.5rem;
-    flex-direction: column;
-    border-bottom: solid 1px #EFEFEF;
-
-    input {
-        @include input-template-full-width;
-    }
-
-    .label_input {
-        @include rin-per-label;
-    }
-
-    .label_input_bold {
-        @include rin-per-label;
-        @include font-inter-bold;
-    }
-
-    .ex_label_family {
-        @include rin-per-label;
-        font-size: 12px;
-    }
-
-    a {
-        @include font-inter;
-        color: #474747;
-        margin-top: 1rem;
-        text-decoration: underline;
-    }
-
-    .title-reception {
+    .rinper-item {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        background-color: #FFF;
         width: 100%;
-        padding: .5em 0;
+        height: 72px;
+        justify-content: center;
+        align-items: center;
+        padding-left: 20px;
+        border-bottom: solid 1px #EFEFEF;
 
-        .close_reception_btn {
-            background: none;
-            color: inherit;
-            border: none;
-            padding: 0;
-            font: inherit;
-            cursor: pointer;
-            outline: inherit;
+        .title {
+            display: flex;
+            width: 80%;
+
+            h3 {
+                @include font-inter;
+                text-align: left;
+                color: #667085;
+                font-size: 14px;
+            }
         }
 
-    }
-
-    .large_input_area {
-        width: 100%;
-        padding: 12px;
-        margin-top: 10px;
-        border: solid 1px;
-        border-color: #C4C4C4;
-        border-radius: 5px;
-    }
-
-    .add_story_btn {
-        @include btn-primary;
-        width: 100%;
-        margin-top: 20px;
-    }
-
-    //desainpage
-    .progress-bar {
-        width: 100%;
-        height: 20px;
-        background-color: #eee;
-        border-radius: 10px;
-        overflow: hidden;
-        margin-top: 10px;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background-color: $primary;
-        transition: width 0.3s ease-in-out;
-    }
-
-    .uploadBtn {
-        @include font-inter;
-        color: #FFF;
-        justify-content: center;
-        align-items: center;
-        background-color: $primary;
-        text-align: center;
-        padding: 10px;
-        border: solid $primary .5px;
-        border-radius: .5rem;
-        margin-right: 1rem;
-        margin-top: 1rem;
-    }
-
-    .removeBtn {
-        @include font-inter;
-        color: #FFF;
-        justify-content: center;
-        align-items: center;
-        background-color: $dark;
-        text-align: center;
-        padding: 10px;
-        border: solid $primary .5px;
-        border-radius: .5rem;
-    }
-
-    .editSection {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-
-        .buttons {
+        .btn-arrow-wrapper {
             display: flex;
-            flex-direction: row;
-            width: 200px;
-            padding: .5rem;
-            justify-content: center;
-            align-self: center;
-
-            .editWrapper {
-                margin-top: .5rem;
-            }
-
-            .editBtn {
-                @include font-inter;
-                color: #FFF;
-                width: 85px;
-                height: 37px;
-                justify-content: center;
-                align-items: center;
-                background-color: $primary;
-                text-align: center;
-                padding: 10px;
-                border: solid $primary .5px;
-                border-radius: .25rem;
-            }
-
-            .custom-file-upload {
-                @include font-inter;
-                color: #FFF;
-                justify-content: center;
-                align-items: center;
-                background-color: $primary;
-                text-align: center;
-                padding: 9px 20px;
-                border: solid $primary .5px;
-                border-radius: .25rem;
-            }
-
-            .deleteBtn {
-                @include font-inter;
-                width: 85px;
-                height: 38px;
-                justify-content: center;
-                align-items: center;
-                background-color: white;
-                text-align: center;
-                padding: 10px;
-                border: solid #C4C4C4 .25px;
-                border-radius: .25rem;
-            }
-        }
-    }
-
-    .upload_image_section {
-        display: flex;
-        width: 100%;
-        border: 1px solid #667085;
-        border-style: dashed;
-        padding: 20px;
-        border-radius: 10px;
-        margin-top: 1rem;
-        justify-content: center;
-        align-items: center;
-
-        .drag_drop {
-            display: flex;
-            flex-direction: column;
+            width: 20%;
             justify-content: center;
             align-items: center;
 
-            p {
-                @include font-quicksand;
-                font-size: 13px;
-                color: #667085;
-                margin: 0.25rem 0;
+            .btn-arrow {
+                padding: 10px;
+                border: none;
+                background-color: transparent;
+                transition: .5s ease-in-out;
             }
 
-            p:first-of-type {
-                color: #000;
-                font-size: $font-size-12;
-                margin-top: 1rem;
-            }
+        }
 
-            input[type="file"] {
-                display: none;
-            }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+        }
 
-            .custom-file-upload {
-                border: 1px solid #FF5858;
-                display: inline-block;
-                padding: 6px 12px;
-                cursor: pointer;
-                margin-top: 1rem;
-                color: #FF5858;
-                border-radius: 6px;
-                @include font-quicksand;
-            }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: #FF5858;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #FF5858;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(16px);
+            -ms-transform: translateX(16px);
+            transform: translateX(16px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 22px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
         }
     }
 
-    .radioBtnWrapper {
+    .content_wrapper {
         display: flex;
-        flex-direction: row;
-        align-self: flex-start;
-        align-items: center;
         justify-content: center;
-        height: 3rem;
+        align-items: center;
+        padding: 1.5rem;
+        flex-direction: column;
+        border-bottom: solid 1px #EFEFEF;
+        overflow: auto;
 
-        .radioBtn {
-            width: 20px;
-            align-self: center;
-            margin-bottom: 20px;
-            accent-color: $primary;
+        input {
+            @include input-template-full-width;
         }
 
-        p {
-            font-size: $font-size-14;
+        .label_input {
+            @include rin-per-label;
+        }
+
+        .label_input_bold {
+            @include rin-per-label;
+            @include font-inter-bold;
+        }
+
+        .ex_label_family {
+            @include rin-per-label;
+            font-size: 12px;
+        }
+
+        a {
             @include font-inter;
-            color: #667085;
-            text-align: center;
-            margin-left: 1rem;
+            color: #474747;
+            margin-top: 1rem;
+            text-decoration: underline;
         }
-    }
 
-    iframe {
-        margin-top: 2rem;
-        height: 200px;
-        width: 100%;
-    }
+        .title-reception {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: .5em 0;
 
-    .playBtn {
-        display: flex;
-        flex-direction: row;
-        background-color: #FF5858;
-        padding: .5rem 1rem;
-        justify-content: space-between;
-        align-self: center;
-        margin: 1rem 0rem;
-        border: 1px solid #FF5858;
-        color: #FFF;
-        border-radius: 6px;
-        @include font-quicksand;
+            .close_reception_btn {
+                background: none;
+                color: inherit;
+                border: none;
+                padding: 0;
+                font: inherit;
+                cursor: pointer;
+                outline: inherit;
+            }
+
+        }
+
+        .large_input_area {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: solid 1px;
+            border-color: #C4C4C4;
+            border-radius: 5px;
+        }
+
+        .add_story_btn {
+            @include btn-primary;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        //desainpage
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: $primary;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .uploadBtn {
+            @include font-inter;
+            color: #FFF;
+            justify-content: center;
+            align-items: center;
+            background-color: $primary;
+            text-align: center;
+            padding: 10px;
+            border: solid $primary .5px;
+            border-radius: .5rem;
+            margin-right: 1rem;
+            margin-top: 1rem;
+        }
+
+        .removeBtn {
+            @include font-inter;
+            color: #FFF;
+            justify-content: center;
+            align-items: center;
+            background-color: $dark;
+            text-align: center;
+            padding: 10px;
+            border: solid $primary .5px;
+            border-radius: .5rem;
+        }
+
+        .editSection {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+
+            .buttons {
+                display: flex;
+                flex-direction: row;
+                width: 200px;
+                padding: .5rem;
+                justify-content: center;
+                align-self: center;
+
+                .editWrapper {
+                    margin-top: .5rem;
+                }
+
+                .editBtn {
+                    @include font-inter;
+                    color: #FFF;
+                    width: 85px;
+                    height: 37px;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: $primary;
+                    text-align: center;
+                    padding: 10px;
+                    border: solid $primary .5px;
+                    border-radius: .25rem;
+                }
+
+                .custom-file-upload {
+                    @include font-inter;
+                    color: #FFF;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: $primary;
+                    text-align: center;
+                    padding: 9px 20px;
+                    border: solid $primary .5px;
+                    border-radius: .25rem;
+                }
+
+                .deleteBtn {
+                    @include font-inter;
+                    width: 85px;
+                    height: 38px;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: white;
+                    text-align: center;
+                    padding: 10px;
+                    border: solid #C4C4C4 .25px;
+                    border-radius: .25rem;
+                }
+            }
+        }
+
+        .upload_image_section {
+            display: flex;
+            width: 100%;
+            border: 1px solid #667085;
+            border-style: dashed;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+
+            .drag_drop {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                    @include font-quicksand;
+                    font-size: 13px;
+                    color: #667085;
+                    margin: 0.25rem 0;
+                }
+
+                p:first-of-type {
+                    color: #000;
+                    font-size: $font-size-12;
+                    margin-top: 1rem;
+                }
+
+                input[type="file"] {
+                    display: none;
+                }
+
+                .custom-file-upload {
+                    border: 1px solid #FF5858;
+                    display: inline-block;
+                    padding: 6px 12px;
+                    cursor: pointer;
+                    margin-top: 1rem;
+                    color: #FF5858;
+                    border-radius: 6px;
+                    @include font-quicksand;
+                }
+            }
+        }
+
+        .radioBtnWrapper {
+            display: flex;
+            flex-direction: row;
+            align-self: flex-start;
+            align-items: center;
+            justify-content: center;
+            height: 3rem;
+
+            .radioBtn {
+                width: 20px;
+                align-self: center;
+                margin-bottom: 20px;
+                accent-color: $primary;
+            }
+
+            p {
+                font-size: $font-size-14;
+                @include font-inter;
+                color: #667085;
+                text-align: center;
+                margin-left: 1rem;
+            }
+        }
+
+        iframe {
+            margin-top: 2rem;
+            height: 200px;
+            width: 100%;
+        }
+
+        .playBtn {
+            display: flex;
+            flex-direction: row;
+            background-color: #FF5858;
+            padding: .5rem 1rem;
+            justify-content: space-between;
+            align-self: center;
+            margin: 1rem 0rem;
+            border: 1px solid #FF5858;
+            color: #FFF;
+            border-radius: 6px;
+            @include font-quicksand;
+        }
     }
 }
