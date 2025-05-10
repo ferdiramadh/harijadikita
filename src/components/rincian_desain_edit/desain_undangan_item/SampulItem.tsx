@@ -28,7 +28,6 @@ const Content = () => {
     const { sampulItemData, setSampulItemData } = DesainUndanganAuth()
     const [photoUrl, setPhotoUrl] = useState(sampulItemData?.gambarBackground?.imageUrl)
     const onImageChange = (value: string | ArrayBuffer | null | undefined, id: string) => {
-        setPhotoUrl(id)
         setSampulItemData(prev => {
             return {
                 ...prev,
