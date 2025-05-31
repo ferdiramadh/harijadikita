@@ -65,28 +65,35 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     }
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
-        if (acceptedFiles.length < 11) {
-        acceptedFiles.map((file, i) => {
-            const reader = new FileReader()
+        // Calculate how many more images can be uploaded
+        const maxImages = 10;
+        const currentCount = imageUrls.length + pickImageFile.length;
+        const availableSlots = maxImages - currentCount;
+
+        if (acceptedFiles.length > availableSlots) {
+            alert(`Maksimal ${maxImages} gambar. Anda hanya bisa menambah ${availableSlots} gambar lagi.`);
+            return;
+        }
+
+        acceptedFiles.forEach((file, i) => {
+            const reader = new FileReader();
             reader.onload = function (e: ProgressEvent<FileReader>) {
-       
                 if (e.target?.result instanceof ArrayBuffer) {
                     const bytes = new Uint8Array(e.target.result);
-                    setPickImageFile((prev) => [...prev, {
-                        id: i + 1,
-                        name: file.name,
-                        imageUrl: bytes,
-                        progress: 0
-                    }])
+                    setPickImageFile((prev) => [
+                        ...prev,
+                        {
+                            id: Date.now() + i, // Use unique id
+                            name: file.name,
+                            imageUrl: bytes,
+                            progress: 0,
+                        },
+                    ]);
                 }
-            }
-            reader.readAsArrayBuffer(file)
-            return
-        })
-    } else {
-        alert("Maksimal 10 gambar.")
-    }
-    }, [])
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    }, [imageUrls, pickImageFile]);
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -105,68 +112,66 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         setPickImageFile((prevItems) => prevItems.filter((item) => item.id !== id))
     }
     const handleUpload = async () => {
-        const titleText = pickImageFile.length > 1 ? "Semua gambar" : "Gambar"
-        setLoading(true)
+        const titleText = pickImageFile.length > 1 ? "Semua gambar" : "Gambar";
+        setLoading(true);
         const promises = pickImageFile.map((img) => {
-            const storageRef = setRef(img.id)
-            const uploadTask = uploadBytesResumable(storageRef, img.imageUrl)
+            const storageRef = setRef(img.id);
+            const uploadTask = uploadBytesResumable(storageRef, img.imageUrl);
 
             return new Promise((resolve, reject) => {
                 uploadTask.on(
                     "state_changed",
                     (snapshot) => {
-                        // Progress function
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                         setPickImageFile((prev) => {
                             const updatedItems = prev.map((item) => {
                                 if (item.id === img.id) {
-                                    return { ...item, progress: progress }
+                                    return { ...item, progress: progress };
                                 }
-                                return item
-                            })
-                            return updatedItems
-                        }
-                        )
+                                return item;
+                            });
+                            return updatedItems;
+                        });
                     },
                     (error) => {
-                        // Error function
-                        alert(error)
-                        reject(error)
+                        alert(error);
+                        reject(error);
                     },
                     async () => {
-                        // Complete function
-                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
-                        removeItem(img.id)
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        removeItem(img.id);
                         if (sectionFolder !== "Gallery") {
                             setImageUrls([{
                                 id: img.id,
                                 name: img.name,
-                                imageUrl: downloadURL
-                            }])
+                                imageUrl: downloadURL,
+                            }]);
                         } else {
-                            setImageUrls((prev) => [...prev, {
-                                id: img.id,
-                                name: img.name,
-                                imageUrl: downloadURL
-                            }])
+                            setImageUrls((prev) => [
+                                ...prev,
+                                {
+                                    id: img.id,
+                                    name: img.name,
+                                    imageUrl: downloadURL,
+                                },
+                            ]);
                         }
-
-                        resolve(downloadURL)
+                        resolve(downloadURL);
                     }
-                )
-            })
-        })
+                );
+            });
+        });
         Promise.all(promises)
             .then(() => {
-                setLoading(false)
-                setPickImageFile([])
-                alert(`${titleText} berhasil diunggah.`)
+                setLoading(false);
+                setPickImageFile([]); // Allow new uploads after success
+                alert(`${titleText} berhasil diunggah.`);
             })
             .catch((error) => {
-                setLoading(false)
-                alert(error.message)
-            })
-    }
+                setLoading(false);
+                alert(error.message);
+            });
+    };
 
     const removeMatchingItems = () => {
         setPickImageFile((prevItems) =>
@@ -180,8 +185,8 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         if (imageUrls && imageUrls.length > 0) {
             if (sectionFolder !== "Gallery") {
                 for (let i = 0; i < imageUrls.length; i++) {
+                    onImageChange(imageUrls[i]?.imageUrl, imageUrls[i]?.id)
                 }
-                onImageChange(imageUrls[0]?.imageUrl, imageUrls[0]?.id)
             } else {
                 onImageChange(imageUrls)
             }
@@ -196,18 +201,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
 
         <>
             {
-                (imageUrls.length > 0) && imageUrls[0]?.imageUrl !== "" ?
-                    imageUrls.map((item, i) => {
-                        if (item.imageUrl)
-                            return (
-                                <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} />
-                            )
-                    })
-                    :
-                    <label className="label_input">{titleLable}</label>
-            }
-            {
-                ((pickImageFile.length == 0) && (imageUrls[0]?.imageUrl == "" || imageUrls.length == 0)) || (imageUrls[0]?.imageUrl == "" && (pickImageFile.length == 0)) ?
+                (imageUrls.length + pickImageFile.length < 10) && (
                     <div className="upload_image_section">
                         <div {...getRootProps()} className="drag_drop">
                             <FiUploadCloud size={40} color="#667085" />
@@ -221,22 +215,30 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                                 />
                                 Pilih berkas
                             </label>
-
                         </div>
-                    </div> : null
+                    </div>
+                )
             }
             {
                 pickImageFile.length > 0 ?
-                    pickImageFile.map((item, i) => {
-                        return (
-                            <Unggah key={i} item={item} cancel={removeItem} loading={loading} />
-                        )
-                    })
-                    :
-                    null
+                    pickImageFile.map((item, i) => (
+                        <Unggah key={i} item={item} cancel={removeItem} loading={loading} />
+                    ))
+                    : null
             }
             {
                 pickImageFile.length > 0 && <button onClick={handleUpload} className="uploadBtn" >{buttonText}</button>
+            }
+            {
+                (imageUrls.length > 0) && imageUrls[0]?.imageUrl !== "" ?
+                    imageUrls.map((item, i) => {
+                        if (item.imageUrl)
+                            return (
+                                <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} />
+                            )
+                    })
+                    :
+                    <label className="label_input">{titleLable}</label>
             }
         </>
     )
