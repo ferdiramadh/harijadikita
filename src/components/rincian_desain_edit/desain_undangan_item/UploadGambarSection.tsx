@@ -234,7 +234,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     imageUrls.map((item, i) => {
                         if (item.imageUrl)
                             return (
-                                <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} />
+                                <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} index={i} />
                             )
                     })
                     :
@@ -280,14 +280,16 @@ type UploadPartsType = {
     id: number
     imgUrl: any
     deleteImage: (id: any) => Promise<void>
+    index: number
 }
 
-const UploadParts = ({ id, imgUrl, deleteImage }: UploadPartsType) => {
+const UploadParts = ({ id, imgUrl, deleteImage, index }: UploadPartsType) => {
 
     return (
         <div style={{ marginTop: 10 }}>
+            <label className="label_input">Gambar ke-{index + 1}</label>
             <img
-                src={imgUrl} style={{ width: '100%' }}
+                src={imgUrl} style={{ width: '100%', marginTop: 10 }}
                 alt={"titleLable"} />
             <div className="editSection">
                 <div className="buttons">
