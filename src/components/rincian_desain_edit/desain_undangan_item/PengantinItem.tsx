@@ -39,6 +39,7 @@ const Content = () => {
                 }
             }
         })
+        setPhotoUrlPengantinPria(value)
     }
     const onImageChangePengantinWanita = (value: string | ArrayBuffer | null | undefined, id: string) => {
         setPengantinItemData(prev => {
@@ -50,6 +51,7 @@ const Content = () => {
                 }
             }
         })
+        setPhotoUrlPengantinWanita(value)
     }
     const onToggle = () => {
         setPengantinItemData(prev => {

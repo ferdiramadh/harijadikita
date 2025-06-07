@@ -37,6 +37,7 @@ const Content = () => {
                 }
             }
         })
+          setPhotoUrl(value)
     }
     const onToggle = () => {
         setSampulItemData(prev => {
@@ -88,7 +89,6 @@ const Content = () => {
                     />
                 </>
             }
-
         </div>
     )
 }

@@ -21,11 +21,12 @@ type ImageType = {
     progress?: number
 }
 
-const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl = [], updateDeleteImageField, multiple = false }: UploadImageType) => {
+const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl, updateDeleteImageField, multiple = false }: UploadImageType) => {
+
     const initiateData = {
         id: 1,
-        name: "",
-        imageUrl: photoUrl ? photoUrl : ""
+        name: "test",
+        imageUrl: photoUrl
     }
     const { user } = UserAuth()
     const [loading, setLoading] = useState(false)
@@ -48,7 +49,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                 } else {
                     setImageUrls((prevItems) =>
                         prevItems.filter(item => item.id !== id)
-                    );
+                    )
                     updateDeleteImageField(id)
                 }
 
@@ -66,34 +67,34 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         // Calculate how many more images can be uploaded
-        const maxImages = 10;
-        const currentCount = imageUrls.length + pickImageFile.length;
-        const availableSlots = maxImages - currentCount;
+        const maxImages = 10
+        const currentCount = imageUrls.length + pickImageFile.length
+        const availableSlots = maxImages - currentCount
 
         if (acceptedFiles.length > availableSlots) {
-            alert(`Maksimal ${maxImages} gambar. Anda hanya bisa menambah ${availableSlots} gambar lagi.`);
-            return;
+            alert(`Maksimal ${maxImages} gambar. Anda hanya bisa menambah ${availableSlots} gambar lagi.`)
+            return
         }
 
         acceptedFiles.forEach((file, i) => {
-            const reader = new FileReader();
+            const reader = new FileReader()
             reader.onload = function (e: ProgressEvent<FileReader>) {
                 if (e.target?.result instanceof ArrayBuffer) {
-                    const bytes = new Uint8Array(e.target.result);
+                    const bytes = new Uint8Array(e.target.result)
                     setPickImageFile((prev) => [
                         ...prev,
                         {
-                            id: Date.now() + i, // Use unique id
+                            id: i + 1, // Use unique id
                             name: file.name,
                             imageUrl: bytes,
                             progress: 0,
                         },
-                    ]);
+                    ])
                 }
-            };
-            reader.readAsArrayBuffer(file);
-        });
-    }, [imageUrls, pickImageFile]);
+            }
+            reader.readAsArrayBuffer(file)
+        })
+    }, [imageUrls, pickImageFile])
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -112,40 +113,40 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         setPickImageFile((prevItems) => prevItems.filter((item) => item.id !== id))
     }
     const handleUpload = async () => {
-        const titleText = pickImageFile.length > 1 ? "Semua gambar" : "Gambar";
-        setLoading(true);
+        const titleText = pickImageFile.length > 1 ? "Semua gambar" : "Gambar"
+        setLoading(true)
         const promises = pickImageFile.map((img) => {
-            const storageRef = setRef(img.id);
-            const uploadTask = uploadBytesResumable(storageRef, img.imageUrl);
+            const storageRef = setRef(img.id)
+            const uploadTask = uploadBytesResumable(storageRef, img.imageUrl)
 
             return new Promise((resolve, reject) => {
                 uploadTask.on(
                     "state_changed",
                     (snapshot) => {
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                         setPickImageFile((prev) => {
                             const updatedItems = prev.map((item) => {
                                 if (item.id === img.id) {
-                                    return { ...item, progress: progress };
+                                    return { ...item, progress: progress }
                                 }
-                                return item;
-                            });
-                            return updatedItems;
-                        });
+                                return item
+                            })
+                            return updatedItems
+                        })
                     },
                     (error) => {
-                        alert(error);
-                        reject(error);
+                        alert(error)
+                        reject(error)
                     },
                     async () => {
-                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                        removeItem(img.id);
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+                        removeItem(img.id)
                         if (sectionFolder !== "Gallery") {
                             setImageUrls([{
                                 id: img.id,
                                 name: img.name,
                                 imageUrl: downloadURL,
-                            }]);
+                            }])
                         } else {
                             setImageUrls((prev) => [
                                 ...prev,
@@ -154,25 +155,24 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                                     name: img.name,
                                     imageUrl: downloadURL,
                                 },
-                            ]);
+                            ])
                         }
-                        resolve(downloadURL);
+                        resolve(downloadURL)
                     }
-                );
-            });
-        });
+                )
+            })
+        })
         Promise.all(promises)
             .then(() => {
-                setLoading(false);
-                setPickImageFile([]); // Allow new uploads after success
-                alert(`${titleText} berhasil diunggah.`);
+                setLoading(false)
+                setPickImageFile([]) // Allow new uploads after success
+                alert(`${titleText} berhasil diunggah.`)
             })
             .catch((error) => {
-                setLoading(false);
-                alert(error.message);
-            });
-    };
-
+                setLoading(false)
+                alert(error.message)
+            })
+    }
     const removeMatchingItems = () => {
         setPickImageFile((prevItems) =>
             prevItems.filter((item) =>
@@ -197,27 +197,48 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     }, [imageUrls])
 
     return (
-
-
         <>
             {
-                (imageUrls.length + pickImageFile.length < 10) && (
-                    <div className="upload_image_section">
-                        <div {...getRootProps()} className="drag_drop">
-                            <FiUploadCloud size={40} color="#667085" />
-                            <p>Pilih berkas atau tarik dan lepas di sini</p>
-                            <p>JPG, JPEG, PNG, ukuran berkas tidak lebih dari 10MB</p>
-                            <label className="custom-file-upload">
-                                <input {...getInputProps()}
-                                    type="file"
-                                    className="drag_drop_input"
-                                    accept="image/jpg, image/png, image/jpeg"
-                                />
-                                Pilih berkas
-                            </label>
+                // Gallery: allow upload until 10 images
+                sectionFolder === "Gallery"
+                    ? (imageUrls.length + pickImageFile.length < 10) && (
+                        <div className="upload_image_section">
+                            <div {...getRootProps()} className="drag_drop">
+                                <FiUploadCloud size={40} color="#667085" />
+                                <p>Pilih berkas atau tarik dan lepas di sini</p>
+                                <p>JPG, JPEG, PNG, ukuran berkas tidak lebih dari 10MB</p>
+                                <label className="custom-file-upload">
+                                    <input {...getInputProps()}
+                                        type="file"
+                                        className="drag_drop_input"
+                                        accept="image/jpg, image/png, image/jpeg"
+                                    />
+                                    Pilih berkas
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                )
+                    )
+                    // Non-Gallery: allow upload only if no image and no file picked
+                    : ((imageUrls[0]?.imageUrl == "" || imageUrls.length === 0) && pickImageFile.length === 0) && (
+                        <>
+                            <label className="label_input">{titleLable}</label>
+                            <div className="upload_image_section">
+                                <div {...getRootProps()} className="drag_drop">
+                                    <FiUploadCloud size={40} color="#667085" />
+                                    <p>Pilih berkas atau tarik dan lepas di sini</p>
+                                    <p>JPG, JPEG, PNG, ukuran berkas tidak lebih dari 10MB</p>
+                                    <label className="custom-file-upload">
+                                        <input {...getInputProps()}
+                                            type="file"
+                                            className="drag_drop_input"
+                                            accept="image/jpg, image/png, image/jpeg"
+                                        />
+                                        Pilih berkas
+                                    </label>
+                                </div>
+                            </div>
+                        </>
+                    )
             }
             {
                 pickImageFile.length > 0 ?
@@ -232,13 +253,14 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             {
                 (imageUrls.length > 0) && imageUrls[0]?.imageUrl !== "" ?
                     imageUrls.map((item, i) => {
+                        const altImage = sectionFolder === "Gallery" ? `Gambar ke-${i + 1}` : titleLable
                         if (item.imageUrl)
                             return (
-                                <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} index={i} />
+                                <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} altImage={altImage} />
                             )
                     })
                     :
-                    <label className="label_input">{titleLable}</label>
+                    null
             }
         </>
     )
@@ -280,17 +302,17 @@ type UploadPartsType = {
     id: number
     imgUrl: any
     deleteImage: (id: any) => Promise<void>
-    index: number
+    altImage: string
 }
 
-const UploadParts = ({ id, imgUrl, deleteImage, index }: UploadPartsType) => {
+const UploadParts = ({ id, imgUrl, deleteImage, altImage }: UploadPartsType) => {
 
     return (
         <div style={{ marginTop: 10 }}>
-            <label className="label_input">Gambar ke-{index + 1}</label>
+            <label className="label_input">{altImage}</label>
             <img
                 src={imgUrl} style={{ width: '100%', marginTop: 10 }}
-                alt={"titleLable"} />
+                alt={altImage} />
             <div className="editSection">
                 <div className="buttons">
                     <button className="deleteBtn" onClick={() => deleteImage(id)}>Hapus</button>
