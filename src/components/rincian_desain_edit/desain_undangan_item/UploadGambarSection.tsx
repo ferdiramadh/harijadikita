@@ -34,8 +34,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     const [imageUrls, setImageUrls] = useState(Array.isArray(photoUrl) ? photoUrl : [initiateData])
     const buttonText = pickImageFile.length > 1 ? "unggah semua" : "unggah"
     function setRef(id?: number) {
-        const photoId = id ? id : 1
-        return ref(storage, `${sectionFolder}/Images/${user.uid}${"numberId" + photoId?.toString()}`)
+        return ref(storage, `${sectionFolder}/Images/${user.uid}${"numberId" + id?.toString()}`)
     }
 
     const deleteImage = async (id: number) => {
@@ -84,7 +83,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     setPickImageFile((prev) => [
                         ...prev,
                         {
-                            id: i + 1, // Use unique id
+                            id: Date.now() + i, // Use unique id
                             name: file.name,
                             imageUrl: bytes,
                             progress: 0,
@@ -115,6 +114,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     const handleUpload = async () => {
         const titleText = pickImageFile.length > 1 ? "Semua gambar" : "Gambar"
         setLoading(true)
+        let uploadedImages: ImageType[] = []
         const promises = pickImageFile.map((img) => {
             const storageRef = setRef(img.id)
             const uploadTask = uploadBytesResumable(storageRef, img.imageUrl)
@@ -140,23 +140,12 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     },
                     async () => {
                         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+                        uploadedImages.push({
+                            id: img.id,
+                            name: img.name,
+                            imageUrl: downloadURL,
+                        })
                         removeItem(img.id)
-                        if (sectionFolder !== "Gallery") {
-                            setImageUrls([{
-                                id: img.id,
-                                name: img.name,
-                                imageUrl: downloadURL,
-                            }])
-                        } else {
-                            setImageUrls((prev) => [
-                                ...prev,
-                                {
-                                    id: img.id,
-                                    name: img.name,
-                                    imageUrl: downloadURL,
-                                },
-                            ])
-                        }
                         resolve(downloadURL)
                     }
                 )
@@ -166,6 +155,8 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             .then(() => {
                 setLoading(false)
                 setPickImageFile([]) // Allow new uploads after success
+                // Append all new images in order
+                setImageUrls((prev) => [...prev, ...uploadedImages])
                 alert(`${titleText} berhasil diunggah.`)
             })
             .catch((error) => {
@@ -252,13 +243,15 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
             }
             {
                 (imageUrls.length > 0) && imageUrls[0]?.imageUrl !== "" ?
-                    imageUrls.map((item, i) => {
-                        const altImage = sectionFolder === "Gallery" ? `Gambar ke-${i + 1}` : titleLable
-                        if (item.imageUrl)
-                            return (
-                                <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} altImage={altImage} />
-                            )
-                    })
+                    imageUrls
+                        .filter(Boolean)
+                        .map((item, i) => {
+                            const altImage = sectionFolder === "Gallery" ? `Gambar ke-${i + 1}` : titleLable
+                            if (item.imageUrl)
+                                return (
+                                    <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} altImage={altImage} />
+                                )
+                        })
                     :
                     null
             }
