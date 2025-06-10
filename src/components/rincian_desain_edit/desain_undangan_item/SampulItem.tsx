@@ -26,8 +26,12 @@ const SampulItem = () => {
 
 const Content = () => {
     const { sampulItemData, setSampulItemData } = DesainUndanganAuth()
-    const [photoUrl, setPhotoUrl] = useState(sampulItemData?.gambarBackground?.imageUrl)
+    const [photoUrl, setPhotoUrl] = useState({
+        id: sampulItemData?.gambarBackground?.id,
+        imageUrl: sampulItemData?.gambarBackground?.imageUrl
+    })
     const onImageChange = (value: string | ArrayBuffer | null | undefined, id: string) => {
+
         setSampulItemData(prev => {
             return {
                 ...prev,
@@ -37,7 +41,10 @@ const Content = () => {
                 }
             }
         })
-          setPhotoUrl(value)
+        setPhotoUrl({
+            id: id,
+            imageUrl: value
+        })
     }
     const onToggle = () => {
         setSampulItemData(prev => {
@@ -48,7 +55,10 @@ const Content = () => {
         })
     }
     const updateDeleteImageField = () => {
-        setPhotoUrl("")
+        setPhotoUrl({
+            id: 0,
+            imageUrl: ""
+        })
         setSampulItemData(prev => {
             return {
                 ...prev,
@@ -84,8 +94,9 @@ const Content = () => {
                         titleLable="Gambar background"
                         onImageChange={onImageChange}
                         sectionFolder="Sampul"
-                        photoUrl={photoUrl}
+                        photoUrl={photoUrl.imageUrl}
                         updateDeleteImageField={updateDeleteImageField}
+                        photoId={photoUrl.id}
                     />
                 </>
             }

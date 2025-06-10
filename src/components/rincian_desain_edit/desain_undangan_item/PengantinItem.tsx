@@ -27,8 +27,14 @@ const PengantinItem = () => {
 const Content = () => {
 
     const { pengantinItemData, setPengantinItemData } = DesainUndanganAuth()
-    const [photoUrlPengantinPria, setPhotoUrlPengantinPria] = useState(pengantinItemData?.gambarPengantinPria?.imageUrl)
-    const [photoUrlPengantinWanita, setPhotoUrlPengantinWanita] = useState(pengantinItemData?.gambarPengantinWanita?.imageUrl)
+    const [photoUrlPengantinPria, setPhotoUrlPengantinPria] = useState({
+        id: pengantinItemData?.gambarPengantinPria?.id,
+        imageUrl: pengantinItemData?.gambarPengantinPria?.imageUrl
+    })
+    const [photoUrlPengantinWanita, setPhotoUrlPengantinWanita] = useState({
+        id: pengantinItemData?.gambarPengantinWanita?.id,
+        imageUrl: pengantinItemData?.gambarPengantinWanita?.imageUrl
+    })
     const onImageChangePengantinPria = (value: string | ArrayBuffer | null | undefined, id: string) => {
         setPengantinItemData(prev => {
             return {
@@ -39,7 +45,10 @@ const Content = () => {
                 }
             }
         })
-        setPhotoUrlPengantinPria(value)
+        setPhotoUrlPengantinPria({
+            id,
+            imageUrl: value
+        })
     }
     const onImageChangePengantinWanita = (value: string | ArrayBuffer | null | undefined, id: string) => {
         setPengantinItemData(prev => {
@@ -51,7 +60,10 @@ const Content = () => {
                 }
             }
         })
-        setPhotoUrlPengantinWanita(value)
+        setPhotoUrlPengantinWanita({
+            id,
+            imageUrl: value
+        })
     }
     const onToggle = () => {
         setPengantinItemData(prev => {
@@ -62,7 +74,10 @@ const Content = () => {
         })
     }
     const updateDeleteImageFieldPria = () => {
-        setPhotoUrlPengantinPria("")
+        setPhotoUrlPengantinPria({
+            id: 0,
+            imageUrl: ""
+        })
         setPengantinItemData(prev => {
             return {
                 ...prev,
@@ -74,7 +89,12 @@ const Content = () => {
         })
     }
     const updateDeleteImageFieldWanita = () => {
-        setPhotoUrlPengantinWanita("")
+        setPhotoUrlPengantinWanita(
+            {
+                id: 0,
+                imageUrl: ""
+            }
+        )
         setPengantinItemData(prev => {
             return {
                 ...prev,
@@ -99,8 +119,8 @@ const Content = () => {
             {
                 !pengantinItemData?.isNoImage &&
                 <>
-                    <UploadGambarSection titleLable="Gambar pengantin pria" onImageChange={onImageChangePengantinPria} sectionFolder='Pengatin_Pria' photoUrl={photoUrlPengantinPria} updateDeleteImageField={updateDeleteImageFieldPria} />
-                    <UploadGambarSection titleLable="Gambar pengantin wanita" onImageChange={onImageChangePengantinWanita} sectionFolder='Pengatin_Wanita' photoUrl={photoUrlPengantinWanita} updateDeleteImageField={updateDeleteImageFieldWanita} />
+                    <UploadGambarSection titleLable="Gambar pengantin pria" onImageChange={onImageChangePengantinPria} sectionFolder='Pengatin_Pria' photoUrl={photoUrlPengantinPria.imageUrl} updateDeleteImageField={updateDeleteImageFieldPria} photoId={photoUrlPengantinPria.id} />
+                    <UploadGambarSection titleLable="Gambar pengantin wanita" onImageChange={onImageChangePengantinWanita} sectionFolder='Pengatin_Wanita' photoUrl={photoUrlPengantinWanita.imageUrl} updateDeleteImageField={updateDeleteImageFieldWanita} photoId={photoUrlPengantinWanita.id} />
                 </>
             }
         </div>

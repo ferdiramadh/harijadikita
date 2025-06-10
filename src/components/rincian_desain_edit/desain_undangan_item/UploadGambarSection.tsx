@@ -12,6 +12,7 @@ type UploadImageType = {
     photoUrl?: string | ArrayBuffer | null | undefined | any[]
     updateDeleteImageField: (deletedId?: number | undefined) => void
     multiple?: boolean
+    photoId?: string | number | undefined
 }
 
 type ImageType = {
@@ -21,10 +22,10 @@ type ImageType = {
     progress?: number
 }
 
-const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl, updateDeleteImageField, multiple = false }: UploadImageType) => {
+const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl, updateDeleteImageField, multiple = false, photoId }: UploadImageType) => {
 
     const initiateData = {
-        id: 1,
+        id: photoId ? photoId : 0,
         name: "test",
         imageUrl: photoUrl
     }
@@ -156,7 +157,12 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                 setLoading(false)
                 setPickImageFile([]) // Allow new uploads after success
                 // Append all new images in order
-                setImageUrls((prev) => [...prev, ...uploadedImages])
+                if (sectionFolder == "Gallery") {
+                    setImageUrls((prev) => [...prev, ...uploadedImages])
+                } else {
+                    setImageUrls(uploadedImages)
+                }
+
                 alert(`${titleText} berhasil diunggah.`)
             })
             .catch((error) => {
