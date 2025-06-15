@@ -16,7 +16,6 @@ const DesainUndanganItem = ({ title, children, toggleVal, onToggle }: ItemType) 
         transition: 'transform 150ms ease', // smooth transition
     }
     const styleContent = toggle ? {
-        maxHeight: 1000,
         transition: 'max-height 0.5s ease-in',
     } : {
         maxHeight: 0,
@@ -33,8 +32,8 @@ const DesainUndanganItem = ({ title, children, toggleVal, onToggle }: ItemType) 
                     <h3>{title}</h3>
                 </div>
                 <label className="switch">
-                    <input type="checkbox" onChange={onToggle} checked={toggleVal}/>
-                        <span className="slider round"></span>
+                    <input type="checkbox" onChange={onToggle} checked={toggleVal} />
+                    <span className="slider round"></span>
                 </label>
                 <div className="btn-arrow-wrapper">
                     <button className='btn-arrow' onClick={onPress} style={styleArrow}>
@@ -42,7 +41,7 @@ const DesainUndanganItem = ({ title, children, toggleVal, onToggle }: ItemType) 
                     </button>
                 </div>
             </div>
-            <div className="content" style={styleContent}>
+            <div style={styleContent}>
                 {
                     children
                 }

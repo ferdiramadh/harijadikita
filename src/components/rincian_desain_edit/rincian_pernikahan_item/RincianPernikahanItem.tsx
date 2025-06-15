@@ -14,7 +14,6 @@ const RincianPernikahanItem = ({ title, children}: ItemType) => {
       transition: 'transform 150ms ease', // smooth transition
     }
     const styleContent = toggle ? {
-      maxHeight: 1000,
       transition: 'max-height 0.5s ease-in',
     } : {
       maxHeight: 0,
