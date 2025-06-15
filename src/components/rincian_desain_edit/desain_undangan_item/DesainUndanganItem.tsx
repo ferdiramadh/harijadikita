@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { IoIosArrowForward } from "react-icons/io"
 
 type ItemType = {
@@ -11,16 +11,12 @@ type ItemType = {
 
 const DesainUndanganItem = ({ title, children, toggleVal, onToggle }: ItemType) => {
     const [toggle, setToggle] = useState(false)
+    const contentRef = useRef<HTMLDivElement | null>(null);
+
+    const getHeight = () => (contentRef.current ? contentRef.current.scrollHeight : 0);
     const styleArrow = {
         transform: toggle ? 'rotate(90deg)' : '',
         transition: 'transform 150ms ease', // smooth transition
-    }
-    const styleContent = toggle ? {
-        transition: 'max-height 0.5s ease-in',
-    } : {
-        maxHeight: 0,
-        overflow: 'hidden',
-        transition: 'max-height 0.15s ease-out',
     }
     const onPress = () => {
         setToggle(!toggle)
@@ -41,13 +37,18 @@ const DesainUndanganItem = ({ title, children, toggleVal, onToggle }: ItemType) 
                     </button>
                 </div>
             </div>
-            <div style={styleContent}>
-                {
-                    children
-                }
+            <div
+                ref={contentRef}
+                className={`toggle-content${toggle ? " open" : ""}`}
+                style={{
+                    maxHeight: toggle ? `${getHeight()}px` : "0px",
+                }}
+            >
+                {children}
             </div>
         </div>
     )
 }
+
 
 export default DesainUndanganItem
