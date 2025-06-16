@@ -11,9 +11,6 @@ type ItemType = {
 
 const DesainUndanganItem = ({ title, children, toggleVal, onToggle }: ItemType) => {
     const [toggle, setToggle] = useState(false)
-    const contentRef = useRef<HTMLDivElement | null>(null);
-
-    const getHeight = () => (contentRef.current ? contentRef.current.scrollHeight : 0);
     const styleArrow = {
         transform: toggle ? 'rotate(90deg)' : '',
         transition: 'transform 150ms ease', // smooth transition
@@ -38,10 +35,9 @@ const DesainUndanganItem = ({ title, children, toggleVal, onToggle }: ItemType) 
                 </div>
             </div>
             <div
-                ref={contentRef}
                 className={`toggle-content${toggle ? " open" : ""}`}
                 style={{
-                    maxHeight: toggle ? `${getHeight()}px` : "0px",
+                    maxHeight: toggle ? `5000px` : "0px",
                 }}
             >
                 {children}
