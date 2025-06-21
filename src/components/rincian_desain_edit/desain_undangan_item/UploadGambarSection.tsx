@@ -307,16 +307,26 @@ type UploadPartsType = {
 const UploadParts = ({ id, imgUrl, deleteImage, altImage }: UploadPartsType) => {
 
     return (
-        <div style={{ marginTop: 10 }}>
+        <div style={{
+            flex: 1,
+            marginTop: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column'
+        }}>
             <label className="label_input">{altImage}</label>
             <img
                 src={imgUrl} style={{ width: '100%', marginTop: 10 }}
                 alt={altImage} />
             <div className="editSection">
                 <div className="buttons">
+                    <button className="editBtn" onClick={() => null}>Edit</button>
+                </div>
+                <div className="buttons">
                     <button className="deleteBtn" onClick={() => deleteImage(id)}>Hapus</button>
                 </div>
-
             </div>
         </div>
     )
