@@ -436,7 +436,7 @@ const UploadParts = ({ id, imgUrl, deleteImage, altImage, updateImage, setUpdate
                                 className="drag_drop_input"
                                 accept="image/jpg, image/png, image/jpeg"
                             />
-                            Edit
+                            Ubah
                         </label>
                     </div>
                     <div className="buttons">
