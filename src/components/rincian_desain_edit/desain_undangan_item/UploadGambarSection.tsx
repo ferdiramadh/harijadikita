@@ -21,8 +21,10 @@ type ImageType = {
     imageUrl: any
     progress?: number
 }
-
-const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUrl, updateDeleteImageField, multiple = false, photoId }: UploadImageType) => {
+function setRef(sectionFolder: string, userId: string, id?: number) {
+    return ref(storage, `${sectionFolder}/Images/${userId}${"numberId" + id?.toString()}`)
+}
+const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder = "", photoUrl, updateDeleteImageField, multiple = false, photoId }: UploadImageType) => {
 
     const initiateData = {
         id: photoId ? photoId : 0,
@@ -34,20 +36,22 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     const [pickImageFile, setPickImageFile] = useState<ImageType[]>([])
     const [imageUrls, setImageUrls] = useState(Array.isArray(photoUrl) ? photoUrl : [initiateData])
     const buttonText = pickImageFile.length > 1 ? "unggah semua" : "unggah"
-    function setRef(id?: number) {
-        return ref(storage, `${sectionFolder}/Images/${user.uid}${"numberId" + id?.toString()}`)
-    }
-
+    const [updateImage, setUpdateImage] = useState<ImageType[]>([])
+    const [updateImageUrl, setUpdateImageUrl] = useState<ImageType[]>([])
     const deleteImage = async (id: number) => {
         let text = "Gambar akan dihapus. Anda yakin?"
         if (window.confirm(text) == true) {
-            await deleteObject(setRef(id)).then((snapshot) => {
+            await deleteObject(setRef(sectionFolder, user.uid, id)).then((snapshot) => {
 
                 if (sectionFolder !== "Gallery") {
                     setImageUrls([])
+                    setUpdateImageUrl([])
                     updateDeleteImageField()
                 } else {
                     setImageUrls((prevItems) =>
+                        prevItems.filter(item => item.id !== id)
+                    )
+                    setUpdateImageUrl((prevItems) =>
                         prevItems.filter(item => item.id !== id)
                     )
                     updateDeleteImageField(id)
@@ -112,12 +116,9 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
     const removeItem = (id: number) => {
         setPickImageFile((prevItems) => prevItems.filter((item) => item.id !== id))
     }
-    const handleUpload = async () => {
-        const titleText = pickImageFile.length > 1 ? "Semua gambar" : "Gambar"
-        setLoading(true)
-        let uploadedImages: ImageType[] = []
-        const promises = pickImageFile.map((img) => {
-            const storageRef = setRef(img.id)
+    const prom = (uploadedImages: ImageType[], titleText: string, imageFile: ImageType[], setImageFile: (value: React.SetStateAction<ImageType[]>) => void, setFirebaseUrl: (value: React.SetStateAction<any[]>) => void) => {
+        const promises = imageFile.map((img) => {
+            const storageRef = setRef(sectionFolder, user.uid, img.id)
             const uploadTask = uploadBytesResumable(storageRef, img.imageUrl)
 
             return new Promise((resolve, reject) => {
@@ -125,7 +126,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                     "state_changed",
                     (snapshot) => {
                         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                        setPickImageFile((prev) => {
+                        setImageFile((prev) => {
                             const updatedItems = prev.map((item) => {
                                 if (item.id === img.id) {
                                     return { ...item, progress: progress }
@@ -155,12 +156,12 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
         Promise.all(promises)
             .then(() => {
                 setLoading(false)
-                setPickImageFile([]) // Allow new uploads after success
+                setImageFile([]) // Allow new uploads after success
                 // Append all new images in order
                 if (sectionFolder == "Gallery") {
-                    setImageUrls((prev) => [...prev, ...uploadedImages])
+                    setFirebaseUrl((prev) => [...prev, ...uploadedImages])
                 } else {
-                    setImageUrls(uploadedImages)
+                    setFirebaseUrl(uploadedImages)
                 }
 
                 alert(`${titleText} berhasil diunggah.`)
@@ -169,6 +170,18 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                 setLoading(false)
                 alert(error.message)
             })
+    }
+ 
+    const handleUpload = async () => {
+        const titleText = pickImageFile.length > 1 ? "Semua gambar" : "Gambar"
+        setLoading(true)
+        let uploadedImages: ImageType[] = []
+        if (updateImage[0]?.id) {
+            prom(uploadedImages, titleText, updateImage, setUpdateImage, setUpdateImageUrl)
+        } else {
+            prom(uploadedImages, titleText, pickImageFile, setPickImageFile, setImageUrls)
+        }
+
     }
     const removeMatchingItems = () => {
         setPickImageFile((prevItems) =>
@@ -190,8 +203,17 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
 
             removeMatchingItems()
         }
-
-    }, [imageUrls])
+        if (updateImageUrl[0]?.id) {
+            if (sectionFolder == "Gallery") {
+                setImageUrls(prevItems =>
+                    prevItems.map(item => (item.id === updateImageUrl[0]?.id ? updateImageUrl[0] : item))
+                );
+            }
+            else {
+                setImageUrls(updateImageUrl)
+            }
+        }
+    }, [imageUrls, updateImageUrl])
 
     return (
         <>
@@ -253,9 +275,22 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder, photoUr
                         .filter(Boolean)
                         .map((item, i) => {
                             const altImage = sectionFolder === "Gallery" ? `Gambar ke-${i + 1}` : titleLable
+                            const editImage = item.id == updateImage[0]?.id ? updateImage : []
+                            const load = item.id == updateImage[0]?.id ? loading : false
                             if (item.imageUrl)
                                 return (
-                                    <UploadParts key={i} id={item.id} imgUrl={item.imageUrl} deleteImage={deleteImage} altImage={altImage} />
+                                    <UploadParts
+                                        key={i}
+                                        id={item.id}
+                                        imgUrl={item.imageUrl}
+                                        deleteImage={deleteImage}
+                                        altImage={altImage}
+                                        updateImage={editImage}
+                                        setUpdateImage={setUpdateImage}
+                                        updateImageUrl={updateImageUrl}
+                                        handleUpload={handleUpload}
+                                        loading={load}
+                                    />
                                 )
                         })
                     :
@@ -302,10 +337,108 @@ type UploadPartsType = {
     imgUrl: any
     deleteImage: (id: any) => Promise<void>
     altImage: string
+    updateImageUrl: ImageType[]
+    updateImage: ImageType[]
+    setUpdateImage: React.Dispatch<React.SetStateAction<ImageType[]>>
+    handleUpload: () => Promise<void>
+    loading: boolean
 }
 
-const UploadParts = ({ id, imgUrl, deleteImage, altImage }: UploadPartsType) => {
+const UploadParts = ({ id, imgUrl, deleteImage, altImage, updateImage, setUpdateImage, updateImageUrl, handleUpload, loading }: UploadPartsType) => {
 
+    const isUploadedImage = imgUrl.includes("https://firebasestorage.googleapis.com")
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        acceptedFiles.forEach((file, i) => {
+            const reader = new FileReader()
+            reader.onload = function (e: ProgressEvent<FileReader>) {
+                if (e.target?.result instanceof ArrayBuffer) {
+                    const bytes = new Uint8Array(e.target.result)
+                    setUpdateImage((prev) => [
+                        {
+                            id: id, // Use unique id
+                            name: file.name,
+                            imageUrl: bytes,
+                            progress: 0,
+                        },
+                    ])
+                }
+            }
+            reader.readAsArrayBuffer(file)
+        })
+    }, [])
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop,
+        accept: {
+            'image/*': ['.jpeg', '.jpg', '.png'],
+        },
+        maxSize: 2 * 1024 * 1024,
+        multiple: false,
+        onDropRejected: (val) => {
+            const error = val[0].errors
+            alert(error[0].message)
+        }
+    })
+    const handleDelete = () => {
+        if (isUploadedImage && updateImage.length == 0) {
+            deleteImage(id)
+        } else {
+            setUpdateImage([])
+        }
+    }
+    const removeItem = (id: number) => {
+        setUpdateImage((prevItems) => prevItems.filter((item) => item.id !== id))
+    }
+    // const handleUpload = async () => {
+    //     const titleText = updateImage.length > 1 ? "Semua gambar" : "Gambar"
+    //     setLoading(true)
+    //     let uploadedImages: ImageType[] = []
+    //     const promises = updateImage.map((img) => {
+    //         const storageRef = setRef(sectionFolder, userId, img.id)
+    //         const uploadTask = uploadBytesResumable(storageRef, img.imageUrl)
+
+    //         return new Promise((resolve, reject) => {
+    //             uploadTask.on(
+    //                 "state_changed",
+    //                 (snapshot) => {
+    //                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    //                     setUpdateImage((prev) => {
+    //                         const updatedItems = prev.map((item) => {
+    //                             if (item.id === img.id) {
+    //                                 return { ...item, progress: progress }
+    //                             }
+    //                             return item
+    //                         })
+    //                         return updatedItems
+    //                     })
+    //                 },
+    //                 (error) => {
+    //                     alert(error)
+    //                     reject(error)
+    //                 },
+    //                 async () => {
+    //                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+    //                     uploadedImages.push({
+    //                         id: img.id,
+    //                         name: img.name,
+    //                         imageUrl: downloadURL,
+    //                     })
+    //                     removeItem(img.id)
+    //                     resolve(downloadURL)
+    //                 }
+    //             )
+    //         })
+    //     })
+    //     Promise.all(promises)
+    //         .then(() => {
+    //             setLoading(false)
+    //             setUpdateImageUrl(uploadedImages)
+    //             alert(`${titleText} berhasil diunggah.`)
+    //         })
+    //         .catch((error) => {
+    //             setLoading(false)
+    //             alert(error.message)
+    //         })
+    // }
     return (
         <div style={{
             flex: 1,
@@ -314,20 +447,95 @@ const UploadParts = ({ id, imgUrl, deleteImage, altImage }: UploadPartsType) => 
             alignItems: 'center',
             width: '100%',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            backgroundColor: '#f8f9fa',
         }}>
             <label className="label_input">{altImage}</label>
-            <img
-                src={imgUrl} style={{ width: '100%', marginTop: 10 }}
-                alt={altImage} />
-            <div className="editSection">
-                <div className="buttons">
-                    <button className="editBtn" onClick={() => null}>Edit</button>
-                </div>
-                <div className="buttons">
-                    <button className="deleteBtn" onClick={() => deleteImage(id)}>Hapus</button>
-                </div>
+            <div style={{
+                flex: 1,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+                display: 'flex',
+                flexDirection: updateImage[0]?.imageUrl ? "row" : 'column',
+            }}>
+                <img
+                    src={imgUrl} style={{ width: updateImage[0]?.imageUrl ? "40%" : '100%', marginTop: 10, alignSelf: "flex-start" }}
+                    alt={altImage} />
+
+                {
+                    updateImage[0]?.imageUrl && !updateImageUrl[0]?.imageUrl ?
+                        <>
+                            <div className="updateArrow" />
+                            <img
+                                src={URL.createObjectURL(new Blob([updateImage[0].imageUrl]))} style={{ width: '40%', marginTop: 10, alignSelf: "flex-start" }}
+                                alt={altImage} />
+                        </>
+                        :
+                        null
+                }
+                {/* {
+                    updateImageUrl[0]?.imageUrl ?
+                        <>
+                            <img
+                                src={updateImageUrl[0].imageUrl} style={{ width: '100%', marginTop: 10, alignSelf: "flex-start" }}
+                                alt={altImage} />
+                        </>
+                        :
+                        null
+                } */}
+                {/* <img
+                    src={updateImage[0]?.imageUrl} style={{ width: '40%', marginTop: 10, alignSelf: "flex-start" }}
+                    alt={altImage} /> */}
             </div>
+            {
+                !updateImage[0]?.imageUrl &&
+
+                <div className="editSection">
+                    <div {...getRootProps()} className="buttons">
+                        <label className="custom-file-upload">
+                            <input {...getInputProps()}
+                                type="file"
+                                className="drag_drop_input"
+                                accept="image/jpg, image/png, image/jpeg"
+                            />
+                            Edit
+                        </label>
+                    </div>
+                    <div className="buttons">
+                        <button className="deleteBtn" onClick={handleDelete}>Hapus</button>
+                    </div>
+                </div>
+            }
+            {/* {
+                loading ?
+                    <>
+                        <p>Menunggah gambar...</p>
+                        <div className="progress-bar">
+                            <div className="progress-fill" style={{ width: `${updateImage[0]?.progress}%` }}></div>
+                        </div>
+                    </>
+                    :
+                    null
+            }
+            {
+                updateImage[0]?.id ?
+                    <>
+                        <p>Nama file: </p>
+                        <p>{updateImage[0]?.name.length > 10 ? updateImage[0]?.name.slice(0, 12) + "..." : updateImage[0]?.name}</p>
+                        <div style={{ marginLeft: 10, width: '50%', flexDirection: 'row', display: 'flex', justifyContent: 'flex-end' }}>
+                            <button onClick={handleDelete} className="removeBtn">batal</button>
+                        </div>
+                    </>
+                    :
+                    null
+            } */}
+            {
+                updateImage[0]?.id && <Unggah item={updateImage[0]} cancel={removeItem} loading={loading} />
+            }
+            {
+                updateImage.length > 0 && <button onClick={handleUpload} className="uploadBtn" >Unggah</button>
+            }
         </div>
     )
 }

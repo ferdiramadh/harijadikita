@@ -228,6 +228,28 @@
             border-radius: .5rem;
         }
 
+        .updateArrow {
+            width: 32px;
+            height: 32px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .updateArrow::after {
+            content: '';
+            display: block;
+            width: 16px;
+            height: 16px;
+            border-top: 3px solid #888;
+            border-right: 3px solid #888;
+            transform: rotate(45deg);
+            position: absolute;
+            left: 8px;
+            top: 8px;
+        }
+
         .editSection {
             display: flex;
             flex-direction: row;
