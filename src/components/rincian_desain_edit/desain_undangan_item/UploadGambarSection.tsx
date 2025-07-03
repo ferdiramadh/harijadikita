@@ -171,7 +171,7 @@ const UploadGambarSection = ({ titleLable, onImageChange, sectionFolder = "", ph
                 alert(error.message)
             })
     }
- 
+
     const handleUpload = async () => {
         const titleText = pickImageFile.length > 1 ? "Semua gambar" : "Gambar"
         setLoading(true)
@@ -388,57 +388,7 @@ const UploadParts = ({ id, imgUrl, deleteImage, altImage, updateImage, setUpdate
     const removeItem = (id: number) => {
         setUpdateImage((prevItems) => prevItems.filter((item) => item.id !== id))
     }
-    // const handleUpload = async () => {
-    //     const titleText = updateImage.length > 1 ? "Semua gambar" : "Gambar"
-    //     setLoading(true)
-    //     let uploadedImages: ImageType[] = []
-    //     const promises = updateImage.map((img) => {
-    //         const storageRef = setRef(sectionFolder, userId, img.id)
-    //         const uploadTask = uploadBytesResumable(storageRef, img.imageUrl)
 
-    //         return new Promise((resolve, reject) => {
-    //             uploadTask.on(
-    //                 "state_changed",
-    //                 (snapshot) => {
-    //                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-    //                     setUpdateImage((prev) => {
-    //                         const updatedItems = prev.map((item) => {
-    //                             if (item.id === img.id) {
-    //                                 return { ...item, progress: progress }
-    //                             }
-    //                             return item
-    //                         })
-    //                         return updatedItems
-    //                     })
-    //                 },
-    //                 (error) => {
-    //                     alert(error)
-    //                     reject(error)
-    //                 },
-    //                 async () => {
-    //                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
-    //                     uploadedImages.push({
-    //                         id: img.id,
-    //                         name: img.name,
-    //                         imageUrl: downloadURL,
-    //                     })
-    //                     removeItem(img.id)
-    //                     resolve(downloadURL)
-    //                 }
-    //             )
-    //         })
-    //     })
-    //     Promise.all(promises)
-    //         .then(() => {
-    //             setLoading(false)
-    //             setUpdateImageUrl(uploadedImages)
-    //             alert(`${titleText} berhasil diunggah.`)
-    //         })
-    //         .catch((error) => {
-    //             setLoading(false)
-    //             alert(error.message)
-    //         })
-    // }
     return (
         <div style={{
             flex: 1,
@@ -474,19 +424,6 @@ const UploadParts = ({ id, imgUrl, deleteImage, altImage, updateImage, setUpdate
                         :
                         null
                 }
-                {/* {
-                    updateImageUrl[0]?.imageUrl ?
-                        <>
-                            <img
-                                src={updateImageUrl[0].imageUrl} style={{ width: '100%', marginTop: 10, alignSelf: "flex-start" }}
-                                alt={altImage} />
-                        </>
-                        :
-                        null
-                } */}
-                {/* <img
-                    src={updateImage[0]?.imageUrl} style={{ width: '40%', marginTop: 10, alignSelf: "flex-start" }}
-                    alt={altImage} /> */}
             </div>
             {
                 !updateImage[0]?.imageUrl &&
@@ -507,29 +444,6 @@ const UploadParts = ({ id, imgUrl, deleteImage, altImage, updateImage, setUpdate
                     </div>
                 </div>
             }
-            {/* {
-                loading ?
-                    <>
-                        <p>Menunggah gambar...</p>
-                        <div className="progress-bar">
-                            <div className="progress-fill" style={{ width: `${updateImage[0]?.progress}%` }}></div>
-                        </div>
-                    </>
-                    :
-                    null
-            }
-            {
-                updateImage[0]?.id ?
-                    <>
-                        <p>Nama file: </p>
-                        <p>{updateImage[0]?.name.length > 10 ? updateImage[0]?.name.slice(0, 12) + "..." : updateImage[0]?.name}</p>
-                        <div style={{ marginLeft: 10, width: '50%', flexDirection: 'row', display: 'flex', justifyContent: 'flex-end' }}>
-                            <button onClick={handleDelete} className="removeBtn">batal</button>
-                        </div>
-                    </>
-                    :
-                    null
-            } */}
             {
                 updateImage[0]?.id && <Unggah item={updateImage[0]} cancel={removeItem} loading={loading} />
             }
