@@ -5,6 +5,7 @@ import VideoItem from "./desain_undangan_item/VideoItem"
 import MusikItem from "./desain_undangan_item/MusikItem"
 import AyatSuciKataMutiaraItem from "./desain_undangan_item/AyatSuciKataMutiaraItem"
 import ItemContainer from "./ItemContainer"
+import LoveStoryItem from "./desain_undangan_item/LoveStoryItem"
 
 const DesainUndangan = () => {
 
@@ -16,7 +17,7 @@ const DesainUndangan = () => {
       <VideoItem />
       <MusikItem />
       <GaleriItem />
-
+      <LoveStoryItem />
       {/* <AcaraPernikahanItem />
       <CountdownTimerItem />
       <LoveStoryItem />
