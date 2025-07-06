@@ -3,6 +3,7 @@ import { DesainUndanganAuth } from '../../../context/DesainUndanganContext'
 import { StoryType } from '../../../redux/state/desainundangan/desainUndanganSlice'
 import DesainUndanganItem from './DesainUndanganItem'
 import UploadGambarSection from './UploadGambarSection'
+import { IoIosCloseCircle } from 'react-icons/io'
 
 const INITIATE_DATA = {
     id: 1,
@@ -17,6 +18,7 @@ type StoryItemProps = StoryType & {
     data: StoryType[],
     setData: (data: StoryType[]) => void
     handleInputChange: (newData: StoryType[]) => void
+    isMoreThanOne: boolean
 }
 
 const LoveStoryItem = () => {
@@ -59,12 +61,12 @@ const Content = () => {
         }))
     }
     const handleAddStory = () => {
-        if (data.length >= 5) {
+        if (data.length === 5) {
             alert("Maksimal 5 cerita.")
+            return
         }
-        const newId = data.length > 0 ? Math.max(...data.map(item => item.id)) + 1 : 1
         const newStory = {
-            id: newId,
+            id: data.length + 1, // id is always index + 1
             title: "",
             story: "",
             storyImage: {
@@ -72,7 +74,11 @@ const Content = () => {
                 imageUrl: ""
             }
         }
-        const newData = [...data, newStory]
+        // Add and re-index all ids
+        const newData = [...data, newStory].map((item, idx) => ({
+            ...item,
+            id: idx + 1
+        }))
         setData(newData)
         setLoveStoryItemData(prev => ({
             ...prev,
@@ -92,6 +98,7 @@ const Content = () => {
                         data={data}
                         setData={handleDataChange}
                         handleInputChange={handleInputChange}
+                        isMoreThanOne={data.length > 1 ? true : false}
                     />
                 ))
             }
@@ -106,7 +113,7 @@ const Content = () => {
         </div>
     )
 }
-const StoryItem = ({ id, title, story, storyImage, data, setData, handleInputChange }: StoryItemProps) => {
+const StoryItem = ({ id, title, story, storyImage, data, setData, handleInputChange, isMoreThanOne }: StoryItemProps) => {
     const { setLoveStoryItemData } = DesainUndanganAuth()
     const handleStoryChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newData = data.map(item =>
@@ -134,9 +141,27 @@ const StoryItem = ({ id, title, story, storyImage, data, setData, handleInputCha
             stories: prevItems?.stories?.filter(item => item.id !== deletedId)
         }))
     }
-
+    const deleteItem = () => {
+        // Remove and re-index all ids
+        const newData = data.filter(item => item.id !== id).map((item, idx) => ({
+            ...item,
+            id: idx + 1
+        }))
+        setData(newData)
+        setLoveStoryItemData(prev => ({
+            ...prev,
+            stories: newData
+        }))
+    }
     return (
         <>
+            {
+                isMoreThanOne &&
+                <div className="title-reception">
+                    <label className="label_input_bold">Cerita ke - {id}</label>
+                    <button className="close_reception_btn" onClick={deleteItem}> <IoIosCloseCircle color="#474747" size={20} /></button>
+                </div>
+            }
             <label className="label_input">Judul</label>
             <input
                 type="text"
