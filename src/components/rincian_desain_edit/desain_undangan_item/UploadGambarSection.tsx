@@ -391,7 +391,7 @@ const UploadParts = ({ id, imgUrl, deleteImage, altImage, updateImage, setUpdate
 
     return (
         <div className="upload_parts">
-            <label className="label_input">{altImage}</label>
+            <p className="label_input">{altImage}</p>
             <div style={{
                 flex: 1,
                 justifyContent: 'space-between',

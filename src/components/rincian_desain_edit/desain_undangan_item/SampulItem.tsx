@@ -83,8 +83,12 @@ const Content = () => {
             {
                 !sampulItemData?.isGunakanTema &&
                 <>
-                    <label className="label_input">Teks pada tombol</label>
-                    <input type="text" placeholder="Buka undangan" value={sampulItemData?.teksTombol} onChange={e => setSampulItemData(prev => {
+                    <label className="label_input" htmlFor="text-pada-tombol">Teks pada tombol</label>
+                    <input 
+                    id="text-pada-tombol"
+                    type="text" 
+                    placeholder="Buka undangan" 
+                    value={sampulItemData?.teksTombol} onChange={e => setSampulItemData(prev => {
                         return {
                             ...prev,
                             teksTombol: e.target.value
