@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../redux/store"
 import { addDocWithId, updateDataCollection } from "../database/Functions"
-import { AyatSuciKalimatMutiaraType, GaleriType, MusicType, PengantinType, SampulType, setDesainUndangan, VideoType } from "../redux/state/desainundangan/desainUndanganSlice"
+import { AyatSuciKalimatMutiaraType, GaleriType, LoveStoryType, MusicType, PengantinType, SampulType, setDesainUndangan, VideoType } from "../redux/state/desainundangan/desainUndanganSlice"
 import { DESAIN_UNDANGAN } from "../database/Collections"
 
 interface ChildrenProps {
@@ -24,6 +24,8 @@ type DesainUndanganContextType = {
     setMusikItemData: React.Dispatch<React.SetStateAction<Partial<MusicType>>>
     galeriItemData: Partial<GaleriType>
     setGaleriItemData: React.Dispatch<React.SetStateAction<Partial<GaleriType>>>
+    loveStoryItemData: Partial<LoveStoryType>
+    setLoveStoryItemData: React.Dispatch<React.SetStateAction<Partial<LoveStoryType>>>
 }
 
 const DesainUndanganContext = createContext<DesainUndanganContextType>({} as DesainUndanganContextType)
@@ -37,8 +39,10 @@ export const DesainUndanganContextProvider = ({ children }: ChildrenProps) => {
     const [videoItemData, setVideoItemData] = useState<Partial<VideoType>>({})
     const [musikItemData, setMusikItemData] = useState<Partial<MusicType>>({})
     const [galeriItemData, setGaleriItemData] = useState<Partial<GaleriType>>({})
+    const [loveStoryItemData, setLoveStoryItemData] = useState<Partial<LoveStoryType>>({})
     const dispatch = useDispatch<AppDispatch>()
-    const allData = [sampulItemData, pengantinItemData, ayatSuciKataMutiaraItemData, videoItemData, musikItemData, galeriItemData]
+    const allData = [sampulItemData, pengantinItemData, ayatSuciKataMutiaraItemData, videoItemData, musikItemData, galeriItemData, loveStoryItemData]
+    
     const saveDesainUndangan = async (userId: string, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
         try {
             setLoading(true)
@@ -67,14 +71,14 @@ export const DesainUndanganContextProvider = ({ children }: ChildrenProps) => {
         const videoData = data[3]
         const musikData = data[4]
         const galeriData = data[5]
-
+        const loveStoryData = data[6]
         setSampulItemData(sampulData)
         setPengantinItemData(pengantinData)
         setAyatSuciKataMutiaraItemData(ayatKataMutiaraData)
         setVideoItemData(videoData)
         setMusikItemData(musikData)
         setGaleriItemData(galeriData)
-
+        setLoveStoryItemData(loveStoryData)
     }, [data])
 
     return (
@@ -91,7 +95,9 @@ export const DesainUndanganContextProvider = ({ children }: ChildrenProps) => {
             musikItemData,
             setMusikItemData,
             galeriItemData,
-            setGaleriItemData
+            setGaleriItemData,
+            loveStoryItemData,
+            setLoveStoryItemData
         }}>
             {children}
         </DesainUndanganContext.Provider>

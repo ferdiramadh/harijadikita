@@ -5,6 +5,13 @@ type ImageType = {
     imageUrl: string | ArrayBuffer | null | undefined
 }
 
+export type StoryType = {
+    id: number
+    title: string
+    story: string
+    storyImage: ImageType
+}
+
 export interface UserDataDesainUndangan {
     id: string
     data: object[]
@@ -49,6 +56,10 @@ export type MusicType = FormDesainUndanganType & {
 
 export type GaleriType = FormDesainUndanganType & {
     imageList: ImageType[]
+}
+
+export type LoveStoryType = FormDesainUndanganType & {
+    stories: StoryType[]
 }
 
 export type ItemValueType = SampulType | PengantinType | AyatSuciKalimatMutiaraType | VideoType | MusicType
@@ -111,6 +122,12 @@ export const INITIAL_EDIT_DESAIN_DATA = [
         isActive: false,
         sectionName: "GaleriItem",
         imageList: []
+    },
+    {
+        itemId: 7,
+        isActive: false,
+        sectionName: "LoveStoryItem",
+        stories: []
     }
 ]
 
