@@ -59,7 +59,9 @@ const Content = () => {
         }))
     }
     const handleAddStory = () => {
-        // Find the max id and increment, or use 1 if empty
+        if (data.length >= 5) {
+            alert("Maksimal 5 cerita.")
+        }
         const newId = data.length > 0 ? Math.max(...data.map(item => item.id)) + 1 : 1
         const newStory = {
             id: newId,
@@ -148,7 +150,9 @@ const StoryItem = ({ id, title, story, storyImage, data, setData, handleInputCha
                 cols={50}
                 className='large_input_area'
                 value={story}
-                onChange={handleStoryChange} />
+                onChange={handleStoryChange}
+                placeholder='Menjadi dekat saat sama-sama saling...'
+            />
             <UploadGambarSection
                 titleLable="Gambar atau Foto (opsional)"
                 onImageChange={onImageChange}
