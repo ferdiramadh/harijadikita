@@ -390,16 +390,7 @@ const UploadParts = ({ id, imgUrl, deleteImage, altImage, updateImage, setUpdate
     }
 
     return (
-        <div style={{
-            flex: 1,
-            marginTop: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: '#f8f9fa',
-        }}>
+        <div className="upload_parts">
             <label className="label_input">{altImage}</label>
             <div style={{
                 flex: 1,
