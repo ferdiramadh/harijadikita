@@ -14,13 +14,12 @@ const DesainUndangan = () => {
       <SampulItem />
       <PengantinItem />
       <AyatSuciKataMutiaraItem />
+      <LoveStoryItem />
+      <GaleriItem />
       <VideoItem />
       <MusikItem />
-      <GaleriItem />
-      <LoveStoryItem />
       {/* <AcaraPernikahanItem />
       <CountdownTimerItem />
-      <LoveStoryItem />
       <RSVPUcapanItem />
       <HadiahUangItem /> */}
     </ItemContainer>
