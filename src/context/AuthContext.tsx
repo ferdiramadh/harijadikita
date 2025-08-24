@@ -35,6 +35,8 @@ type UserContextType = {
     INITIAL_DATA: FormDataType
     editDesainUndanganData: (Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]
     setEdiDesainUndangantData: React.Dispatch<React.SetStateAction<(Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]>>
+    openMenu: boolean
+    setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type UserCollectionProps = {
@@ -58,6 +60,7 @@ const INITIAL_USER: UserCollectionProps = {
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const [user, setUser] = useState<any>(null)
     const [userAcc, setUserAcc] = useState<UserCollectionProps | DocumentData>(INITIAL_USER)
+    const [openMenu, setOpenMenu] = useState(false);
     const INITIAL_DATA: FormDataType = {
         pengantinPriaLengkap: "",
         pengantinPria: "",
@@ -197,7 +200,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     }, [user])
 
     return (
-        <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc, setIsFinishJoin, data, setData, INITIAL_DATA, editDesainUndanganData, setEdiDesainUndangantData }}>
+        <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc, setIsFinishJoin, data, setData, INITIAL_DATA, editDesainUndanganData, setEdiDesainUndangantData, openMenu, setOpenMenu }}>
             {children}
         </AuthContext.Provider>
     )

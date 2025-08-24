@@ -7,6 +7,7 @@ import { useState } from 'react';
 import SvgGoogle from '../assets/Icon/Google.svg'
 import SvgFb from '../assets/Icon/Facebook.svg'
 import { RiCloseLine } from "react-icons/ri";
+import HamburgerMenu from '../components/HamburgerMenu';
 
 type EditProp = {
     isEdit: boolean
@@ -26,13 +27,7 @@ const AccountPage = () => {
     const [showModal, setShowModal] = useState(false)
     return (
         <section className='account_page'>
-            <nav>
-                <img className='logo_image' src={logoImage} alt='logo' />
-                <div className='btn_wrapper'>
-                    <CiBellOn size={30} />
-                    <RxHamburgerMenu size={30} />
-                </div>
-            </nav>
+            {/* <HamburgerMenu /> */}
             <div className='acc_title_sec'>
                 <h1>Akun</h1>
             </div>
