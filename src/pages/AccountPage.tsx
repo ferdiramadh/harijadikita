@@ -8,10 +8,14 @@ import SvgGoogle from '../assets/Icon/Google.svg'
 import SvgFb from '../assets/Icon/Facebook.svg'
 import { RiCloseLine } from "react-icons/ri";
 import HamburgerMenu from '../components/HamburgerMenu';
+import { UserAuth } from '../context/AuthContext';
+import { auth } from '../firebase';
+import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updatePassword } from 'firebase/auth';
 
 type EditProp = {
     isEdit: boolean
     onClick?: () => void
+    onCancel?: () => void
 }
 
 type ShowModalProp = {
@@ -19,6 +23,10 @@ type ShowModalProp = {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+type AccountProp = {
+    name: string
+    email: string
+}
 const AccountPage = () => {
     const [isEdit, setIsEdit] = useState(false)
     const onClick = () => {
@@ -38,7 +46,7 @@ const AccountPage = () => {
                 </div>
                 <h1>Upload foto</h1>
             </div>
-            <AccountMain isEdit={isEdit} onClick={onClick} />
+            <AccountMain isEdit={isEdit} onClick={onClick} onCancel={() => setIsEdit(false)} />
             <SocmedButton isEdit={isEdit} showModal={showModal} setShowModal={setShowModal} />
             <div className='rinperbutton_container'>
                 <button type="submit" className="keluar_btn">
@@ -50,35 +58,70 @@ const AccountPage = () => {
     )
 }
 
-const AccountMain = ({ isEdit, onClick }: EditProp) => {
+const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
+    const { user, userAcc } = UserAuth()
+    console.log(userAcc)
+    const [name, setName] = useState<string>(userAcc?.displayName)
+    const [currentEmail, setCurrentEmail] = useState<string>(userAcc?.email)
+    const [password, setPassword] = useState("");
+    const [newEmail, setNewEmail] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const reset = () => {
+        setName(userAcc?.displayName)
+        setCurrentEmail(userAcc?.email)
+        onCancel && onCancel()
+    }
+    const handleUpdate = async () => {
+
+        const user = auth.currentUser;
+
+        if (user && currentEmail) {
+            try {
+                // Reauthenticate with current credentials
+                const credential = EmailAuthProvider.credential(currentEmail, password);
+                await reauthenticateWithCredential(user, credential);
+                // Update email (if entered)
+                if (newEmail) {
+                    await updateEmail(user, newEmail);
+                    console.log("Email updated!");
+                }
+
+                // Update password (if entered)
+                if (newPassword) {
+                    await updatePassword(user, newPassword);
+                    console.log("Password updated!");
+                }
+
+                alert("Account updated!");
+            } catch (error: any) {
+                alert(error.message);
+            }
+        }
+    };
     return (
         <div className='acc_main'>
-            {isEdit ? <EditAccountDetail /> :
-                <AccountDetail />}
-            <button className='save_btn' onClick={onClick}>{isEdit ? 'Simpan' : 'Ubah'}</button>
+            {isEdit ?
+                <div className='form_container'>
+                    <input placeholder="Email baru" type="text" value={newEmail} onChange={e => setNewEmail(e.target.value)} />
+                    <input placeholder="Nama" type="text" value={name} onChange={e => setName(e.target.value)} />
+                    <input placeholder="Password lama" type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    <input placeholder="Password baru" type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} />
+                </div>
+                :
+                <AccountDetail name={userAcc?.displayName} email={userAcc?.email} />}
+            {isEdit && <button className='cancel_btn' onClick={reset}>Batal</button>}
+            <button className='save_btn' onClick={isEdit ? handleUpdate : onClick}>{isEdit ? 'Simpan' : 'Ubah'}</button>
             <hr />
         </div>
     )
 
 }
 
-const AccountDetail = () => {
+const AccountDetail = ({ name, email }: AccountProp) => {
     return (
         <div className='display_container'>
-            <p className='acc_text_display'>Nama</p>
-            <p className='acc_text_display'>Email</p>
-            <p className='acc_text_display'>Password</p>
-        </div>
-    )
-}
-
-const EditAccountDetail = () => {
-    return (
-        <div className='form_container'>
-            <input placeholder="Email" type="text" />
-            <input placeholder="Nama" type="text" />
-            <input placeholder="Password" type="text" />
-            <input placeholder="Konfirmasi password" type="text" />
+            <p className='acc_text_display'>Nama: {name}</p>
+            <p className='acc_text_display'>Emai: {email}</p>
         </div>
     )
 }
