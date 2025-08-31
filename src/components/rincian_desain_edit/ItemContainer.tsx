@@ -25,18 +25,16 @@ const ItemContainer = ({ children }: ItemContainerType) => {
     }, [])
 
     return (
-        <div  ref={containerRef}
-        style={{
-            resize: "vertical",
-            overflow: "auto",
-            padding: "1rem",
-            paddingBottom: height > 500 ? "10vh" : "50vh",
-        }}>
-            <div className='item-container'
-               
-            >
+        <div
+            ref={containerRef}
+            style={{
+                resize: "vertical",
+                overflow: "auto",
+                padding: "1rem",
+                paddingBottom: height > 500 ? "10vh" : "50vh"
+            }}>
+            <div className='item-container'>
                 {children}
-               
             </div>
         </div>
     )

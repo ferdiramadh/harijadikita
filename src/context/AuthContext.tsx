@@ -5,7 +5,10 @@ import {
     signInWithPopup,
     signOut,
     onAuthStateChanged,
-    FacebookAuthProvider
+    FacebookAuthProvider,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
+    updatePassword
 } from 'firebase/auth'
 import { auth } from "../firebase"
 import { DocumentData, addDoc, collection, getDocs, query, where } from "firebase/firestore"
@@ -35,6 +38,9 @@ type UserContextType = {
     INITIAL_DATA: FormDataType
     editDesainUndanganData: (Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]
     setEdiDesainUndangantData: React.Dispatch<React.SetStateAction<(Partial<SampulType> | Partial<PengantinType> | Partial<AyatSuciKalimatMutiaraType>)[]>>
+    openMenu: boolean
+    setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>
+    reauthenticateAndChangePassword: (email: string, currentPassword: string, newPassword: string) => Promise<void>
 }
 
 type UserCollectionProps = {
@@ -58,6 +64,7 @@ const INITIAL_USER: UserCollectionProps = {
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
     const [user, setUser] = useState<any>(null)
     const [userAcc, setUserAcc] = useState<UserCollectionProps | DocumentData>(INITIAL_USER)
+    const [openMenu, setOpenMenu] = useState(false);
     const INITIAL_DATA: FormDataType = {
         pengantinPriaLengkap: "",
         pengantinPria: "",
@@ -164,6 +171,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     useEffect(() => {
 
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            console.log("Auth", currentUser)
             if (currentUser) {
                 dispatch(setUserCredential(currentUser))
                 setUser(currentUser)
@@ -176,6 +184,26 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
             unsubscribe()
         }
     }, [])
+    const reauthenticateAndChangePassword = async (email: string, currentPassword: string, newPassword: string) => {
+
+        const user = auth.currentUser;
+
+        if (user) {
+            try {
+                // Create credentials with email and current password
+                const credential = EmailAuthProvider.credential(email, currentPassword);
+
+                // Reauthenticate
+                await reauthenticateWithCredential(user, credential);
+
+                // Now update the password
+                await updatePassword(user, newPassword);
+                console.log("Password updated successfully!");
+            } catch (error) {
+                console.error("Error updating password:", error);
+            }
+        }
+    };
 
     useEffect(() => {
         if (user) {
@@ -197,7 +225,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
     }, [user])
 
     return (
-        <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc, setIsFinishJoin, data, setData, INITIAL_DATA, editDesainUndanganData, setEdiDesainUndangantData }}>
+        <AuthContext.Provider value={{ googleSignIn, logOut, user, facebookSignIn, userAcc, setUserAcc, setIsFinishJoin, data, setData, INITIAL_DATA, editDesainUndanganData, setEdiDesainUndangantData, openMenu, setOpenMenu, reauthenticateAndChangePassword }}>
             {children}
         </AuthContext.Provider>
     )

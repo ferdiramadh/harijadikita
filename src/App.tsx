@@ -27,6 +27,7 @@ import { decrement, increment } from './redux/state/counter/counterSlice'
 import JoinPage from './pages/JoinPage'
 import RincianDesainEditPage from './pages/RincianDesainEditPage'
 import { DesainUndanganContextProvider } from './context/DesainUndanganContext'
+import Layout from './components/Layout'
 
 const Counter = () => {
   const count = useSelector((state: RootState) => state.counter.value)
@@ -51,9 +52,12 @@ const router = createBrowserRouter(
       <Route path='/regis' element={<RegisPage />} />
       <Route path='/resetpassword' element={<ForgetPasswordPage />} />
       <Route element={<PrivateRoutes />}>
-        <Route path='/home' element={<TemporerHomePage />} />
+        <Route path='/home' element={<Layout>
+          <TemporerHomePage />
+        </Layout>} />
         <Route path='/join' element={<JoinPage />} />
-        <Route path='/rinciandesain' element={<RincianDesainEditPage />} />
+        <Route path='/rinciandesain' element={<Layout><RincianDesainEditPage /></Layout>} />
+        <Route path='/akun' element={<Layout><AccountPage /></Layout>} />
         {/* <Route path='/verification' element={<VerificationPage />} /> */}
       </Route>
     </Route>

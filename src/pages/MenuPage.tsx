@@ -10,23 +10,62 @@ import Envelope from '../assets/menu/envelope.svg'
 import Guest from '../assets/menu/guest.svg'
 import Payment from '../assets/menu/payment.svg'
 import Help from '../assets/menu/help.svg'
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { UserAuth } from '../context/AuthContext';
 
-const MenuPage = () => {
+type MenuPageType = {
+    isOpen: boolean
+    toggleMenu: () => void
+}
+const MenuPage = ({ isOpen, toggleMenu }: MenuPageType) => {
+    const navigate = useNavigate()
+    const [accountClassName, setAccountClassName] = useState('cust_profile')
+    const { openMenu, setOpenMenu } = UserAuth()
+    const onClick = () => {
+        // setAccountClassName('cust_profile colored')
+        setTimeout(() => {
+            navigate('/akun')
+            setOpenMenu(false)
+        }, 500)
+    }
+    const goToAturUndangan = () => {
+
+        setTimeout(() => {
+            navigate("/rinciandesain")
+            setOpenMenu(false)
+        }, 500)
+    }
 
     return (
         <section className='menu_page'>
             <nav className='nav_bar'>
-                <img className='logo_image' src={logoImage} alt='logo' />
-                <div className='btn_wrapper'>
-                    <IoMdClose size={30} />
-                </div>
+                <img className='logo_image' src={logoImage} alt='logo' onClick={() => {
+                    navigate('/home')
+                    setOpenMenu(false)
+                }} />
+                <button className="hamburger-button" onClick={toggleMenu}>
+                    <div className={`icon ${isOpen ? 'open' : ''}`}>
+                        <span />
+                        <span />
+                        <span />
+                    </div>
+                </button>
             </nav>
             <nav className='menu_list'>
-                <div className='cust_profile'>
+                <div className={accountClassName}
+                    onClick={onClick}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            onClick();
+                        }
+                    }}>
                     <img className='sample_image' src={sampleFoto} alt='sample' />
                     <h1>Hai, Nama Customer</h1>
                 </div>
-                <div className='item'>
+                <div className='item' >
                     <h1>Lihat undangan</h1>
                     <BsEye size={30} color='#474747' />
                 </div>
@@ -42,11 +81,16 @@ const MenuPage = () => {
                     <img src={Home} alt='home' />
                     <h1>Beranda</h1>
                 </div>
-                <div className='item left'>
-                    <img src={Rings} alt='home' />
-                    <h1>Rincian pernikahan</h1>
-                </div>
-                <div className='item left'>
+                <div className='item left'
+                    onClick={goToAturUndangan}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            goToAturUndangan();
+                        }
+                    }}
+                >
                     <img src={Envelope} alt='home' />
                     <h1>Atur undangan</h1>
                 </div>
@@ -67,5 +111,6 @@ const MenuPage = () => {
         </section>
     )
 }
+
 
 export default MenuPage 
