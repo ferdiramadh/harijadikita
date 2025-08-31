@@ -57,7 +57,7 @@ const router = createBrowserRouter(
         </Layout>} />
         <Route path='/join' element={<JoinPage />} />
         <Route path='/rinciandesain' element={<Layout><RincianDesainEditPage /></Layout>} />
-         <Route path='/akun' element={<Layout><AccountPage /></Layout>} />
+        <Route path='/akun' element={<Layout><AccountPage /></Layout>} />
         {/* <Route path='/verification' element={<VerificationPage />} /> */}
       </Route>
     </Route>

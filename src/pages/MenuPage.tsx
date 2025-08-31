@@ -21,7 +21,7 @@ type MenuPageType = {
 const MenuPage = ({ isOpen, toggleMenu }: MenuPageType) => {
     const navigate = useNavigate()
     const [accountClassName, setAccountClassName] = useState('cust_profile')
-      const {openMenu, setOpenMenu} = UserAuth()
+    const { openMenu, setOpenMenu } = UserAuth()
     const onClick = () => {
         // setAccountClassName('cust_profile colored')
         setTimeout(() => {
@@ -36,11 +36,14 @@ const MenuPage = ({ isOpen, toggleMenu }: MenuPageType) => {
             setOpenMenu(false)
         }, 500)
     }
-    console.log(accountClassName)
+
     return (
         <section className='menu_page'>
             <nav className='nav_bar'>
-                <img className='logo_image' src={logoImage} alt='logo' />
+                <img className='logo_image' src={logoImage} alt='logo' onClick={() => {
+                    navigate('/home')
+                    setOpenMenu(false)
+                }} />
                 <button className="hamburger-button" onClick={toggleMenu}>
                     <div className={`icon ${isOpen ? 'open' : ''}`}>
                         <span />

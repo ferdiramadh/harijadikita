@@ -84,6 +84,11 @@
             }
         }
 
+        .cancel_btn {
+            @include btn;
+            cursor: pointer;
+        }
+
         .save_btn {
             @include btn-primary;
             cursor: pointer;
