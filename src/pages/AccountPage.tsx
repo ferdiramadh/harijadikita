@@ -11,6 +11,9 @@ import HamburgerMenu from '../components/HamburgerMenu';
 import { UserAuth } from '../context/AuthContext';
 import { auth } from '../firebase';
 import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updatePassword } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../redux/store';
+import { resetDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice';
 
 type EditProp = {
     isEdit: boolean
@@ -34,6 +37,17 @@ const AccountPage = () => {
         setIsEdit(!isEdit)
     }
     const [showModal, setShowModal] = useState(false)
+    const { logOut, setUserAcc } = UserAuth()
+    const dispatch = useDispatch<AppDispatch>()
+    const handleLogout = async () => {
+        try {
+            dispatch(resetDesainUndangan())
+            await logOut()
+            setUserAcc({})
+        } catch (error) {
+            alert(error)
+        }
+    }
     return (
         <section className='account_page'>
             {/* <HamburgerMenu /> */}
@@ -48,9 +62,9 @@ const AccountPage = () => {
                 <h1>Upload foto</h1>
             </div>
             <AccountMain isEdit={isEdit} onClick={onClick} onCancel={() => setIsEdit(false)} />
-            <SocmedButton isEdit={isEdit} showModal={showModal} setShowModal={setShowModal} />
+            {/* <SocmedButton isEdit={isEdit} showModal={showModal} setShowModal={setShowModal} /> */}
             <div className='rinperbutton_container'>
-                <button type="submit" className="keluar_btn">
+                <button type="submit" className="keluar_btn" onClick={handleLogout}>
                     Keluar
                 </button>
             </div>
