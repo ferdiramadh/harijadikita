@@ -27,6 +27,7 @@ type AccountProp = {
     name: string
     email: string
 }
+
 const AccountPage = () => {
     const [isEdit, setIsEdit] = useState(false)
     const onClick = () => {
@@ -64,7 +65,6 @@ const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
     const [name, setName] = useState<string>(userAcc?.displayName)
     const [currentEmail, setCurrentEmail] = useState<string>(userAcc?.email)
     const [password, setPassword] = useState("");
-    const [newEmail, setNewEmail] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const reset = () => {
         setName(userAcc?.displayName)
@@ -80,11 +80,6 @@ const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
                 // Reauthenticate with current credentials
                 const credential = EmailAuthProvider.credential(currentEmail, password);
                 await reauthenticateWithCredential(user, credential);
-                // Update email (if entered)
-                if (newEmail) {
-                    await updateEmail(user, newEmail);
-                    console.log("Email updated!");
-                }
 
                 // Update password (if entered)
                 if (newPassword) {
@@ -102,7 +97,6 @@ const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
         <div className='acc_main'>
             {isEdit ?
                 <div className='form_container'>
-                    <input placeholder="Email baru" type="text" value={newEmail} onChange={e => setNewEmail(e.target.value)} />
                     <input placeholder="Nama" type="text" value={name} onChange={e => setName(e.target.value)} />
                     <input placeholder="Password lama" type="password" value={password} onChange={e => setPassword(e.target.value)} />
                     <input placeholder="Password baru" type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} />
