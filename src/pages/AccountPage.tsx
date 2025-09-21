@@ -1,11 +1,4 @@
-import logoImage from '../assets/logo/harijadikita_logo.png'
-import { CiBellOn } from "react-icons/ci";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { FiUploadCloud } from "react-icons/fi";
-import sampleFoto from '../assets//foto_sample/Ellipse.png'
 import { useState } from 'react';
-import SvgGoogle from '../assets/Icon/Google.svg'
-import SvgFb from '../assets/Icon/Facebook.svg'
 import { RiCloseLine } from "react-icons/ri";
 import HamburgerMenu from '../components/HamburgerMenu';
 import { UserAuth } from '../context/AuthContext';
@@ -14,14 +7,15 @@ import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updatePas
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../redux/store';
 import { resetDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice';
+// import SocmedButton from '../components/SocmedButton';
 
-type EditProp = {
+export type EditProp = {
     isEdit: boolean
     onClick?: () => void
     onCancel?: () => void
 }
 
-type ShowModalProp = {
+export type ShowModalProp = {
     showModal: boolean
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -37,7 +31,7 @@ const AccountPage = () => {
         setIsEdit(!isEdit)
     }
     const [showModal, setShowModal] = useState(false)
-    const { logOut, setUserAcc } = UserAuth()
+    const { logOut, setUserAcc, userAcc } = UserAuth()
     const dispatch = useDispatch<AppDispatch>()
     const handleLogout = async () => {
         try {
@@ -54,13 +48,6 @@ const AccountPage = () => {
             <div className='acc_title_sec'>
                 <h1>Akun</h1>
             </div>
-            <div className="acc_photo">
-                <div className="photo_circle">
-                    {!isEdit ? <img className='sample_image' src={sampleFoto} alt='sample' /> :
-                        <FiUploadCloud size={40} color='rgba(0, 0, 0, 0.40)' />}
-                </div>
-                <h1>Upload foto</h1>
-            </div>
             <AccountMain isEdit={isEdit} onClick={onClick} onCancel={() => setIsEdit(false)} />
             {/* <SocmedButton isEdit={isEdit} showModal={showModal} setShowModal={setShowModal} /> */}
             <div className='rinperbutton_container'>
@@ -75,7 +62,6 @@ const AccountPage = () => {
 
 const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
     const { user, userAcc } = UserAuth()
-    console.log(userAcc)
     const [name, setName] = useState<string>(userAcc?.displayName)
     const [currentEmail, setCurrentEmail] = useState<string>(userAcc?.email)
     const [password, setPassword] = useState("");
@@ -130,26 +116,6 @@ const AccountDetail = ({ name, email }: AccountProp) => {
         <div className='display_container'>
             <p className='acc_text_display'>Nama: {name}</p>
             <p className='acc_text_display'>Emai: {email}</p>
-        </div>
-    )
-}
-
-const SocmedButton = ({ isEdit, showModal, setShowModal }: EditProp & ShowModalProp) => {
-    const tautText = 'Tautkan akun'
-    const acc = 'herlambangdes@gmail.com'
-    const displayTxt = isEdit ? tautText : acc
-
-    return (
-        <div className='btn_form_container'>
-            <button type="submit" id="submitBtn" className="soc_med_btn" onClick={() => setShowModal(!showModal)}>
-                <img src={SvgGoogle} alt='google' />
-                {displayTxt}
-            </button>
-            <button type="submit" id="submitBtn" className="soc_med_btn">
-                <img src={SvgFb} alt='google' />
-                {displayTxt}
-            </button>
-
         </div>
     )
 }
