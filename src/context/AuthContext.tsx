@@ -19,7 +19,7 @@ import { setUserCredential } from '../redux/state/userCredential/userCredentialS
 import { AppDispatch } from "../redux/store"
 import { getDataCollection } from "../database/Functions"
 import { AyatSuciKalimatMutiaraType, initiateDesainUndangan, PengantinType, SampulType, setDesainUndangan } from "../redux/state/desainundangan/desainUndanganSlice"
-import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN } from "../database/Collections"
+import { DESAIN_UNDANGAN, RINCIAN_PERNIKAHAN, USER } from "../database/Collections"
 
 interface ChildrenProps {
     children?: ReactNode
@@ -49,6 +49,7 @@ type UserCollectionProps = {
     uid: string
     email_verified: boolean
     isFinishJoin: boolean
+    docId: string
 }
 
 const AuthContext = createContext<UserContextType>({} as UserContextType)
@@ -58,7 +59,8 @@ const INITIAL_USER: UserCollectionProps = {
     displayName: "",
     uid: "",
     email_verified: false,
-    isFinishJoin: false
+    isFinishJoin: false,
+    docId: ""
 }
 
 export const AuthContextProvider = ({ children }: ChildrenProps) => {
@@ -115,14 +117,17 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
 
     const getData = async () => {
         try {
-            const q = query(collection(db, "users"), where("uid", "==", user.uid))
+            const q = query(collection(db, USER), where("uid", "==", user.uid))
 
             const querySnapshot = await getDocs(q)
             const docLength = querySnapshot.docs.length
             if (docLength == 1) {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data()
-                    setUserAcc(data)
+                    setUserAcc({
+                        ...data,
+                        docId: doc.id
+                    })
 
                 })
             } else if (docLength == 0) {
@@ -144,7 +149,7 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
 
     const addUser = async (email: string, name: string, uid: string, email_ver: boolean) => {
         try {
-            const docRef = await addDoc(collection(db, "users"), {
+            const docRef = await addDoc(collection(db, USER), {
                 email: email,
                 displayName: userAcc?.displayName ? userAcc?.displayName : name,
                 uid: uid,
