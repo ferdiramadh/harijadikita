@@ -119,6 +119,17 @@
             display: flex;
             flex-direction: column;
 
+            .photo_circle {
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+                background-color: #C4C4C4;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
             .cust_profile {
                 display: flex;
                 flex-direction: row;

@@ -21,7 +21,8 @@ type MenuPageType = {
 const MenuPage = ({ isOpen, toggleMenu }: MenuPageType) => {
     const navigate = useNavigate()
     const [accountClassName, setAccountClassName] = useState('cust_profile')
-    const { openMenu, setOpenMenu } = UserAuth()
+    const { userAcc, setOpenMenu } = UserAuth()
+    const userName = userAcc?.displayName ? userAcc.displayName : "User"
     const onClick = () => {
         // setAccountClassName('cust_profile colored')
         setTimeout(() => {
@@ -62,8 +63,10 @@ const MenuPage = ({ isOpen, toggleMenu }: MenuPageType) => {
                             onClick();
                         }
                     }}>
-                    <img className='sample_image' src={sampleFoto} alt='sample' />
-                    <h1>Hai, Nama Customer</h1>
+                    <div className='photo_circle'>
+                        <p className='user_name'>{userName[0].toUpperCase()}</p>
+                    </div>
+                    <h1>Hai, {userName}</h1>
                 </div>
                 <div className='item' >
                     <h1>Lihat undangan</h1>
