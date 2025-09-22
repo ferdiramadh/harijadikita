@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore"
-import { RINCIAN_PERNIKAHAN } from "./Collections"
+import { RINCIAN_PERNIKAHAN, USER } from "./Collections"
 import { db } from "../firebase"
 
 export async function addDocWithId(collectionId: string, data: any, userId: string) {
@@ -51,12 +51,11 @@ export const getDataCollection = async (collectionId: string, userId: string) =>
 export const updateDataCollection = async (collectionId: string, data: any, docId: string) => {
     let result
     const docRef = doc(db, collectionId, docId)
+    const updateData = collectionId === USER
+        ? { ...data, latestUpdate: serverTimestamp() }
+        : { data: { ...data }, latestUpdate: serverTimestamp() }
     try {
-        result = await updateDoc(docRef,
-            {
-                data: { ...data },
-                latestUpdate: serverTimestamp()
-            })
+        result = await updateDoc(docRef, updateData)
         return result
     } catch (error) {
         alert(error)
