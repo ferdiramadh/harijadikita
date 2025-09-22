@@ -3,10 +3,12 @@ import { RiCloseLine } from "react-icons/ri";
 import HamburgerMenu from '../components/HamburgerMenu';
 import { UserAuth } from '../context/AuthContext';
 import { auth } from '../firebase';
-import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updatePassword } from 'firebase/auth';
+import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updatePassword, sendEmailVerification } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../redux/store';
 import { resetDesainUndangan } from '../redux/state/desainundangan/desainUndanganSlice';
+import { updateDataCollection } from '../database/Functions';
+import { USER } from '../database/Collections';
 // import SocmedButton from '../components/SocmedButton';
 
 export type EditProp = {
@@ -61,9 +63,10 @@ const AccountPage = () => {
 }
 
 const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
-    const { user, userAcc } = UserAuth()
+    const { userAcc, setUserAcc } = UserAuth()
+    const user = auth.currentUser
     const [name, setName] = useState<string>(userAcc?.displayName)
-    const [currentEmail, setCurrentEmail] = useState<string>(userAcc?.email)
+    const [currentEmail, setCurrentEmail] = useState<string>(user?.email!)
     const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const reset = () => {
@@ -71,12 +74,11 @@ const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
         setCurrentEmail(userAcc?.email)
         onCancel && onCancel()
     }
+
     const handleUpdate = async () => {
 
-        const user = auth.currentUser;
-
-        if (user && currentEmail) {
-            try {
+        try {
+            if (user && currentEmail && password) {
                 // Reauthenticate with current credentials
                 const credential = EmailAuthProvider.credential(currentEmail, password);
                 await reauthenticateWithCredential(user, credential);
@@ -84,15 +86,27 @@ const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
                 // Update password (if entered)
                 if (newPassword) {
                     await updatePassword(user, newPassword);
-                    console.log("Password updated!");
+
                 }
 
-                alert("Account updated!");
-            } catch (error: any) {
-                alert(error.message);
             }
+
+            // Update Firestore user document
+            const updatedUserAcc = {
+                ...userAcc,
+                displayName: name,
+                email: currentEmail,
+            };
+            const result = await updateDataCollection(USER, updatedUserAcc, userAcc?.docId)
+            setUserAcc(updatedUserAcc)
+
+            alert("Akun berhasil diubah!");
+
+        } catch (error: any) {
+            alert(error.message);
         }
     };
+
     return (
         <div className='acc_main'>
             {isEdit ?
