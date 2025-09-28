@@ -13,8 +13,8 @@ import { USER } from '../database/Collections';
 
 export type EditProp = {
     isEdit: boolean
-    onClick?: () => void
-    onCancel?: () => void
+    onClick: () => void
+    onCancel: () => void
 }
 
 export type ShowModalProp = {
@@ -72,9 +72,15 @@ const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
     const reset = () => {
         setName(userAcc?.displayName)
         setCurrentEmail(userAcc?.email)
+        setPassword("")
+        setNewPassword("")
         onCancel && onCancel()
     }
-
+    const onDone = () => {
+        setPassword("")
+        setNewPassword("")
+        onClick()
+    }
     const handleUpdate = async () => {
 
         try {
@@ -99,7 +105,7 @@ const AccountMain = ({ isEdit, onClick, onCancel }: EditProp) => {
             };
             const result = await updateDataCollection(USER, updatedUserAcc, userAcc?.docId)
             setUserAcc(updatedUserAcc)
-
+            onDone()
             alert("Akun berhasil diubah!");
 
         } catch (error: any) {
