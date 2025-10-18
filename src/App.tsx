@@ -28,6 +28,7 @@ import JoinPage from './pages/JoinPage'
 import RincianDesainEditPage from './pages/RincianDesainEditPage'
 import { DesainUndanganContextProvider } from './context/DesainUndanganContext'
 import Layout from './components/Layout'
+import TamuUndanganPage from './pages/TamunUndangan'
 
 const Counter = () => {
   const count = useSelector((state: RootState) => state.counter.value)
@@ -58,6 +59,7 @@ const router = createBrowserRouter(
         <Route path='/join' element={<JoinPage />} />
         <Route path='/rinciandesain' element={<Layout><RincianDesainEditPage /></Layout>} />
         <Route path='/akun' element={<Layout><AccountPage /></Layout>} />
+        <Route path='/tamuundangan' element={<Layout><TamuUndanganPage /></Layout>} />
         {/* <Route path='/verification' element={<VerificationPage />} /> */}
       </Route>
     </Route>
