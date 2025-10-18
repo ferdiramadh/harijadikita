@@ -31,13 +31,17 @@ const MenuPage = ({ isOpen, toggleMenu }: MenuPageType) => {
         }, 500)
     }
     const goToAturUndangan = () => {
-
         setTimeout(() => {
             navigate("/rinciandesain")
             setOpenMenu(false)
         }, 500)
     }
-
+ const goToTamuUndangan= () => {
+        setTimeout(() => {
+            navigate("/tamuundangan")
+            setOpenMenu(false)
+        }, 500)
+    }
     return (
         <section className='menu_page'>
             <nav className='nav_bar'>
@@ -97,7 +101,15 @@ const MenuPage = ({ isOpen, toggleMenu }: MenuPageType) => {
                     <img src={Envelope} alt='home' />
                     <h1>Atur undangan</h1>
                 </div>
-                <div className='item left'>
+                <div className='item left'
+                    onClick={goToTamuUndangan}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            goToTamuUndangan();
+                        }
+                    }}  >
                     <img src={Guest} alt='home' />
                     <h1>Tamu dan undangan</h1>
                 </div>
