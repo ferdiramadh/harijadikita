@@ -1,0 +1,55 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.tamu_undangan {
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: row;
+
+    h1 {
+        text-align: center;
+        margin-top: 80px;
+        @include font-quicksand-bold;
+        font-size: $font-size-48;
+        text-align: left;
+    }
+}
+
+.option {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: start;
+    padding: 0 1rem;
+    .option_item {
+        @include font-inter;
+        flex: 1;
+        width: 50%;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 10px;
+        border: none;
+    }
+
+    .option_item:hover {
+        transition: 0.7s;
+    }
+
+    .option_item:focus {
+        outline-color: transparent;
+        outline-style: solid;
+        box-shadow: 0 0 0 .5px orchid;
+        transform: 0.7s;
+    }
+
+    .option_item.active {
+        border-bottom: 3px solid $primary;
+        color: $primary;
+    }
+
+    .input-field {
+        @include input-template-full-width;
+    }
+}
