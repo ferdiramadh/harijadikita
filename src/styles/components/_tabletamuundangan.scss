@@ -2,7 +2,7 @@
 @use '../mixins' as *;
 
 .table {
-    /* let the table itself scroll horizontally (only x axis) */
+    /* horizontal scroll only when content is wider than parent */
     display: block;
     width: 100%;
     margin-top: 16px;
@@ -14,10 +14,9 @@
     box-sizing: border-box;
 }
 
-/* default grid for header and rows (mobile-first) */
+/* always use grid layout (no mobile stacking) */
 .table-head {
     display: grid;
-    /* keep the grid layout but force a minimum width so the table can scroll inside its container */
     grid-template-columns: 1fr 160px 1.6fr 140px;
     min-width: 920px;
     gap: 12px;
@@ -78,48 +77,10 @@
     border: 1px solid #f5c6cb;
 }
 
-/* SMALL SCREEN: stack rows and hide header */
-@media (max-width: 768px) {
-    .table-head {
-        display: none;
-    }
+/* remove stacking at small widths — keep grid and allow horizontal scroll */
 
-    .table-row {
-        grid-template-columns: 1fr;
-        padding: 12px;
-    }
-
-    .table-row .cell {
-        white-space: normal;
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px dashed #f0f0f0;
-    }
-
-    .table-row .cell:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    .table-row .cell::before {
-        content: attr(data-label);
-        font-weight: 700;
-        margin-right: 8px;
-        flex: 0 0 auto;
-        color: #555;
-    }
-
-    .table-row .cell {
-        display: flex;
-        align-items: center;
-    }
-}
-
-/* LARGE SCREEN: wider columns and centered layout */
+/* LARGE SCREEN: wider columns */
 @media (min-width: 720px) {
-
-    /* on larger screens keep columns wider but still allow horizontal scroll inside .table */
     .table-head,
     .table-row {
         grid-template-columns: 1fr 220px 2fr 200px;
@@ -127,29 +88,13 @@
     }
 }
 
-/* BREAKOUT: force table to span full viewport width (bypass parent max-width: 480px) */
-.table.breakout {
-    /* keep this class harmless if still present: it no longer forces viewport-wide positioning */
-    max-width: none;
-}
-
-/* small refinements */
-@media (max-width: 420px) {
-    .table-row .cell::before {
-        font-size: 13px;
-    }
-
-    .table-row .cell {
-        font-size: 14px;
-    }
-}
-
+/* toolbar aligns to table width and will scroll together because of matching min-width */
 .table-toolbar {
     min-width: 920px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px; // Match table-head padding
+    padding: 12px 16px;
     margin-bottom: 16px;
     background: #fff;
     border-radius: 8px;
@@ -224,12 +169,19 @@
     }
 }
 
-/* LARGE SCREEN: wider columns and centered layout */
 @media (min-width: 720px) {
     .table-toolbar {
-        min-width: 1100px; // Match table-head min-width for larger screens
+        min-width: 1100px;
     }
-    // ...existing media query code...
 }
 
-/* Remove all other duplicate .table-toolbar definitions */
+/* small refinements */
+@media (max-width: 420px) {
+    .table-row .cell::before {
+        font-size: 13px;
+    }
+
+    .table-row .cell {
+        font-size: 14px;
+    }
+}
