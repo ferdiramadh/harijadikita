@@ -13,6 +13,7 @@ import LoadingOverlay from 'react-loading-overlay-ts'
 import { DesainUndanganAuth } from '../context/DesainUndanganContext'
 import TopSectionTamuUndangan from '../components/tamu_undangan/TopSectionTamuUndangan'
 import Rsvp from '../components/tamu_undangan/Rsvp'
+import KirimUndangan from '../components/tamu_undangan/KirimUndangan'
 
 function TamuUndanganPage() {
 
@@ -133,7 +134,7 @@ function TamuUndanganPage() {
                     spinner
                     text='Menyimpan data desain pernikahan...'
                 >
-                    <DesainUndangan />
+                    <KirimUndangan />
                 </LoadingOverlay>
             }
             <BottomMenu saveDraft={onSubmit} publish={publish} />
