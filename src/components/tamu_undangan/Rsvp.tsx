@@ -1,7 +1,8 @@
-import ItemContainer from "./ItemContainer"
+import ItemContainer from "../rincian_desain_edit/ItemContainer"
 import { useMemo, useState, useEffect } from "react"
 import { LuSearch, LuListFilter } from "react-icons/lu"
-import { FiDownloadCloud } from "react-icons/fi";
+import { FiDownloadCloud } from "react-icons/fi"
+
 const Rsvp = () => {
     const [breakout, setBreakout] = useState(false)
 

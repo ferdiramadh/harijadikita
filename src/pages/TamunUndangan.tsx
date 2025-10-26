@@ -12,7 +12,7 @@ import { FormDataType, updateRincianPernikahan } from '../redux/state/rinper/rin
 import LoadingOverlay from 'react-loading-overlay-ts'
 import { DesainUndanganAuth } from '../context/DesainUndanganContext'
 import TopSectionTamuUndangan from '../components/tamu_undangan/TopSectionTamuUndangan'
-import Rsvp from '../components/rincian_desain_edit/Rsvp'
+import Rsvp from '../components/tamu_undangan/Rsvp'
 
 function TamuUndanganPage() {
 
