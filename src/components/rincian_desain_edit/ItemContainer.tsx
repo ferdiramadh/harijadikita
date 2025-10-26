@@ -3,12 +3,13 @@ import React, { useEffect, useRef, useState } from "react"
 
 type ItemContainerType = {
     children: React.ReactNode
+    isRsvp?: boolean
 }
-const ItemContainer = ({ children }: ItemContainerType) => {
+const ItemContainer = ({ children ,isRsvp}: ItemContainerType) => {
 
     const containerRef = useRef(null)
     const [height, setHeight] = useState(0)
-
+    const parentClassName = isRsvp ? "item-container" : "item-container margin-top"
     useEffect(() => {
         const element = containerRef.current
         if (!element) return
@@ -31,9 +32,9 @@ const ItemContainer = ({ children }: ItemContainerType) => {
                 resize: "vertical",
                 overflow: "auto",
                 padding: "1rem",
-                paddingBottom: height > 500 ? "10vh" : "50vh"
+                paddingBottom: height > 500 ? "10vh" : "50vh",
             }}>
-            <div className='item-container'>
+            <div className={parentClassName}>
                 {children}
             </div>
         </div>
