@@ -77,7 +77,56 @@
     .hijau {
         color: #037847;
     }
-    .biru{
+
+    .biru {
         color: #2984B8;
+    }
+}
+
+.whatsapp-template {
+
+    h1 {
+        @include font-quicksand-bold;
+        font-size: $font-size-28;
+        margin: 1rem 0;
+        text-align: left;
+    }
+
+    .large_input_area {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border: solid 1px;
+        border-color: #C4C4C4;
+        border-radius: 5px;
+    }
+
+    .save-template-btn {
+
+        @include font-inter;
+        color: #FFF;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        background-color: $primary;
+        text-align: center;
+        padding: 10px;
+        border: solid $primary .5px;
+        border-radius: .5rem;
+    }
+
+    .save-template-btn:hover {
+        transition: 0.7s;
+    }
+
+    .save-template-btn:focus {
+        outline-color: transparent;
+        outline-style: solid;
+        box-shadow: 0 0 0 .5px orchid;
+        transform: 0.7s;
+    }
+
+    .save-template-btn:active {
+        background-color: $dark;
     }
 }
