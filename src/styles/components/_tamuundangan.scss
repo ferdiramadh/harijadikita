@@ -222,113 +222,12 @@
     }
 }
 
-// ...existing code...
-
 .table-toolbar {
+    min-width: 920px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
-    margin-bottom: 16px;
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    margin-top: 1rem;
-
-    .left {
-        h4 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin: 0;
-        }
-    }
-
-    .right {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-
-        .search {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background: #f6f6f6;
-            border-radius: 6px;
-            border: 1px solid #eee;
-
-            input {
-                border: none;
-                background: none;
-                outline: none;
-                font-size: 14px;
-                width: 180px;
-
-                &::placeholder {
-                    color: #999;
-                }
-            }
-
-            svg {
-                color: #666;
-                font-size: 18px;
-            }
-        }
-
-        .filter,
-        .download {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #eee;
-            cursor: pointer;
-            transition: all 0.2s ease;
-
-            &:hover {
-                background: #f6f6f6;
-            }
-
-            svg {
-                color: #666;
-                font-size: 18px;
-            }
-
-            .col {
-                font-size: 14px;
-                color: #666;
-            }
-        }
-    }
-}
-
-@media (max-width: 768px) {
-    .table-toolbar {
-        flex-direction: column;
-        gap: 16px;
-
-        .right {
-            width: 100%;
-            flex-wrap: wrap;
-
-            .search {
-                flex: 1;
-                min-width: 200px;
-            }
-        }
-    }
-}
-
-// ...existing code...
-
-.table-toolbar {
-    min-width: 920px; // Match table-head min-width
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
+    padding: 12px 16px; // Match table-head padding
     margin-bottom: 16px;
     background: #fff;
     border-radius: 8px;
@@ -403,19 +302,12 @@
     }
 }
 
-@media (max-width: 768px) {
+/* LARGE SCREEN: wider columns and centered layout */
+@media (min-width: 720px) {
     .table-toolbar {
-        flex-direction: column;
-        gap: 16px;
-
-        .right {
-            width: 100%;
-            flex-wrap: wrap;
-
-            .search {
-                flex: 1;
-                min-width: 200px;
-            }
-        }
+        min-width: 1100px; // Match table-head min-width for larger screens
     }
+    // ...existing media query code...
 }
+
+/* Remove all other duplicate .table-toolbar definitions */
