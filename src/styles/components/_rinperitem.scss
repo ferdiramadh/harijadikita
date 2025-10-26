@@ -3,8 +3,6 @@
 
 .item-container {
     width: 100%;
-    margin-top: 11vh;
-    // padding-bottom: 50vh;
     overflow: auto;
 
     .rinper-item {
@@ -411,4 +409,8 @@
             @include font-quicksand;
         }
     }
+}
+
+.margin-top{
+     margin-top: 11vh;
 }
