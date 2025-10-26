@@ -12,6 +12,7 @@ import { FormDataType, updateRincianPernikahan } from '../redux/state/rinper/rin
 import LoadingOverlay from 'react-loading-overlay-ts'
 import { DesainUndanganAuth } from '../context/DesainUndanganContext'
 import TopSectionTamuUndangan from '../components/tamu_undangan/TopSectionTamuUndangan'
+import Rsvp from '../components/rincian_desain_edit/Rsvp'
 
 function TamuUndanganPage() {
 
@@ -124,7 +125,7 @@ function TamuUndanganPage() {
                     spinner
                     text='Menyimpan data rincian pernikahan...'
                 >
-                    <RincianPernikahan editData={editData} updateData={updateData} />
+                    <Rsvp/>
                 </LoadingOverlay>
                 :
                 <LoadingOverlay
