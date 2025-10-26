@@ -2,6 +2,7 @@ import ItemContainer from "../rincian_desain_edit/ItemContainer"
 import { useMemo, useState, useEffect } from "react"
 import { LuSearch, LuListFilter } from "react-icons/lu"
 import { FiDownloadCloud } from "react-icons/fi"
+import { CountPart } from "./CountPart"
 
 const Rsvp = () => {
     const [breakout, setBreakout] = useState(false)
@@ -43,15 +44,8 @@ const Rsvp = () => {
 
     return (
         <ItemContainer isRsvp={true}>
-            <div className="attendance-count">
-                <h1>250</h1>
-                <h2 className="hadir">Hadir</h2>
-            </div>
-            <div className="attendance-count">
-                <h1>50</h1>
-                <h2>Tidak Hadir</h2>
-            </div>
-
+            <CountPart count={250} text="Hadir" textColor="hijau" />
+            <CountPart count={50} text="Tidak Hadir" />
             <div className={`table ${breakout ? 'breakout' : ''}`}>
                 <div className="table-toolbar" role="row">
                     <div className="left">

@@ -55,7 +55,7 @@
     }
 }
 
-.attendance-count {
+.count-part {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,8 +74,11 @@
         margin-bottom: 2rem;
     }
 
-    .hadir {
+    .hijau {
         color: #037847;
+    }
+    .biru{
+        color: #2984B8;
     }
 }
 
