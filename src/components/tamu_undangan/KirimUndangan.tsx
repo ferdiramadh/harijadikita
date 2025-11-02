@@ -49,7 +49,7 @@ const KirimUndangan = () => {
             <CountPart count={100} text="Centang dua" textColor="biru" />
             <CountPart count={20} text="Centang satu" />
             <TemplateWhatsapp />
-            <div className={`table ${breakout ? 'breakout' : ''}`}>
+            {/* <div className={`table ${breakout ? 'breakout' : ''}`}>
                 <div className="table-toolbar" role="row">
                     <div className="left">
                         <h4>Tabel kehadiran tamu</h4>
@@ -71,7 +71,7 @@ const KirimUndangan = () => {
                     </div>
                 </div>
                 <div className="table-head" role="row">
-                    <div className="col name">Nama</div>
+                     <div className="col name">Nama</div>
                     <div className="col date">Confirmation Date</div>
                     <div className="col message">Message</div>
                     <div className="col status">Presence Confirmation</div>
@@ -88,7 +88,7 @@ const KirimUndangan = () => {
                         </div>
                     ))}
                 </div>
-            </div>
+            </div> */}
         </ItemContainer>
     )
 }
