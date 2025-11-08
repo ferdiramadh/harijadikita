@@ -1,0 +1,61 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.upload-gambar-berkas-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid #667085;
+    border-style: dashed;
+    padding: 20px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+
+    h1 {
+        font-size: $font-size-24;
+        @include font-quicksand-bold;
+        text-align: left;
+        margin: 10px 0;
+
+        .bold {
+            color: $primary;
+        }
+    }
+
+    .drag_drop {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            @include font-quicksand;
+            font-size: 13px;
+            color: #667085;
+            margin: 0.25rem 0;
+        }
+
+        p:first-of-type {
+            color: #000;
+            font-size: $font-size-12;
+            margin-top: 1rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #FF5858;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            margin-top: 1rem;
+            color: #FF5858;
+            border-radius: 6px;
+            @include font-quicksand;
+        }
+    }
+}
