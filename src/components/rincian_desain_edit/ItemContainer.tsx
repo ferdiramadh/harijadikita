@@ -5,7 +5,7 @@ type ItemContainerType = {
     children: React.ReactNode
     isRsvp?: boolean
 }
-const ItemContainer = ({ children ,isRsvp}: ItemContainerType) => {
+const ItemContainer = ({ children, isRsvp }: ItemContainerType) => {
 
     const containerRef = useRef(null)
     const [height, setHeight] = useState(0)
@@ -31,7 +31,7 @@ const ItemContainer = ({ children ,isRsvp}: ItemContainerType) => {
             style={{
                 resize: "vertical",
                 overflow: "auto",
-                padding: "1rem",
+                padding: isRsvp? "2rem":"1rem",
                 paddingBottom: height > 500 ? "10vh" : "50vh",
             }}>
             <div className={parentClassName}>
