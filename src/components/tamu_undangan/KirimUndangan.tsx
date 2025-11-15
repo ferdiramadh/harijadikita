@@ -23,8 +23,8 @@ const KirimUndangan = () => {
             <CountPart count={100} text="Centang dua" textColor="biru" />
             <CountPart count={20} text="Centang satu" />
             <TemplateWhatsapp />
-            <UploadGambarBerkasSection section="gambar" formatFile="JPG, JPEG, PNG, ukuran berkas tidak lebih dari 10MB"/>
-            <UploadGambarBerkasSection section="berkas" formatFile="XLS, XLSX, CSV, ukuran berkas tidak lebih dari 10MB"/>
+            <UploadGambarBerkasSection section="gambar" formatFile="JPG, JPEG, PNG, ukuran berkas tidak lebih dari 10MB" />
+            <UploadGambarBerkasSection section="berkas" formatFile="XLS, XLSX, CSV, ukuran berkas tidak lebih dari 10MB" />
             <GuestTable />
         </ItemContainer>
     )
