@@ -1,0 +1,118 @@
+@use '../variables.scss' as *;
+@use '../mixins' as *;
+
+.guest-table-container {
+    width: 100%;
+    padding: 1rem;
+    background-color: #fafafa;
+    overflow-x: hidden;
+    /* ✅ prevent parent from scrolling horizontally */
+}
+
+/* Inner wrapper that scrolls horizontally */
+.scroll-inner {
+    overflow-x: auto;
+    /* only this element can scroll horizontally */
+    overflow-y: visible;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    padding: 1rem;
+}
+
+/* Toolbar scrolls together with table */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1300px;
+    /* ✅ fixed width defines scrollable area */
+    margin-bottom: 1rem;
+    white-space: nowrap;
+}
+
+.toolbar-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.toolbar-actions {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.4rem 0.75rem;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: #f2f2f2;
+        }
+
+        &.send-all {
+            background-color: #25d366;
+            color: white;
+            border: none;
+
+            &:hover {
+                background-color: #1da955;
+            }
+        }
+    }
+}
+
+/* Fixed-width table that matches toolbar width */
+.guest-table {
+    width: 1300px;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    th,
+    td {
+        text-align: left;
+        padding: 0.75rem;
+        border-bottom: 1px solid #eee;
+        font-size: 0.95rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    th {
+        background-color: #f7f7f7;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .send-btn {
+        background-color: #25d366;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.3rem 0.5rem;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #1da955;
+        }
+    }
+}
